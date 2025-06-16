@@ -23,6 +23,22 @@ chezmoi secret keyring set --service=chezmoi --user=openai_api_key --value='sk-.
 chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --value='sbp_...'
 ```
 
----
+## 📦 Initial Setup
 
-This repo is a WIP and will evolve as I refine my stack.
+```bash
+# 1. Install chezmoi
+brew install chezmoi
+
+# 2. Clone and apply your dotfiles
+chezmoi init --apply git@github.com:seanoliver/dotfiles-sean.git
+
+# 3. Set secrets locally (macOS Keychain)
+chezmoi secret keyring set --service=chezmoi --user=openai_api_key --value='sk-...'
+chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --value='sbp-...'
+
+# 4. Re-run apply to inject secrets
+chezmoi apply
+```
+
+## 🧪 Setup Guide
+See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for full instructions to set up a new Mac.
