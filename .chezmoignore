@@ -1,0 +1,9 @@
+# Ignore backups, caches, unused plugins
+**/.DS_Store
+**/.Trash
+**/.cache
+**/.fig
+**/.fig.dotfiles.bak
+**/.rithm.zsh
+**/.zprompt.zsh
+**/.sourcetreeconfig

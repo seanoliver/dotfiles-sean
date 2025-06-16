@@ -1,0 +1,28 @@
+# Secrets & personal notes
+CHEZMOI_SECRETS.md
+
+# macOS system files
+.DS_Store
+.Trash
+
+# Editor swap files
+*.swp
+*.swo
+
+# chezmoi/temporary backups
+*.bak
+*.save
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Legacy or unused config files
+fig/
+fig.dotfiles.bak
+.zrithm.zsh
+.zprompt.zsh
+.sourcetreeconfig
+
+# Logs and debug output
+*.log

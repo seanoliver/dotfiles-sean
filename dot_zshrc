@@ -10,14 +10,14 @@ export NVM_DIR="$HOME/.nvm"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
-# Ruby
+# Ruby (optional)
 export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 
-# Prompt setup (Powerlevel10k)
+# Powerlevel10k
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 
-# Warp fallback prompt
+# Starship (Warp fallback)
 eval "$(starship init zsh)"
 
 # Plugins
@@ -50,6 +50,9 @@ alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
 
-# Secrets (via chezmoi templating)
-# export OPENAI_API_KEY="{{ .openai_api_key }}"
-# export SUPABASE_ACCESS_TOKEN="{{ .supabase_access_token }}"
+# Secrets (injected at apply time)
+export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
+export SUPABASE_ACCESS_TOKEN="{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
+
+# Machine info
+echo "Loaded by chezmoi for {{ .os }} on {{ .hostname }} (user: {{ .username }})"

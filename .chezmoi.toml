@@ -1,0 +1,6 @@
+[template]
+    extension = ".tmpl"
+
+[git]
+    autoCommit = true
+    autoPush = true
