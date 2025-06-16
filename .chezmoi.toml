@@ -6,5 +6,5 @@
     autoPush = true
 
 [data]
-  openai_api_key = "{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
-  supabase_access_token = "{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
+    openai_api_key = "{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
+    supabase_access_token = "{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
