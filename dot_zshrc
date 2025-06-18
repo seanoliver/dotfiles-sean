@@ -16,9 +16,6 @@ export PATH="$PNPM_HOME:$PATH"
 # Ruby (optional)
 export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 
-# Powerlevel10k
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
 # Starship (Warp fallback)
 eval "$(starship init zsh)"
 
