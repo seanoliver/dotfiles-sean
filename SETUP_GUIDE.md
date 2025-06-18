@@ -55,7 +55,7 @@ brew install git zsh warp gh nvm pnpm yarn cocoapods python3 fzf ripgrep lazygit
 npm install -g expo-cli
 ```
 
-Optional: install starship for a fallback prompt:
+Optional: install [starship](https://starship.rs/) for a fast, minimal fallback prompt:
 ```bash
 brew install starship
 ```
