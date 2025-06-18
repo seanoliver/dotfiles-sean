@@ -76,7 +76,7 @@ brew install starship
 - Cursor
 
 ### Dev Tools
-- Docker
+- Orbstack (Docker alternative)
 - GitHub Desktop
 
 ### Productivity / Notes / Writing
@@ -95,11 +95,10 @@ brew install starship
 
 ### Design & Visual Tools
 - Figma
-- tldraw
-- CleanShot X
-- CleanMyMac X
-- ColorSlurp (for color picking)
-- PixelSnap (for measuring)
+- CleanShot X (via Setapp)
+- CleanMyMac X (via Setapp)
+- Sip (via Setapp)
+- PixelSnap (via Setapp)
 
 ### Messaging
 - Slack
