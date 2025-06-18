@@ -1,6 +1,6 @@
 # 🧰 Sean's macOS Setup Guide (dotfiles-sean)
 
-Sean's guide for setting up a new Mac using [chezmoi](https://www.chezmoi.io/) and my `dotfiles-sean` repository. It covers shell setup, dotfiles, CLI tools, secrets, apps, and custom config.
+Sean's guide for setting up a new Mac using [chezmoi](https://www.chezmoi.io/) and `dotfiles-sean` repository. It covers shell setup, dotfiles, CLI tools, secrets, apps, and custom config.
 
 ## 1. Install Xcode Command Line Tools
 
