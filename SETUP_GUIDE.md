@@ -71,6 +71,7 @@ brew install starship
 
 ### Terminal / Editors
 - Warp
+- iTerm 2
 - Zed
 - Cursor
 
