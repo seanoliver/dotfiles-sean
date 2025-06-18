@@ -92,13 +92,7 @@ brew install starship
 - Soulver (or alternative)
 - Granola (ai meeting notes)
 - Brain.fm (for focus)
-
-### Design & Visual Tools
 - Figma
-- CleanShot X (via Setapp)
-- CleanMyMac X (via Setapp)
-- Sip (via Setapp)
-- PixelSnap (via Setapp)
 
 ### Messaging
 - Slack
@@ -106,6 +100,13 @@ brew install starship
 - Telegram
 - WhatsApp
 - Messenger
+
+### Utilities
+- Karabiner-Elements (map caps lock to ~`)
+- CleanMyMac X (via Setapp)
+- CleanShot X (via Setapp)
+- Sip (via Setapp)
+- PixelSnap (via Setapp)
 
 ## 9. Configure global Git ignore
 
