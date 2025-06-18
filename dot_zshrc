@@ -30,6 +30,7 @@ eval "$(starship init zsh)"
 alias ez='chezmoi edit ~/.zshrc'
 alias sz='source ~/.zshrc'
 
+alias cm='chezmoi'
 
 alias ls='eza'                         # Modern replacement for ls
 alias ll='eza -lah'                    # Long format, all files, human readable
@@ -74,6 +75,10 @@ alias pnpmb='pnpm build'
 alias pnpmr='pnpm run'
 alias pnpmt='pnpm test'
 alias pnpml='pnpm lint'
+
+alias ls='eza'
+alias cd='z'
+alias proj='cd ~/code && ls'
 
 alias help='tldr'                      # Simplified man pages
 alias man='tldr'                       # Override man with tldr (optional)
