@@ -1,14 +1,6 @@
-# 🧰 My macOS Setup Guide (dotfiles-sean)
+# 🧰 Sean's macOS Setup Guide (dotfiles-sean)
 
-This is my personal step-by-step guide for setting up a brand-new Mac using [chezmoi](https://www.chezmoi.io/) and my `dotfiles-sean` repository. It covers my shell, CLI tools, secrets, apps, and customizations.
-
----
-
-## ✅ Before I Begin
-
-I make sure I'm on a fresh Mac or user account and signed into iCloud. Then I open Terminal.
-
----
+Sean's guide for setting up a new Mac using [chezmoi](https://www.chezmoi.io/) and my `dotfiles-sean` repository. It covers shell setup, dotfiles, CLI tools, secrets, apps, and custom config.
 
 ## 1. Install Xcode Command Line Tools
 
@@ -18,15 +10,11 @@ xcode-select --install
 
 This is required for many CLI tools and Homebrew.
 
----
-
 ## 2. Install Homebrew
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-
----
 
 ## 3. Install chezmoi
 
@@ -34,9 +22,7 @@ This is required for many CLI tools and Homebrew.
 brew install chezmoi
 ```
 
----
-
-## 4. Clone and apply my dotfiles
+## 4. Clone and apply dotfiles
 
 ```bash
 chezmoi init --apply git@github.com:seanoliver/dotfiles-sean.git
@@ -46,18 +32,15 @@ This:
 - Clones my dotfiles to `~/.local/share/chezmoi`
 - Applies them to my `~` directory (e.g. `.zshrc`, `.gitconfig`, `.p10k.zsh`, plugins)
 
----
-
 ## 5. Set secrets in macOS Keychain
+
+It's easiest to set system-level secrets in the macOS Keychain because it works offline and doesn't require any pre-installed apps like 1Password.
 
 ```bash
 chezmoi secret keyring set --service=chezmoi --user=openai_api_key --value='sk-...'
 chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --value='sbp-...'
+# ... repeat for any additional templated secrets
 ```
-
-I repeat for any additional secrets I’ve templated.
-
----
 
 ## 6. Re-apply dotfiles to inject secrets
 
@@ -65,9 +48,7 @@ I repeat for any additional secrets I’ve templated.
 chezmoi apply
 ```
 
----
-
-## 7. Install required developer tools
+## 7. Install required dev tools
 
 ```bash
 brew install git zsh warp gh nvm pnpm yarn cocoapods python3 fzf ripgrep lazygit httpie supabase
@@ -79,14 +60,13 @@ Optional: install starship if I want a fallback prompt:
 brew install starship
 ```
 
----
-
-## 8. Install my core Mac apps manually
+## 8. Manually install apps
 
 ### Browsers
 - Arc
 - Dia
 - Chrome
+- Firefox
 - Safari (already installed)
 
 ### Terminal / Editors
@@ -96,8 +76,7 @@ brew install starship
 
 ### Dev Tools
 - Docker
-- GitHub Desktop (optional)
-- Supabase Studio (optional)
+- GitHub Desktop
 
 ### Productivity / Notes / Writing
 - Notion
@@ -106,10 +85,12 @@ brew install starship
 - Tana
 - Raycast
 - Things 3
-- Spark Email
+- Spark Email (via Setapp)
 - Ulysses (via Setapp)
 - Day One
 - Soulver (or alternative)
+- Granola (ai meeting notes)
+- Brain.fm (for focus)
 
 ### Design & Visual Tools
 - Figma
@@ -119,18 +100,12 @@ brew install starship
 - ColorSlurp (for color picking)
 - PixelSnap (for measuring)
 
-### Communication
+### Messaging
 - Slack
 - Discord
 - Telegram
 - WhatsApp
 - Messenger
-
-### Focus / Wellness
-- Brain.fm
-- Granola (for screen wellness)
-
----
 
 ## 9. Configure global Git ignore
 
@@ -140,8 +115,6 @@ My `dot_gitignore` is applied as `~/.gitignore` and referenced in `~/.gitconfig`
 git config --global core.excludesfile
 cat ~/.gitignore
 ```
-
----
 
 ## 10. Final system tweaks
 
@@ -154,16 +127,12 @@ defaults write -g InitialKeyRepeat -int 10
 - Set Warp font to MonoLisa or JetBrains Mono
 - Install any personal scripts or automations I use
 
----
-
 ## 🔁 Re-run chezmoi anytime
 
 If I’ve updated the repo or secrets:
 ```bash
 chezmoi apply
 ```
-
----
 
 ## 📝 How I keep my dotfiles up to date
 
@@ -188,8 +157,6 @@ git push
 
 If `autoCommit` and `autoPush` are enabled in `.chezmoi.toml`, steps 3 may happen automatically.
 
----
-
 ## ⚡ Optional: Use my bootstrap script
 
 If I’ve included `bootstrap.sh` in the repo:
@@ -200,16 +167,12 @@ If I’ve included `bootstrap.sh` in the repo:
 
 It handles Homebrew, chezmoi install, and initial clone.
 
----
-
 ## 🧪 Quick sanity check
 
 - Open a new terminal → I should see Powerlevel10k prompt
 - Run `gh auth status`, `pnpm -v`, `supabase login`, etc.
 - Try `ez` and `sz` aliases
 - Run `chezmoi data` to check available variables
-
----
 
 ## 🧹 To-do list after setup
 
