@@ -22,17 +22,54 @@ This is required for many CLI tools and Homebrew.
 brew install chezmoi
 ```
 
-## 4. Clone and apply dotfiles
+## 4. Set up GitHub SSH access
+
+If you're using the SSH version of the chezmoi repo, you'll need to set up SSH keys and connect them to GitHub.
+
+### a. Generate a new SSH key
+
+```bash
+ssh-keygen -t ed25519 -C "seanoliver@github.com"
+```
+
+Just press Enter to accept the default file location (`~/.ssh/id_ed25519`).
+
+### b. Add your key to the SSH agent
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+### c. Add your public key to GitHub
+
+```bash
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+Then go to [https://github.com/settings/keys](https://github.com/settings/keys) → **New SSH key**, and paste it.
+
+### d. Test the connection
+
+```bash
+ssh -T git@github.com
+```
+
+You should see a success message like:
+`Hi seanoliver! You've successfully authenticated...`
+
+## 5. Clone and apply dotfiles
 
 ```bash
 chezmoi init --apply git@github.com:seanoliver/dotfiles-sean.git
 ```
 
 This:
-- Clones my dotfiles to `~/.local/share/chezmoi`
-- Applies them to my `~` directory (e.g. `.zshrc`, `.gitconfig`, `.p10k.zsh`, plugins)
 
-## 5. Set secrets in macOS Keychain
+* Clones your dotfiles to `~/.local/share/chezmoi`
+* Applies them to your `~` directory (e.g. `.zshrc`, `.gitconfig`, `.p10k.zsh`, plugins)
+
+## 6. Set secrets in macOS Keychain
 
 It's easiest to set system-level secrets in the macOS Keychain because it works offline and doesn't require any pre-installed apps like 1Password.
 
@@ -42,13 +79,13 @@ chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --valu
 # ... repeat for any additional templated secrets
 ```
 
-## 6. Re-apply dotfiles to inject secrets
+## 7. Re-apply dotfiles to inject secrets
 
 ```bash
 chezmoi apply
 ```
 
-## 7. Install required dev tools
+## 8. Install required dev tools
 
 ```bash
 brew install git zsh warp gh nvm pnpm yarn cocoapods python3 fzf ripgrep lazygit httpie supabase
@@ -60,7 +97,7 @@ Optional: install [starship](https://starship.rs/) for a fast, minimal fallback 
 brew install starship
 ```
 
-## 8. Manually install apps
+## 9. Manually install apps
 
 ### Browsers
 - Arc
@@ -108,7 +145,7 @@ brew install starship
 - Sip (via Setapp)
 - PixelSnap (via Setapp)
 
-## 9. Configure global Git ignore
+## 10. Configure global Git ignore
 
 My `dot_gitignore` is applied as `~/.gitignore` and referenced in `~/.gitconfig`. I don’t need to do anything extra, but I can verify:
 
@@ -117,7 +154,7 @@ git config --global core.excludesfile
 cat ~/.gitignore
 ```
 
-## 10. Final system tweaks
+## 11. Final system tweaks
 
 - Set keyboard repeat rate:
 ```bash
