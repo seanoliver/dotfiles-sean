@@ -1,13 +1,10 @@
-# Initialize zoxide
-eval "$(zoxide init zsh)"
-
-# Set Cursor as default editor
+# --- Environment Setup ---
 export EDITOR="cursor --wait"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 # PNPM
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -16,34 +13,51 @@ export PATH="$PNPM_HOME:$PATH"
 # Ruby (optional)
 export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 
-# Starship (Warp fallback)
+# Warp Terminal Optimization
+if [[ $TERM_PROGRAM == "WarpTerminal" ]]; then
+  export WARP_NODE_REPL_HISTORY=1
+fi
+
+# --- Prompt ---
 eval "$(starship init zsh)"
 
-# Plugins
+# --- Tools ---
+eval "$(zoxide init zsh)"
+
+# --- Plugins ---
 [ -s "$HOME/.zsh/plugins/bd/bd.zsh" ] && source "$HOME/.zsh/plugins/bd/bd.zsh"
 [ -s "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh" ] && source "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh"
 
-# Aliases
+# --- Aliases ---
 alias ez='chezmoi edit ~/.zshrc'
 alias sz='source ~/.zshrc'
 
+# Chezmoi helpers
 alias cm='chezmoi'
+alias cma='chezmoi apply'
+alias cmf='chezmoi diff'
+alias cme='chezmoi edit'
+alias cmg='chezmoi git status'
 
-alias ls='eza'                         # Modern replacement for ls
-alias ll='eza -lah'                    # Long format, all files, human readable
-alias lt='eza --tree'                  # Tree view
+# Directory + ls
+alias ls='eza'
+alias ll='eza -lah'
+alias lt='eza --tree'
+alias tree='eza --tree -L 2'
 
 alias ..='cd ..'
 alias ...='cd ../..'
 
-alias j='z'                            # Jump to recently used directories (zoxide)
-alias jh='zoxide query -l'             # List zoxide jump history
-alias cdz='zoxide add $(pwd)'          # Manually add current dir to zoxide
+function cd() { z "$@" || builtin cd "$@"; }   # Safer zoxide fallback
+alias j='z'
+alias jh='zoxide query -l'
+alias cdz='zoxide add $(pwd)'
 
-alias f='fzf'                          # Fuzzy find anything
-alias fh='history | fzf'               # Fuzzy search shell history
+# Fuzzy
+alias f='fzf'
+alias fh='history | fzf'
 
-alias c='clear -r'
+# Git
 alias g='git'
 alias gs='git status'
 alias ga='git add'
@@ -56,13 +70,13 @@ alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gb='git branch'
 alias gl='git log --oneline --graph --decorate'
-alias gd='git diff | delta'           # Prettify git diff with delta
-
+alias gd='git diff | delta'
 alias gmain='git checkout main && git pull'
 alias gundo='git reset --soft HEAD~1'
 
-alias npms='npm start'
+# NPM + PNPM
 alias npmi='npm install'
+alias npms='npm start'
 alias npmb='npm run build'
 
 alias pnpmi='pnpm install'
@@ -73,31 +87,23 @@ alias pnpmr='pnpm run'
 alias pnpmt='pnpm test'
 alias pnpml='pnpm lint'
 
-alias ls='eza'
-alias cd='z'
-alias proj='cd ~/code && ls'
+# Help / Docs
+alias help='tldr'
+alias man='tldr'
+alias doc='tldr'
 
-alias help='tldr'                      # Simplified man pages
-alias man='tldr'                       # Override man with tldr (optional)
-alias doc='tldr'                       # Another alias for consistency
-
-alias cl='clear && printf "\e[3J"'     # Full terminal clear (scrollback too)
-alias duh='du -sh * | sort -h'         # Show dir sizes
-alias findbig='du -ah . | sort -rh | head -n 20' # Largest files
-alias tree='eza --tree -L 2'           # Two-level dir tree
-alias cat='bat'                        # Prettier cat
-alias less='bat'                       # Prettier less (optional)
-
+# Utilities
+alias cl='clear && printf "\e[3J"'
+alias duh='du -sh * | sort -h'
+alias findbig='du -ah . | sort -rh | head -n 20'
+alias cat='bat'
+alias less='bat'
 alias path='echo -e ${PATH//:/\\n}'
-alias ip='curl ifconfig.me'           # Public IP address
+alias ip='curl ifconfig.me'
 alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
 alias ports='lsof -i -P -n | grep LISTEN'
 
-
-# Secrets (injected at apply time)
+# Secrets (injected by chezmoi)
 # export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
 # export SUPABASE_ACCESS_TOKEN="{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
-
-# Machine info
-# echo "Loaded by chezmoi for {{ .os }} on {{ .hostname }} (user: {{ .username }})"
