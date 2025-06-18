@@ -1,3 +1,6 @@
+# Initialize zoxide
+eval "$(zoxide init zsh)"
+
 # Set Cursor as default editor
 export EDITOR="cursor --wait"
 
@@ -24,8 +27,24 @@ eval "$(starship init zsh)"
 [ -s "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh" ] && source "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh"
 
 # Aliases
-alias ez='cursor ~/.zshrc'
+alias ez='chezmoi edit ~/.zshrc'
 alias sz='source ~/.zshrc'
+
+
+alias ls='eza'                         # Modern replacement for ls
+alias ll='eza -lah'                    # Long format, all files, human readable
+alias lt='eza --tree'                  # Tree view
+
+alias ..='cd ..'
+alias ...='cd ../..'
+
+alias j='z'                            # Jump to recently used directories (zoxide)
+alias jh='zoxide query -l'             # List zoxide jump history
+alias cdz='zoxide add $(pwd)'          # Manually add current dir to zoxide
+
+alias f='fzf'                          # Fuzzy find anything
+alias fh='history | fzf'               # Fuzzy search shell history
+
 alias c='clear -r'
 alias g='git'
 alias gs='git status'
@@ -38,16 +57,41 @@ alias gpl='git pull'
 alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gb='git branch'
+alias gl='git log --oneline --graph --decorate'
+alias gd='git diff | delta'           # Prettify git diff with delta
+
 alias gmain='git checkout main && git pull'
 alias gundo='git reset --soft HEAD~1'
-alias gr='git rebase'
-alias gri='git rebase -i'
-alias grih='git rebase -i HEAD~1'
-alias gh='gh'
-alias home='cd $HOME'
+
+alias npms='npm start'
+alias npmi='npm install'
+alias npmb='npm run build'
+
+alias pnpmi='pnpm install'
+alias pnpms='pnpm start'
+alias pnpmd='pnpm dev'
+alias pnpmb='pnpm build'
+alias pnpmr='pnpm run'
+alias pnpmt='pnpm test'
+alias pnpml='pnpm lint'
+
+alias help='tldr'                      # Simplified man pages
+alias man='tldr'                       # Override man with tldr (optional)
+alias doc='tldr'                       # Another alias for consistency
+
+alias cl='clear && printf "\e[3J"'     # Full terminal clear (scrollback too)
+alias duh='du -sh * | sort -h'         # Show dir sizes
+alias findbig='du -ah . | sort -rh | head -n 20' # Largest files
+alias tree='eza --tree -L 2'           # Two-level dir tree
+alias cat='bat'                        # Prettier cat
+alias less='bat'                       # Prettier less (optional)
+
 alias path='echo -e ${PATH//:/\\n}'
+alias ip='curl ifconfig.me'           # Public IP address
 alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
+alias ports='lsof -i -P -n | grep LISTEN'
+
 
 # Secrets (injected at apply time)
 # export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
