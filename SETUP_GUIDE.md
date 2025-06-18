@@ -137,16 +137,15 @@ If I change a config file (like `.zshrc`), I do the following:
 1. Edit the live file:
 
 ```bash
-cursor ~/.zshrc  # or use nano/vim/etc
-```
+# Option 1 - Use Chezmoi Edit (preferred)
+chezmoi edit ~/.zshrc
 
-2. Import the change into chezmoi:
-
-```bash
+# Option 2 - Use Cursor
+cursor ~/.zshrc
 chezmoi add ~/.zshrc
 ```
 
-3. Commit and push the update:
+2. Commit and push the update:
 
 ```bash
 chezmoi cd
