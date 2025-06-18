@@ -84,7 +84,7 @@ brew install starship
 - Notion Calendar
 - Linear
 - Tana
-- Raycast
+- Raycast (map to Cmd + Space)
 - Things 3
 - Spark Email (via Setapp)
 - Ulysses (via Setapp)
