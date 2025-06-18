@@ -1,10 +1,10 @@
-# Load z (directory jumper)
-. $(brew --prefix)/etc/profile.d/z.sh
+# Set Cursor as default editor
+export EDITOR="cursor --wait"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # PNPM
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -15,7 +15,6 @@ export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$P
 
 # Powerlevel10k
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # Starship (Warp fallback)
 eval "$(starship init zsh)"
@@ -51,8 +50,8 @@ alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
 
 # Secrets (injected at apply time)
-export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
-export SUPABASE_ACCESS_TOKEN="{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
+# export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
+# export SUPABASE_ACCESS_TOKEN="{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
 
 # Machine info
-echo "Loaded by chezmoi for {{ .os }} on {{ .hostname }} (user: {{ .username }})"
+# echo "Loaded by chezmoi for {{ .os }} on {{ .hostname }} (user: {{ .username }})"

@@ -5,7 +5,7 @@ Sean's guide for setting up a new Mac using [chezmoi](https://www.chezmoi.io/) a
 ## 1. Install Xcode Command Line Tools
 
 ```bash
-xcode-select --install
+xcode-select --install          # Xcode CLI
 ```
 
 This is required for many CLI tools and Homebrew.
@@ -85,69 +85,84 @@ chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --valu
 chezmoi apply
 ```
 
-## 8. Install required dev tools
+## 7. Install apps
 
 ```bash
-brew install git zsh warp gh nvm pnpm yarn cocoapods python3 fzf ripgrep lazygit httpie supabase
-npm install -g expo-cli
+brew tap homebrew/cask-fonts
+
+brew install --cask \
+  raycast \                     # Universal launcher (map to Cmd + Space)
+  cursor \                      # AI code editor
+  zed \                         # Rust-based code editor
+  visual-studio-code \          # Code editor
+  warp \                        # AI Terminal app
+  iterm2 \                      # Terminal replacement
+  notion \                      # Notes and wiki app
+  notion-calendar \             # Better calendar app (formerly Cron)
+  arc \                         # Arc browser
+  thebrowsercompany-dia \       # Dia browser
+  google-chrome \               # Chrome browser
+  firefox \                     # Firefox browser
+  postman \                     # API testing tool
+  iina                          # Modern macOS media player
+  karabiner-elements \          # Keyboard mapper (map caps lock to ~`) 
+  figma \                       # Interface design tool
+  setapp \                      # Subscription access to system utils
+  linear-linear \               # Project management / ticketing
+  orbstack \                    # Better version of Docker
+  brainfm \                     # Brain.fm focus music
+  spotify \                     # Music streaming
+  jordanbaird-ice \             # Open-source version of Bartender
+  granola \                     # AI-powered meeting notes
+  slack \                       # Team chat
+  discord \                     # Community chat
+  messenger \                   # Formerly Facebook Messenger
+  whatsapp \                    # WhatsApp desktop app
+  telegram \                    # Telegram desktop app
+  1password \                   # Password manager
+  github                        # GitHub desktop app
+  font-jetbrains-mono \
+
+brew install \
+  chezmoi \                     # Chezmoi dotfile manager
+  starship \                    # Fast, minimal prompt (https://starship.rs/)
+  zsh \                         # Zsh shell
+  ripgrep \                     # Fast grep alternative
+  httpie \                      # Modern curl alternative
+  git \                         # Git version control
+  gh \                          # GitHub CLI
+  node \                        # Node.js runtime
+  nvm \                         # Node version manager
+  pnpm \                        # Preferred package manager
+  yarn \                        # Another Node package manager
+  cocoapods \                   # Dependency manager for Xcode projects
+  python3 \                     # Python 3 runtime
+  supabase/tap/supabase \       # Supabase CLI
+  warp \                        # Warp terminal
+  1password-cli \               # 1Password command line
+  mas                           # CLI for Mac App Store 
+
+brew
+
+mas install 1055511498          # Day One
+mas install 904237743           # Things 3
+mas install 497799835           # Xcode
+
+npm install -g expo-cli         # Expo CLI for React Native development
+xcode-select --install          # Xcode CLI
+
+echo "REMINDER: Install via Setapp: CleanMyMac X, CleanShot X, Sip, PixelSnap, Ulysses, Spark"
+
+echo "REMINDER: Manually install: Tana, Operator Mono, MonoLisa"
+open https://tana.inc/desktop
+open https://www.typography.com/fonts/operator/styles
+open https://www.monolisa.dev/
+
 ```
 
-Optional: install [starship](https://starship.rs/) for a fast, minimal fallback prompt:
-```bash
-brew install starship
-```
+## 9. Configure global Git ignore
 
-## 9. Manually install apps
-
-### Browsers
-- Arc
-- Dia
-- Chrome
-- Firefox
-- Safari (already installed)
-
-### Terminal / Editors
-- Warp
-- iTerm 2
-- Zed
-- Cursor
-
-### Dev Tools
-- Orbstack (Docker alternative)
-- GitHub Desktop
-
-### Productivity / Notes / Writing
-- Notion
-- Notion Calendar
-- Linear
-- Tana
-- Raycast (map to Cmd + Space)
-- Things 3
-- Spark Email (via Setapp)
-- Ulysses (via Setapp)
-- Day One
-- Soulver (or alternative)
-- Granola (ai meeting notes)
-- Brain.fm (for focus)
-- Figma
-
-### Messaging
-- Slack
-- Discord
-- Telegram
-- WhatsApp
-- Messenger
-
-### Utilities
-- Karabiner-Elements (map caps lock to ~`)
-- CleanMyMac X (via Setapp)
-- CleanShot X (via Setapp)
-- Sip (via Setapp)
-- PixelSnap (via Setapp)
-
-## 10. Configure global Git ignore
-
-My `dot_gitignore` is applied as `~/.gitignore` and referenced in `~/.gitconfig`. I don’t need to do anything extra, but I can verify:
+Since `dot_gitignore` is applied as `~/.gitignore` and referenced in `~/.gitconfig`, don’t need to do anything extra, but to verify:
 
 ```bash
 git config --global core.excludesfile
@@ -162,8 +177,7 @@ defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 10
 ```
 - Turn off natural scroll (System Settings → Trackpad → Scroll & Zoom)
-- Set Warp font to MonoLisa or JetBrains Mono
-- Install any personal scripts or automations I use
+- Set Warp/Cursor font to MonoLisa or JetBrains Mono
 
 ## 🔁 Re-run chezmoi anytime
 
@@ -194,14 +208,6 @@ git push
 ```
 
 If `autoCommit` and `autoPush` are enabled in `.chezmoi.toml`, steps 3 may happen automatically.
-
-## ⚡ Optional: Use my bootstrap script
-
-If I’ve included `bootstrap.sh` in the repo:
-
-```bash
-./bootstrap.sh
-```
 
 It handles Homebrew, chezmoi install, and initial clone.
 
