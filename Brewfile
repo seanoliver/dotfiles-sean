@@ -1,8 +1,11 @@
 # Brewfile
 
-# --- Taps ---
+# --- Homebrew taps ---
+tap "homebrew/cask"               # Core casks (GUI apps)
+tap "homebrew/cask-fonts"         # Font packages
+tap "homebrew/cask-versions"      # Alternate versions of apps
+tap "homebrew/services"           # For background services (if needed)
 tap "supabase/tap"                # Supabase CLI tap
-tap "1password/tap"               # 1Password CLI tap
 
 # --- CLI tools ---
 brew "chezmoi"                    # Dotfile manager
@@ -20,7 +23,8 @@ brew "yarn"                       # Alternative Node package manager
 brew "cocoapods"                  # Dependency manager for iOS projects
 brew "python3"                    # Python 3 runtime
 brew "supabase"                   # Supabase CLI
-brew "1password/tap/op"           # 1Password command-line tool
+brew "warp"                       # Warp terminal (CLI component, optional)
+brew "1password-cli"              # 1Password command-line tool
 brew "mas"                        # Mac App Store CLI tool
 brew "fzf"                        # Fuzzy finder (used for file search, history, etc.)
 brew "bat"                        # Enhanced `cat` with syntax highlighting
@@ -30,6 +34,7 @@ brew "tldr"                       # Simplified man pages with practical examples
 brew "delta"                      # Syntax-highlighted git diff viewer
 brew "tree"                       # Directory tree printer
 brew "vercel-cli"                 # Vercel CLI for preview deployments
+brew "ngrok"                      # Secure tunnels to localhost
 brew "graphviz"                   # Render diagrams from `.dot` files
 brew "deno"                       # Secure JavaScript/TypeScript runtime
 brew "direnv"                     # Load per-project `.envrc` files into shell
@@ -66,7 +71,6 @@ cask "telegram"                   # Telegram desktop client
 cask "1password"                  # GUI password manager
 cask "github"                     # GitHub desktop app
 cask "font-jetbrains-mono"        # Developer-friendly font from JetBrains
-cask "ngrok"                      # Secure tunnels to localhost
 
 # --- Mac App Store apps ---
 mas "Day One", id: 1055511498     # Journaling app

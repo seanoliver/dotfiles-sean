@@ -1,4 +1,4 @@
-# 🧰 Sean's macOS Setup Guide (dotfiles-sean)
+# 🛠️ Sean's macOS Setup Guide (dotfiles-sean)
 
 Sean's guide for setting up a new Mac using [chezmoi](https://www.chezmoi.io/) and the `dotfiles-sean` repository. It covers shell setup, dotfiles, CLI tools, secrets, apps, and custom config.
 
@@ -85,82 +85,23 @@ chezmoi secret keyring set --service=chezmoi --user=supabase_access_token --valu
 chezmoi apply
 ```
 
-## 7. Install apps
+## 8. Install apps via Brewfile
+
+If your `Brewfile` is stored in `~/Brewfile`, run:
 
 ```bash
-brew tap homebrew/cask-fonts
-
-brew install --cask \
-  raycast \                     # Universal launcher (map to Cmd + Space)
-  cursor \                      # AI code editor
-  zed \                         # Rust-based code editor
-  visual-studio-code \          # Code editor
-  warp \                        # AI Terminal app
-  iterm2 \                      # Terminal replacement
-  notion \                      # Notes and wiki app
-  notion-calendar \             # Better calendar app (formerly Cron)
-  arc \                         # Arc browser
-  thebrowsercompany-dia \       # Dia browser
-  google-chrome \               # Chrome browser
-  firefox \                     # Firefox browser
-  postman \                     # API testing tool
-  iina                          # Modern macOS media player
-  karabiner-elements \          # Keyboard mapper (map caps lock to ~`) 
-  figma \                       # Interface design tool
-  setapp \                      # Subscription access to system utils
-  linear-linear \               # Project management / ticketing
-  orbstack \                    # Better version of Docker
-  brainfm \                     # Brain.fm focus music
-  spotify \                     # Music streaming
-  jordanbaird-ice \             # Open-source version of Bartender
-  granola \                     # AI-powered meeting notes
-  slack \                       # Team chat
-  discord \                     # Community chat
-  messenger \                   # Formerly Facebook Messenger
-  whatsapp \                    # WhatsApp desktop app
-  telegram \                    # Telegram desktop app
-  1password \                   # Password manager
-  github                        # GitHub desktop app
-  font-jetbrains-mono \
-
-brew install \
-  chezmoi \                     # Chezmoi dotfile manager
-  starship \                    # Fast, minimal prompt (https://starship.rs/)
-  zsh \                         # Zsh shell
-  ripgrep \                     # Fast grep alternative
-  httpie \                      # Modern curl alternative
-  git \                         # Git version control
-  gh \                          # GitHub CLI
-  node \                        # Node.js runtime
-  nvm \                         # Node version manager
-  pnpm \                        # Preferred package manager
-  yarn \                        # Another Node package manager
-  cocoapods \                   # Dependency manager for Xcode projects
-  python3 \                     # Python 3 runtime
-  supabase/tap/supabase \       # Supabase CLI
-  warp \                        # Warp terminal
-  1password-cli \               # 1Password command line
-  mas                           # CLI for Mac App Store 
-
-brew
-
-mas install 1055511498          # Day One
-mas install 904237743           # Things 3
-mas install 497799835           # Xcode
-
-npm install -g expo-cli         # Expo CLI for React Native development
-xcode-select --install          # Xcode CLI
-
-echo "REMINDER: Install via Setapp: CleanMyMac X, CleanShot X, Sip, PixelSnap, Ulysses, Spark"
-
-echo "REMINDER: Manually install: Tana, Operator Mono, MonoLisa"
-open https://tana.inc/desktop
-open https://www.typography.com/fonts/operator/styles
-open https://www.monolisa.dev/
-
+brew bundle --file=~/Brewfile
 ```
 
-## 9. Configure global Git ignore
+This installs all CLI tools, GUI apps, fonts, and Mac App Store apps as defined in your Brewfile.
+
+## 9. Install Expo CLI
+
+```bash
+npm install -g expo-cli
+```
+
+## 10. Verify global Git ignore config
 
 Since `dot_gitignore` is applied as `~/.gitignore` and referenced in `~/.gitconfig`, don’t need to do anything extra, but to verify:
 
@@ -171,36 +112,42 @@ cat ~/.gitignore
 
 ## 11. Final system tweaks
 
-- Set keyboard repeat rate:
+* Set keyboard repeat rate:
+
 ```bash
 defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 10
 ```
-- Turn off natural scroll (System Settings → Trackpad → Scroll & Zoom)
-- Set Warp/Cursor font to MonoLisa or JetBrains Mono
+
+* Turn off natural scroll (System Settings → Trackpad → Scroll & Zoom)
+* Set Warp/Cursor font to MonoLisa or JetBrains Mono
 
 ## 🔁 Re-run chezmoi anytime
 
 If I’ve updated the repo or secrets:
+
 ```bash
 chezmoi apply
 ```
 
-## 📝 How I keep my dotfiles up to date
+## 📍 How I keep my dotfiles up to date
 
 If I change a config file (like `.zshrc`), I do the following:
 
 1. Edit the live file:
+
 ```bash
 cursor ~/.zshrc  # or use nano/vim/etc
 ```
 
 2. Import the change into chezmoi:
+
 ```bash
 chezmoi add ~/.zshrc
 ```
 
 3. Commit and push the update:
+
 ```bash
 chezmoi cd
 git commit -am "Update zshrc with new alias"
@@ -209,18 +156,22 @@ git push
 
 If `autoCommit` and `autoPush` are enabled in `.chezmoi.toml`, steps 3 may happen automatically.
 
-It handles Homebrew, chezmoi install, and initial clone.
+## 🚪 Quick sanity check
 
-## 🧪 Quick sanity check
+* Open a new terminal → I should see Powerlevel10k prompt
+* Run `gh auth status`, `pnpm -v`, `supabase login`, etc.
+* Try `ez` and `sz` aliases
+* Run `chezmoi data` to check available variables
 
-- Open a new terminal → I should see Powerlevel10k prompt
-- Run `gh auth status`, `pnpm -v`, `supabase login`, etc.
-- Try `ez` and `sz` aliases
-- Run `chezmoi data` to check available variables
+## 🪟 To-do list after setup
 
-## 🧹 To-do list after setup
-
-- Add a `Brewfile` to automate app installs
-- Create `CHEZMOI_SECRETS.md` (ignored) to list the names of secrets I've templated
-- Sync my Tana, Linear, Spark accounts
-- Test GitHub SSH access: `ssh -T git@github.com`
+* [ ] Add a `Brewfile` to automate app installs
+* [ ] Create `CHEZMOI_SECRETS.md` (ignored) to list the names of secrets I've templated
+* [ ] Test GitHub SSH access: `ssh -T git@github.com`
+* [ ] Sync my Tana, Linear, and Spark accounts
+* [ ] Review `chezmoi diff` and clean up any stale files
+* [ ] Reboot and verify:
+  * `gh`, `supabase`, `pnpm`, etc. are in PATH
+  * Apps like Raycast, Warp, Arc, etc. launch correctly
+* [ ] Review and optionally prune unused items in `Brewfile`
+* [ ] Add/edit any project-specific secrets
