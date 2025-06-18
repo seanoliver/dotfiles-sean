@@ -32,7 +32,6 @@ brew "fd"                         # Simplified, faster `find` alternative
 brew "eza"                        # Modern `ls` replacement with tree view and icons
 brew "tldr"                       # Simplified man pages with practical examples
 brew "delta"                      # Syntax-highlighted git diff viewer
-brew "tree"                       # Directory tree printer
 brew "vercel-cli"                 # Vercel CLI for preview deployments
 brew "ngrok"                      # Secure tunnels to localhost
 brew "graphviz"                   # Render diagrams from `.dot` files
