@@ -20,7 +20,6 @@ brew "yarn"                       # Alternative Node package manager
 brew "cocoapods"                  # Dependency manager for iOS projects
 brew "python3"                    # Python 3 runtime
 brew "supabase"                   # Supabase CLI
-brew "1password-cli"              # 1Password command-line tool
 brew "mas"                        # Mac App Store CLI tool
 brew "fzf"                        # Fuzzy finder (used for file search, history, etc.)
 brew "bat"                        # Enhanced `cat` with syntax highlighting
@@ -63,6 +62,7 @@ cask "messenger"                  # Facebook Messenger
 cask "whatsapp"                   # WhatsApp desktop client
 cask "telegram"                   # Telegram desktop client
 cask "1password"                  # GUI password manager
+cask "1password-cli"              # 1Password command-line tool
 cask "github"                     # GitHub desktop app
 cask "font-jetbrains-mono"        # Developer-friendly font from JetBrains
 cask "ngrok"                      # Secure tunnels to localhost
