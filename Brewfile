@@ -66,6 +66,8 @@ cask "1password"                  # GUI password manager
 cask "github"                     # GitHub desktop app
 cask "font-jetbrains-mono"        # Developer-friendly font from JetBrains
 cask "ngrok"                      # Secure tunnels to localhost
+cask "steam"                      # Steam client
+cask "battle-net"                 # Battle.net client
 
 # --- Mac App Store apps ---
 mas "Day One", id: 1055511498     # Journaling app
