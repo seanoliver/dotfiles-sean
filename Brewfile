@@ -20,7 +20,7 @@ brew "yarn"                       # Alternative Node package manager
 brew "cocoapods"                  # Dependency manager for iOS projects
 brew "python3"                    # Python 3 runtime
 brew "supabase"                   # Supabase CLI
-brew "1password/tap/op"           # 1Password command-line tool
+brew "1password-cli"              # 1Password command-line tool
 brew "mas"                        # Mac App Store CLI tool
 brew "fzf"                        # Fuzzy finder (used for file search, history, etc.)
 brew "bat"                        # Enhanced `cat` with syntax highlighting
