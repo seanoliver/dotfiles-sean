@@ -1,0 +1,26 @@
+[core]
+	excludesfile = /Users/seanoliver/.gitignore
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+[user]
+	name = Sean Oliver
+	email = 882952+seanoliver@users.noreply.github.com
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/seanoliver/.stCommitMsg
