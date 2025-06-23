@@ -109,8 +109,12 @@ dump_cursor_extensions() {
     
     log_info "Dumping current Cursor extensions..."
     
+    # Create backups directory if it doesn't exist
+    local backups_dir="$DOTFILES_DIR/.backups"
+    mkdir -p "$backups_dir"
+    
     # Create backup of current extensions
-    local backup_file="$DOTFILES_DIR/config/cursor-extensions-backup-$(date +%Y%m%d-%H%M%S).txt"
+    local backup_file="$backups_dir/cursor-extensions-backup-$(date +%Y%m%d-%H%M%S).txt"
     cursor --list-extensions > "$backup_file" 2>/dev/null || {
         log_warning "Failed to dump extensions"
         return
@@ -119,7 +123,7 @@ dump_cursor_extensions() {
     log_success "Extensions dumped to: $backup_file"
     
     # Also create a formatted array for easy copy-paste
-    local array_file="$DOTFILES_DIR/config/cursor-extensions-array-$(date +%Y%m%d-%H%M%S).txt"
+    local array_file="$backups_dir/cursor-extensions-array-$(date +%Y%m%d-%H%M%S).txt"
     echo "# Copy these to update the EXTENSIONS array in sync-ide-settings.sh" > "$array_file"
     echo "EXTENSIONS=(" >> "$array_file"
     cursor --list-extensions 2>/dev/null | sed 's/^/    "/;s/$/"/' >> "$array_file"

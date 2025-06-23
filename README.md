@@ -111,8 +111,8 @@ cp ~/.zshrc ~/dotfiles/zshrc
 # Backup current extensions to sync with install script
 ./scripts/sync-ide-settings.sh --dump
 
-# This creates two files:
-# - cursor-extensions-backup-TIMESTAMP.txt (raw list)
+# This creates two files in .backups/:
+# - cursor-extensions-backup-TIMESTAMP.txt (raw list)  
 # - cursor-extensions-array-TIMESTAMP.txt (formatted for copy-paste)
 ```
 
