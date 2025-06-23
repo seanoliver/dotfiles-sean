@@ -108,7 +108,6 @@ main() {
     link_file "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
     link_file "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
     link_file "$DOTFILES_DIR/gitignore" "$HOME/.gitignore"
-    link_file "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
     
     # Link config directories
     log_info "Linking config directories..."
