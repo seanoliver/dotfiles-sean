@@ -106,6 +106,18 @@ cursor ~/.zshrc
 cp ~/.zshrc ~/dotfiles/zshrc
 ```
 
+### Managing Cursor Extensions
+```bash
+# Backup current extensions to sync with install script
+./scripts/sync-ide-settings.sh --dump
+
+# This creates two files:
+# - cursor-extensions-backup-TIMESTAMP.txt (raw list)
+# - cursor-extensions-array-TIMESTAMP.txt (formatted for copy-paste)
+```
+
+After installing new extensions in Cursor, run the dump command and copy the formatted array from the generated file into `scripts/sync-ide-settings.sh` to keep your install script up to date.
+
 ### Committing Changes
 ```bash
 cd ~/dotfiles

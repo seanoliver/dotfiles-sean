@@ -30,7 +30,7 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Essential extensions for both editors
+# Essential extensions for Cursor
 EXTENSIONS=(
     "ms-python.python"
     "ms-python.flake8"
@@ -39,33 +39,27 @@ EXTENSIONS=(
     "esbenp.prettier-vscode"
     "dbaeumer.vscode-eslint"
     "ms-vscode.vscode-typescript-next"
-    "ms-vscode-remote.remote-containers"
     "ms-vscode-remote.remote-ssh"
-    "GitHub.copilot"
-    "GitHub.copilot-chat"
+    "github.copilot-chat"
     "vscodevim.vim"
-    "PKief.material-icon-theme"
-    "GitHub.github-vscode-theme"
-    "ms-vscode.vscode-json"
+    "jdinhlife.gruvbox"
     "rust-lang.rust-analyzer"
     "ms-dotnettools.csharp"
     "golang.go"
     "ms-vscode.cmake-tools"
     "ms-vscode.cpptools"
     "redhat.vscode-yaml"
-    "ms-kubernetes-tools.vscode-kubernetes-tools"
     "ms-azuretools.vscode-docker"
-    "GitLens.gitlens"
     "eamodio.gitlens"
     "streetsidesoftware.code-spell-checker"
     "ms-vscode.hexeditor"
     "formulahendry.auto-rename-tag"
     "christian-kohler.path-intellisense"
-    "ms-vscode.live-server"
-    "ritwickdey.liveserver"
-    "ms-playwright.playwright"
-    "ms-vscode.test-adapter-converter"
-    "hbenl.vscode-test-explorer"
+)
+
+# Cursor-specific extensions
+CURSOR_EXTENSIONS=(
+    "Catppuccin.catppuccin-vsc-icons"
 )
 
 # Function to install extensions for Cursor
@@ -77,52 +71,75 @@ install_cursor_extensions() {
     
     log_info "Installing Cursor extensions..."
     
+    # Install shared extensions
     for ext in "${EXTENSIONS[@]}"; do
         if cursor --list-extensions | grep -q "^$ext$"; then
             log_info "$ext already installed in Cursor"
         else
             log_info "Installing $ext in Cursor..."
-            cursor --install-extension "$ext" --force
+            if ! cursor --install-extension "$ext" --force 2>/dev/null; then
+                log_warning "Failed to install $ext"
+                sleep 1  # Brief pause between installations
+            fi
+        fi
+    done
+    
+    # Install Cursor-specific extensions
+    for ext in "${CURSOR_EXTENSIONS[@]}"; do
+        if cursor --list-extensions | grep -q "^$ext$"; then
+            log_info "$ext already installed in Cursor"
+        else
+            log_info "Installing $ext in Cursor..."
+            if ! cursor --install-extension "$ext" --force 2>/dev/null; then
+                log_warning "Failed to install $ext"
+                sleep 1
+            fi
         fi
     done
     
     log_success "Cursor extensions installed"
 }
 
-# Function to install extensions for VS Code
-install_vscode_extensions() {
-    if ! command -v code &> /dev/null; then
-        log_warning "VS Code not found, skipping extension installation"
+# Function to dump current Cursor extensions for backup
+dump_cursor_extensions() {
+    if ! command -v cursor &> /dev/null; then
+        log_warning "Cursor not found, skipping extension dump"
         return
     fi
     
-    log_info "Installing VS Code extensions..."
+    log_info "Dumping current Cursor extensions..."
     
-    for ext in "${EXTENSIONS[@]}"; do
-        if code --list-extensions | grep -q "^$ext$"; then
-            log_info "$ext already installed in VS Code"
-        else
-            log_info "Installing $ext in VS Code..."
-            code --install-extension "$ext" --force
-        fi
-    done
+    # Create backup of current extensions
+    local backup_file="$DOTFILES_DIR/config/cursor-extensions-backup-$(date +%Y%m%d-%H%M%S).txt"
+    cursor --list-extensions > "$backup_file" 2>/dev/null || {
+        log_warning "Failed to dump extensions"
+        return
+    }
     
-    log_success "VS Code extensions installed"
+    log_success "Extensions dumped to: $backup_file"
+    
+    # Also create a formatted array for easy copy-paste
+    local array_file="$DOTFILES_DIR/config/cursor-extensions-array-$(date +%Y%m%d-%H%M%S).txt"
+    echo "# Copy these to update the EXTENSIONS array in sync-ide-settings.sh" > "$array_file"
+    echo "EXTENSIONS=(" >> "$array_file"
+    cursor --list-extensions 2>/dev/null | sed 's/^/    "/;s/$/"/' >> "$array_file"
+    echo ")" >> "$array_file"
+    
+    log_success "Formatted array saved to: $array_file"
 }
 
 # Function to sync settings
 sync_settings() {
     log_info "Syncing IDE settings..."
     
-    # Create settings directories if they don't exist
+    # Create settings directory
     mkdir -p "$HOME/Library/Application Support/Cursor/User"
-    mkdir -p "$HOME/Library/Application Support/Code/User"
     
-    # Create shared settings file
-    cat > "$DOTFILES_DIR/config/ide-settings.json" << 'EOF'
+    # Create Cursor-specific settings file
+    cat > "$DOTFILES_DIR/config/cursor-settings.json" << 'EOF'
 {
     "editor.fontSize": 14,
-    "editor.fontFamily": "JetBrains Mono, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "MonoLisa, JetBrains Mono, Monaco, 'Courier New', monospace",
     "editor.fontLigatures": true,
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
@@ -136,13 +153,14 @@ sync_settings() {
         "source.fixAll.eslint": "explicit",
         "source.organizeImports": "explicit"
     },
-    "workbench.colorTheme": "GitHub Dark Default",
-    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Gruvbox Dark Medium",
+    "workbench.iconTheme": "catppuccin-mocha",
     "workbench.startupEditor": "welcomePage",
     "workbench.sideBar.location": "left",
     "workbench.activityBar.visible": true,
+    "workbench.activityBar.location": "side",
     "terminal.integrated.fontSize": 13,
-    "terminal.integrated.fontFamily": "JetBrains Mono",
+    "terminal.integrated.fontFamily": "MonoLisa, JetBrains Mono",
     "terminal.integrated.shell.osx": "/bin/zsh",
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
@@ -165,7 +183,7 @@ sync_settings() {
     "eslint.enable": true,
     "prettier.singleQuote": true,
     "prettier.trailingComma": "es5",
-    "prettier.semi": true,
+    "prettier.semi": false,
     "typescript.updateImportsOnFileMove.enabled": "always",
     "javascript.updateImportsOnFileMove.enabled": "always",
     "python.defaultInterpreterPath": "/usr/bin/python3",
@@ -182,15 +200,13 @@ sync_settings() {
 }
 EOF
     
-    # Link settings to both editors
-    if command -v cursor &> /dev/null; then
-        ln -sf "$DOTFILES_DIR/config/ide-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
-        log_success "Cursor settings synced"
-    fi
     
-    if command -v code &> /dev/null; then
-        ln -sf "$DOTFILES_DIR/config/ide-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
-        log_success "VS Code settings synced"
+    # Link settings to Cursor
+    if command -v cursor &> /dev/null; then
+        ln -sf "$DOTFILES_DIR/config/cursor-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
+        log_success "Cursor settings synced"
+    else
+        log_warning "Cursor not found, skipping settings sync"
     fi
 }
 
@@ -243,35 +259,38 @@ create_keybindings() {
 ]
 EOF
     
-    # Link keybindings to both editors
+    # Link keybindings to Cursor
     if command -v cursor &> /dev/null; then
         ln -sf "$DOTFILES_DIR/config/ide-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
         log_success "Cursor keybindings synced"
-    fi
-    
-    if command -v code &> /dev/null; then
-        ln -sf "$DOTFILES_DIR/config/ide-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-        log_success "VS Code keybindings synced"
+    else
+        log_warning "Cursor not found, skipping keybindings sync"
     fi
 }
 
 # Main function
 main() {
-    log_info "Starting IDE settings sync..."
+    log_info "Starting Cursor settings sync..."
     
     # Create config directory
     mkdir -p "$DOTFILES_DIR/config"
     
+    # Handle command line arguments
+    if [[ "$1" == "--dump" ]]; then
+        dump_cursor_extensions
+        return
+    fi
+    
     # Install extensions
     install_cursor_extensions
-    install_vscode_extensions
     
     # Sync settings and keybindings
     sync_settings
     create_keybindings
     
-    log_success "IDE settings sync complete!"
-    log_info "Restart your editors to apply all changes"
+    log_success "Cursor settings sync complete!"
+    log_info "Restart Cursor to apply all changes"
+    log_info "To backup current extensions, run: $0 --dump"
 }
 
 # Run main function

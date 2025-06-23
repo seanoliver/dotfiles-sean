@@ -1,0 +1,42 @@
+[
+    {
+        "key": "cmd+shift+e",
+        "command": "workbench.view.explorer"
+    },
+    {
+        "key": "cmd+shift+f",
+        "command": "workbench.view.search"
+    },
+    {
+        "key": "cmd+shift+g",
+        "command": "workbench.view.scm"
+    },
+    {
+        "key": "cmd+shift+d",
+        "command": "workbench.view.debug"
+    },
+    {
+        "key": "cmd+shift+x",
+        "command": "workbench.view.extensions"
+    },
+    {
+        "key": "cmd+shift+u",
+        "command": "workbench.view.output"
+    },
+    {
+        "key": "cmd+shift+y",
+        "command": "workbench.debug.action.toggleRepl"
+    },
+    {
+        "key": "cmd+shift+m",
+        "command": "workbench.actions.view.problems"
+    },
+    {
+        "key": "cmd+j",
+        "command": "workbench.action.togglePanel"
+    },
+    {
+        "key": "cmd+shift+c",
+        "command": "workbench.action.terminal.new"
+    }
+]
