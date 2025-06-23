@@ -75,9 +75,17 @@ ssh -T git@github.com
 
 ### 2. System Preferences
 
+The install script automatically configures:
+- **Keyboard shortcuts**: Disables Spotlight (⌘+Space) and screenshot shortcuts to let Raycast and CleanShot X take over
+- **Keyboard repeat**: Fast key repeat rates for better coding experience
+- **Finder**: Shows hidden files and file extensions
+- **Text input**: Disables auto-capitalization, smart quotes, and auto-correct
+
+Manual settings to configure:
 - **Trackpad**: Turn off natural scroll (System Settings → Trackpad → Scroll & Zoom)
 - **Terminal Font**: Set Warp/terminal font to JetBrains Mono or MonoLisa
-- **Keyboard**: Repeat rates are set automatically by the install script
+- **Raycast**: Set up ⌘+Space hotkey (should work automatically after install)
+- **CleanShot X**: Configure screenshot shortcuts (⌘+Shift+3, ⌘+Shift+4, etc.)
 
 ### 3. Application Configuration
 
@@ -190,6 +198,13 @@ j ~                          # Should use zoxide
 - Day One (journaling)
 - Things 3 (task management)
 - Xcode (development)
+
+### macOS System Settings
+- **Keyboard shortcuts**: Spotlight and screenshot shortcuts disabled
+- **Keyboard repeat**: Fast repeat rates (KeyRepeat=1, InitialKeyRepeat=10)
+- **Finder**: Hidden files and extensions shown
+- **Text input**: Auto-capitalization, smart quotes, and auto-correct disabled
+- **Security**: Quarantine dialog disabled for downloaded apps
 
 ## 🚨 Troubleshooting
 

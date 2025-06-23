@@ -163,7 +163,125 @@ main() {
     defaults write -g KeyRepeat -int 1
     defaults write -g InitialKeyRepeat -int 10
     
+    # Disable Spotlight keyboard shortcuts (Cmd+Space, Cmd+Opt+Space)
+    # This allows Raycast to take over Cmd+Space
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>32</integer>
+                <integer>49</integer>
+                <integer>1048576</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>32</integer>
+                <integer>49</integer>
+                <integer>1572864</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    # Disable built-in screenshot shortcuts to let CleanShot X take over
+    # Cmd+Shift+3 (full screen)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 28 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>51</integer>
+                <integer>20</integer>
+                <integer>1179648</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    # Cmd+Shift+4 (selection)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 29 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>52</integer>
+                <integer>21</integer>
+                <integer>1179648</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    # Cmd+Shift+5 (screenshot options)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 31 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>53</integer>
+                <integer>23</integer>
+                <integer>1179648</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    # Cmd+Shift+4 then Space (window screenshot)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 30 "
+    <dict>
+        <key>enabled</key><false/>
+        <key>value</key><dict>
+            <key>type</key><string>standard</string>
+            <key>parameters</key>
+            <array>
+                <integer>52</integer>
+                <integer>21</integer>
+                <integer>1441792</integer>
+            </array>
+        </dict>
+    </dict>
+    "
+    
+    # Additional useful macOS preferences
+    # Show hidden files in Finder
+    defaults write com.apple.finder AppleShowAllFiles -bool true
+    
+    # Show file extensions in Finder
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    
+    # Disable the "Are you sure you want to open this application?" dialog
+    defaults write com.apple.LaunchServices LSQuarantine -bool false
+    
+    # Disable automatic capitalization
+    defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+    
+    # Disable smart quotes and smart dashes
+    defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+    defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+    
+    # Disable auto-correct
+    defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+    
     log_success "macOS preferences set"
+    log_warning "Some changes require a restart to take effect"
     
     # Final instructions
     echo
