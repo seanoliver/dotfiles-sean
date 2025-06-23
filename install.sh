@@ -304,8 +304,6 @@ main() {
     defaults write com.apple.screensaver askForPassword -int 1
     defaults write com.apple.screensaver askForPasswordDelay -int 0
     
-    # Network preferences
-    defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$(hostname -s)"
     
     # Restart Dock and Control Center to apply changes
     killall Dock 2>/dev/null || true
