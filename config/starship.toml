@@ -1,0 +1,319 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts for better readability
+add_newline = true
+
+# Set scan timeout to 10ms for faster prompt rendering
+scan_timeout = 10
+
+# Set command timeout to 200ms for external commands
+command_timeout = 200
+
+# Main prompt format - clean and minimal with new additions
+format = '''
+$username$hostname$directory$git_branch$git_status$nodejs$python$rust$golang$docker_context$kubernetes$cmd_duration
+$character'''
+
+# Right prompt format for additional context
+right_format = '$battery$time'
+
+# Character module - clean arrow with status indication
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[✗](bold red)'
+vicmd_symbol = '[❮](bold blue)'
+
+# Username module - only show if different from default
+[username]
+style_user = 'bold blue'
+style_root = 'bold red'
+format = '[$user]($style) '
+disabled = false
+show_always = false
+
+# Hostname module - clean hostname display
+[hostname]
+ssh_only = false
+format = ' on [$hostname](bold green) '
+disabled = false
+
+# Directory module - enhanced with git repo awareness
+[directory]
+truncation_length = 3
+truncation_symbol = '…/'
+truncate_to_repo = true
+format = '[$path]($style)[$read_only]($read_only_style) '
+style = 'bold cyan'
+read_only = '🔒'
+home_symbol = '~'
+use_os_path_sep = true
+
+# Git modules - enhanced git information
+[git_branch]
+symbol = ' '
+format = 'on [$symbol$branch]($style) '
+style = 'bold purple'
+truncation_length = 20
+truncation_symbol = '…'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = 'bold red'
+conflicted = '⚡'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+untracked = '?${count}'
+stashed = '≡${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+typechanged = '📝'
+
+# Git commit module - shows current commit when in detached HEAD
+[git_commit]
+commit_hash_length = 7
+format = '[\($hash$tag\)]($style) '
+style = 'bold green'
+only_detached = true
+tag_symbol = ' 🏷  '
+
+# Git state module - shows rebase/merge state
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+cherry_pick = '[🍒 PICKING](bold red)'
+bisect = '[🔍 BISECTING](bold blue)'
+am = '[📧 AM](bold blue)'
+am_or_rebase = '[📧 AM/REBASE](bold blue)'
+style = 'bold yellow'
+
+# Node.js module - enhanced with package manager detection
+[nodejs]
+format = 'via [$symbol($version)]($style) '
+symbol = ' '
+style = 'bold green'
+detect_extensions = ['js', 'mjs', 'cjs', 'ts', 'mts', 'cts', 'jsx', 'tsx', 'json']
+detect_files = ['package.json', '.nvmrc', '.node-version']
+detect_folders = ['node_modules']
+
+# Package version module - shows package.json version
+[package]
+format = 'pkg [$symbol$version]($style) '
+symbol = '📦 '
+style = 'bold yellow'
+display_private = false
+
+# Python module - enhanced python environment detection
+[python]
+format = 'via [$symbol$pyenv_prefix($version )(($virtualenv))]($style) '
+symbol = ' '
+style = 'bold yellow'
+pyenv_version_name = true
+pyenv_prefix = 'pyenv '
+python_binary = ['python', 'python3', 'python2']
+detect_extensions = ['py', 'pyi', 'pyc', 'pyo', 'pyw', 'pyz']
+detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini']
+
+# Rust module - cargo projects with enhanced detection
+[rust]
+format = 'via [$symbol($version)]($style) '
+symbol = ' '
+style = 'bold red'
+detect_extensions = ['rs']
+detect_files = ['Cargo.toml']
+
+# Go module - golang projects with module support
+[golang]
+format = 'via [$symbol($version)]($style) '
+symbol = ' '
+style = 'bold cyan'
+detect_extensions = ['go']
+detect_files = ['go.mod', 'go.sum', 'glide.yaml', 'Gopkg.yml', 'Gopkg.lock', '.go-version']
+
+# Docker context module - container environments
+[docker_context]
+format = 'via [$symbol$context]($style) '
+symbol = ' '
+style = 'bold blue'
+only_with_files = true
+detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile', '.dockerignore']
+
+# Kubernetes module - enhanced k8s context
+[kubernetes]
+format = 'on [$symbol$context( \($namespace\))]($style) '
+symbol = ' '
+style = 'bold blue'
+disabled = false
+contexts = []
+user_aliases = {}
+
+# Command duration module - shows execution time for long commands
+[cmd_duration]
+min_time = 2_000  # Show duration for commands taking longer than 2 seconds
+format = 'took [$duration]($style) '
+style = 'bold yellow'
+show_milliseconds = false
+disabled = false
+
+# Battery module - shows battery status on laptops
+[battery]
+full_symbol = '🔋'
+charging_symbol = '🔌'
+discharging_symbol = '⚡'
+format = '[$symbol$percentage]($style) '
+
+[[battery.display]]
+threshold = 10
+style = 'bold red'
+
+[[battery.display]]
+threshold = 30
+style = 'bold yellow'
+
+[[battery.display]]
+threshold = 50
+style = 'bold blue'
+
+# Time module - right prompt with enhanced formatting
+[time]
+format = '[$time]($style) '
+time_format = '%T'
+style = 'bold dimmed white'
+disabled = false
+utc_time_offset = 'local'
+
+# Status module - shows exit code of last command
+[status]
+format = '[$symbol$status]($style) '
+symbol = '✖'
+success_symbol = ''
+not_executable_symbol = '🚫'
+not_found_symbol = '🔍'
+sigint_symbol = '🧱'
+signal_symbol = '⚡'
+style = 'bold red'
+map_symbol = false
+disabled = false
+
+# Sudo module - indicates when using sudo
+[sudo]
+format = '[as $symbol]($style)'
+symbol = '🧙 '
+style = 'bold blue'
+allow_windows = false
+disabled = false
+
+# Jobs module - shows background jobs
+[jobs]
+symbol = '+ '
+style = 'bold blue'
+number_threshold = 1
+symbol_threshold = 1
+format = '[$symbol$number]($style) '
+
+# Memory usage module - shows memory usage when high
+[memory_usage]
+disabled = false
+threshold = 75
+format = 'via $symbol [${used:>3}/${total}]($style) '
+style = 'bold dimmed green'
+symbol = '🐏'
+
+# Directory substitutions for cleaner paths
+[directory.substitutions]
+"Documents" = "📄 "
+"Downloads" = "📥 "
+"Music" = "🎵 "
+"Pictures" = "📷 "
+"Videos" = "🎬 "
+"code" = "💻 "
+"Desktop" = "🖥️ "
+
+# Custom commands for additional context
+[custom.git_email]
+command = 'git config user.email 2>/dev/null || echo ""'
+when = 'git rev-parse --is-inside-work-tree 2>/dev/null'
+format = ' [$output]($style)'
+style = 'dimmed blue'
+shell = ['bash', '--noprofile', '--norc']
+
+# Disable less relevant modules for your workflow
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[terraform]
+disabled = true
+
+[helm]
+disabled = true
+
+[conda]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[env_var]
+disabled = true
+
+[crystal]
+disabled = true
+
+[elixir]
+disabled = true
+
+[elm]
+disabled = true
+
+[erlang]
+disabled = true
+
+[gradle]
+disabled = true
+
+[guix_shell]
+disabled = true
+
+[haskell]
+disabled = true
+
+[java]
+disabled = true
+
+[julia]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[lua]
+disabled = true
+
+[nim]
+disabled = true
+
+[ocaml]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[purescript]
+disabled = true
+
+[scala]
+disabled = true
+
+[swift]
+disabled = true
+
+[zig]
+disabled = true

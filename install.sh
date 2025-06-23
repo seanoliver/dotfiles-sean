@@ -114,6 +114,7 @@ main() {
     link_directory "$DOTFILES_DIR/config/gh" "$HOME/.config/gh"
     link_directory "$DOTFILES_DIR/config/warp" "$HOME/.warp"
     link_directory "$DOTFILES_DIR/zsh/plugins" "$HOME/.zsh/plugins"
+    link_file "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
     
     # Install Homebrew if not present
     if ! command -v brew &> /dev/null; then
