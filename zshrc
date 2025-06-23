@@ -29,15 +29,8 @@ eval "$(zoxide init zsh)"
 [ -s "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh" ] && source "$HOME/.zsh/plugins/alias-tips/alias-tips.plugin.zsh"
 
 # --- Aliases ---
-alias ez='chezmoi edit ~/.zshrc'
+alias ez='cursor ~/.zshrc'
 alias sz='source ~/.zshrc'
-
-# Chezmoi helpers
-alias cm='chezmoi'
-alias cma='chezmoi apply'
-alias cmf='chezmoi diff'
-alias cme='chezmoi edit'
-alias cmg='chezmoi git status'
 
 # Directory + ls
 alias ls='eza'
@@ -104,6 +97,10 @@ alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
 alias ports='lsof -i -P -n | grep LISTEN'
 
-# Secrets (injected by chezmoi)
-# export OPENAI_API_KEY="{{ (secret \"keyring:chezmoi/openai_api_key\") }}"
-# export SUPABASE_ACCESS_TOKEN="{{ (secret \"keyring:chezmoi/supabase_access_token\") }}"
+# Dotfiles helpers
+alias dotfiles='cd ~/dotfiles'
+alias backup-system='~/dotfiles/scripts/backup-system.sh'
+alias system-info='~/dotfiles/scripts/system-info.sh'
+alias setup-ssh='~/dotfiles/scripts/setup-ssh.sh'
+alias sync-ide='~/dotfiles/scripts/sync-ide-settings.sh'
+

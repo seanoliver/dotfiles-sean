@@ -280,8 +280,63 @@ main() {
     # Disable auto-correct
     defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
     
+    # Dock preferences
+    defaults write com.apple.dock tilesize -int 36
+    defaults write com.apple.dock magnification -bool false
+    defaults write com.apple.dock orientation -string "bottom"
+    defaults write com.apple.dock autohide -bool true
+    defaults write com.apple.dock autohide-delay -float 0
+    defaults write com.apple.dock autohide-time-modifier -float 0.5
+    defaults write com.apple.dock show-recents -bool false
+    defaults write com.apple.dock minimize-to-application -bool true
+    
+    # Menu bar preferences
+    defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool true
+    defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
+    defaults write com.apple.controlcenter "NSStatusItem Visible BatteryPercentage" -bool true
+    defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool true
+    
+    # Trackpad preferences
+    defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+    
+    # Security preferences
+    defaults write com.apple.screensaver askForPassword -int 1
+    defaults write com.apple.screensaver askForPasswordDelay -int 0
+    
+    # Network preferences
+    defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$(hostname -s)"
+    
+    # Restart Dock and Control Center to apply changes
+    killall Dock 2>/dev/null || true
+    killall ControlCenter 2>/dev/null || true
+    
     log_success "macOS preferences set"
     log_warning "Some changes require a restart to take effect"
+    
+    # Create development directories
+    log_info "Creating development directories..."
+    mkdir -p "$HOME/code/projects"
+    mkdir -p "$HOME/code/scripts"
+    mkdir -p "$HOME/code/learning"
+    mkdir -p "$HOME/code/templates"
+    log_success "Development directories created"
+    
+    # Sync IDE extensions and settings
+    if [[ -f "$DOTFILES_DIR/scripts/sync-ide-settings.sh" ]]; then
+        log_info "Syncing IDE settings..."
+        bash "$DOTFILES_DIR/scripts/sync-ide-settings.sh"
+    fi
+    
+    # Run SSH setup helper
+    if [[ -f "$DOTFILES_DIR/scripts/setup-ssh.sh" ]]; then
+        log_info "SSH key setup available at: $DOTFILES_DIR/scripts/setup-ssh.sh"
+        read -p "Would you like to set up SSH keys now? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            bash "$DOTFILES_DIR/scripts/setup-ssh.sh"
+        fi
+    fi
     
     # Final instructions
     echo
@@ -289,14 +344,15 @@ main() {
     echo
     log_info "Next steps:"
     log_info "1. Restart your terminal or run: source ~/.zshrc"
-    log_info "2. Set up secrets (if needed):"
-    log_info "   - Add API keys to your environment or .env files"
-    log_info "3. Configure SSH keys for GitHub:"
-    log_info "   - ssh-keygen -t ed25519 -C 'your-email@example.com'"
-    log_info "   - Add public key to GitHub"
-    log_info "4. System Settings:"
+    log_info "2. Available helper commands:"
+    log_info "   - setup-ssh       # Set up SSH keys for GitHub"
+    log_info "   - sync-ide        # Sync IDE extensions and settings"
+    log_info "   - backup-system   # Create system backup"
+    log_info "   - system-info     # Show system information"
+    log_info "3. System Settings:"
     log_info "   - Turn off natural scroll (Trackpad → Scroll & Zoom)"
     log_info "   - Set terminal font to JetBrains Mono"
+    log_info "   - Configure any additional app-specific settings"
     
     if [[ -d "$BACKUP_DIR" ]]; then
         echo

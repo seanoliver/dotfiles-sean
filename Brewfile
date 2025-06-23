@@ -5,7 +5,6 @@ tap "supabase/tap"                # Supabase CLI tap
 tap "1password/tap"               # 1Password CLI tap
 
 # --- CLI tools ---
-brew "chezmoi"                    # Dotfile manager
 brew "starship"                   # Fast, minimal terminal prompt
 brew "zsh"                        # Z shell
 brew "zoxide"                     # Directory jumper
