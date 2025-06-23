@@ -68,9 +68,9 @@ install_cursor_extensions() {
         log_warning "Cursor not found, skipping extension installation"
         return
     fi
-    
+
     log_info "Installing Cursor extensions..."
-    
+
     # Install shared extensions
     for ext in "${EXTENSIONS[@]}"; do
         if cursor --list-extensions | grep -q "^$ext$"; then
@@ -83,7 +83,7 @@ install_cursor_extensions() {
             fi
         fi
     done
-    
+
     # Install Cursor-specific extensions
     for ext in "${CURSOR_EXTENSIONS[@]}"; do
         if cursor --list-extensions | grep -q "^$ext$"; then
@@ -96,7 +96,7 @@ install_cursor_extensions() {
             fi
         fi
     done
-    
+
     log_success "Cursor extensions installed"
 }
 
@@ -106,39 +106,39 @@ dump_cursor_extensions() {
         log_warning "Cursor not found, skipping extension dump"
         return
     fi
-    
+
     log_info "Dumping current Cursor extensions..."
-    
+
     # Create backups directory if it doesn't exist
     local backups_dir="$DOTFILES_DIR/.backups"
     mkdir -p "$backups_dir"
-    
+
     # Create backup of current extensions
     local backup_file="$backups_dir/cursor-extensions-backup-$(date +%Y%m%d-%H%M%S).txt"
     cursor --list-extensions > "$backup_file" 2>/dev/null || {
         log_warning "Failed to dump extensions"
         return
     }
-    
+
     log_success "Extensions dumped to: $backup_file"
-    
+
     # Also create a formatted array for easy copy-paste
     local array_file="$backups_dir/cursor-extensions-array-$(date +%Y%m%d-%H%M%S).txt"
     echo "# Copy these to update the EXTENSIONS array in sync-ide-settings.sh" > "$array_file"
     echo "EXTENSIONS=(" >> "$array_file"
     cursor --list-extensions 2>/dev/null | sed 's/^/    "/;s/$/"/' >> "$array_file"
     echo ")" >> "$array_file"
-    
+
     log_success "Formatted array saved to: $array_file"
 }
 
 # Function to sync settings
 sync_settings() {
     log_info "Syncing IDE settings..."
-    
+
     # Create settings directory
     mkdir -p "$HOME/Library/Application Support/Cursor/User"
-    
+
     # Create Cursor-specific settings file
     cat > "$DOTFILES_DIR/config/cursor-settings.json" << 'EOF'
 {
@@ -184,7 +184,7 @@ sync_settings() {
     },
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
-    "git.autofetch": true,
+    "git.autofetch": false,
     "eslint.enable": true,
     "prettier.singleQuote": true,
     "prettier.trailingComma": "es5",
@@ -196,16 +196,12 @@ sync_settings() {
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
-    "vim.easymotion": true,
-    "vim.incsearch": true,
-    "vim.useSystemClipboard": true,
-    "vim.hlsearch": true,
     "security.workspace.trust.enabled": false,
     "telemetry.telemetryLevel": "off"
 }
 EOF
-    
-    
+
+
     # Link settings to Cursor
     if command -v cursor &> /dev/null; then
         ln -sf "$DOTFILES_DIR/config/cursor-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
@@ -218,7 +214,7 @@ EOF
 # Function to create keybindings
 create_keybindings() {
     log_info "Creating keybindings..."
-    
+
     cat > "$DOTFILES_DIR/config/ide-keybindings.json" << 'EOF'
 [
     {
@@ -263,7 +259,7 @@ create_keybindings() {
     }
 ]
 EOF
-    
+
     # Link keybindings to Cursor
     if command -v cursor &> /dev/null; then
         ln -sf "$DOTFILES_DIR/config/ide-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
@@ -276,23 +272,23 @@ EOF
 # Main function
 main() {
     log_info "Starting Cursor settings sync..."
-    
+
     # Create config directory
     mkdir -p "$DOTFILES_DIR/config"
-    
+
     # Handle command line arguments
     if [[ "$1" == "--dump" ]]; then
         dump_cursor_extensions
         return
     fi
-    
+
     # Install extensions
     install_cursor_extensions
-    
+
     # Sync settings and keybindings
     sync_settings
     create_keybindings
-    
+
     log_success "Cursor settings sync complete!"
     log_info "Restart Cursor to apply all changes"
     log_info "To backup current extensions, run: $0 --dump"
