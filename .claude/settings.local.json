@@ -6,5 +6,6 @@
       "Bash(./install.sh)"
     ],
     "deny": []
-  }
+  },
+  "includeCoAuthoredBy": false
 }
