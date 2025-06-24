@@ -49,6 +49,16 @@ read_only = '🔒'
 home_symbol = '~'
 use_os_path_sep = true
 
+# Directory substitutions for cleaner paths
+[directory.substitutions]
+"Documents" = "📄 "
+"Downloads" = "📥 "
+"Music" = "🎵 "
+"Pictures" = "📷 "
+"Videos" = "🎬 "
+"code" = "💻 "
+"Desktop" = "🖥️ "
+
 # Git modules - enhanced git information
 [git_branch]
 symbol = ' '
@@ -92,7 +102,7 @@ style = 'bold yellow'
 # Node.js module - enhanced with package manager detection
 [nodejs]
 format = 'via [$symbol($version)]($style) '
-symbol = ' '
+symbol = '󰎙 '
 style = 'bold green'
 detect_extensions = ['js', 'mjs', 'cjs', 'ts', 'mts', 'cts', 'jsx', 'tsx', 'json']
 detect_files = ['package.json', '.nvmrc', '.node-version']
@@ -108,7 +118,7 @@ display_private = false
 # Python module - enhanced python environment detection
 [python]
 format = 'via [$symbol$pyenv_prefix($version )(($virtualenv))]($style) '
-symbol = ' '
+symbol = '󰌠 '
 style = 'bold yellow'
 pyenv_version_name = true
 pyenv_prefix = 'pyenv '
@@ -119,7 +129,7 @@ detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', '
 # Rust module - cargo projects with enhanced detection
 [rust]
 format = 'via [$symbol($version)]($style) '
-symbol = ' '
+symbol = '󱘗 '
 style = 'bold red'
 detect_extensions = ['rs']
 detect_files = ['Cargo.toml']
@@ -127,7 +137,7 @@ detect_files = ['Cargo.toml']
 # Go module - golang projects with module support
 [golang]
 format = 'via [$symbol($version)]($style) '
-symbol = ' '
+symbol = '󰟓 '
 style = 'bold cyan'
 detect_extensions = ['go']
 detect_files = ['go.mod', 'go.sum', 'glide.yaml', 'Gopkg.yml', 'Gopkg.lock', '.go-version']
@@ -135,7 +145,7 @@ detect_files = ['go.mod', 'go.sum', 'glide.yaml', 'Gopkg.yml', 'Gopkg.lock', '.g
 # Docker context module - container environments
 [docker_context]
 format = 'via [$symbol$context]($style) '
-symbol = ' '
+symbol = '󰡨 '
 style = 'bold blue'
 only_with_files = true
 detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile', '.dockerignore']
@@ -143,7 +153,7 @@ detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile', '.doc
 # Kubernetes module - enhanced k8s context
 [kubernetes]
 format = 'on [$symbol$context( \($namespace\))]($style) '
-symbol = ' '
+symbol = '⎈ '
 style = 'bold blue'
 disabled = false
 contexts = []
@@ -183,6 +193,7 @@ time_format = '%T'
 style = 'bold dimmed white'
 disabled = false
 utc_time_offset = 'local'
+use_12hr = true
 
 # Status module - shows exit code of last command
 [status]
@@ -221,15 +232,6 @@ format = 'via $symbol [${used:>3}/${total}]($style) '
 style = 'bold dimmed green'
 symbol = '🐏'
 
-# Directory substitutions for cleaner paths
-[directory.substitutions]
-"Documents" = "📄 "
-"Downloads" = "📥 "
-"Music" = "🎵 "
-"Pictures" = "📷 "
-"Videos" = "🎬 "
-"code" = "💻 "
-"Desktop" = "🖥️ "
 
 # Custom commands for additional context
 [custom.git_email]
