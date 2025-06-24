@@ -157,6 +157,7 @@ sync_settings() {
         "source.fixAll.eslint": "explicit",
         "source.organizeImports": "explicit"
     },
+    "files.autoSave": "afterDelay",
     "workbench.colorTheme": "Gruvbox Dark Medium",
     "workbench.iconTheme": "catppuccin-mocha",
     "workbench.startupEditor": "welcomePage",
@@ -167,7 +168,6 @@ sync_settings() {
     "terminal.integrated.fontSize": 13,
     "terminal.integrated.fontFamily": "MonoLisa, JetBrains Mono",
     "terminal.integrated.shell.osx": "/bin/zsh",
-    "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
