@@ -1,11 +1,13 @@
 {
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(chmod:*)",
       "Bash(rm:*)",
-      "Bash(./install.sh)"
+      "Bash(./install.sh)",
+      "Bash(cursor:*)",
+      "Bash(find:*)"
     ],
     "deny": []
-  },
-  "includeCoAuthoredBy": false
+  }
 }

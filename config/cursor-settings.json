@@ -58,9 +58,12 @@
   "vim.hlsearch": true,
   "security.workspace.trust.enabled": false,
   "telemetry.telemetryLevel": "off",
-  "editor.lineHeight": 1.5,
+  "editor.lineHeight": 1.6,
   "cursor.cpp.disabledLanguages": [
     "plaintext",
     "markdown"
-  ]
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

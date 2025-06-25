@@ -32,35 +32,37 @@ log_error() {
 
 # Essential extensions for Cursor
 EXTENSIONS=(
-    "ms-python.python"
-    "ms-python.flake8"
-    "ms-python.black-formatter"
+    "anysphere.cursorpyright"
+    "anysphere.remote-ssh"
     "bradlc.vscode-tailwindcss"
-    "esbenp.prettier-vscode"
-    "dbaeumer.vscode-eslint"
-    "ms-vscode.vscode-typescript-next"
-    "ms-vscode-remote.remote-ssh"
-    "github.copilot-chat"
-    "vscodevim.vim"
-    "jdinhlife.gruvbox"
-    "rust-lang.rust-analyzer"
-    "ms-dotnettools.csharp"
-    "golang.go"
-    "ms-vscode.cmake-tools"
-    "ms-vscode.cpptools"
-    "redhat.vscode-yaml"
-    "ms-azuretools.vscode-docker"
-    "eamodio.gitlens"
-    "streetsidesoftware.code-spell-checker"
-    "ms-vscode.hexeditor"
-    "formulahendry.auto-rename-tag"
+    "bungcip.better-toml"
+    "catppuccin.catppuccin-vsc-icons"
     "christian-kohler.path-intellisense"
+    "dbaeumer.vscode-eslint"
+    "eamodio.gitlens"
+    "esbenp.prettier-vscode"
+    "formulahendry.auto-rename-tag"
+    "github.github-vscode-theme"
+    "github.vscode-pull-request-github"
+    "golang.go"
+    "hbenl.vscode-test-explorer"
+    "jdinhlife.gruvbox"
+    "knisterpeter.vscode-github"
+    "ms-playwright.playwright"
+    "ms-python.black-formatter"
+    "ms-python.debugpy"
+    "ms-python.flake8"
+    "ms-python.python"
+    "ms-vscode.cmake-tools"
+    "ms-vscode.hexeditor"
+    "ms-vscode.test-adapter-converter"
+    "ms-vscode.vscode-typescript-next"
+    "pkief.material-icon-theme"
+    "redhat.vscode-yaml"
+    "rust-lang.rust-analyzer"
+    "tombi-toml.tombi"
 )
 
-# Cursor-specific extensions
-CURSOR_EXTENSIONS=(
-    "Catppuccin.catppuccin-vsc-icons"
-)
 
 # Function to install extensions for Cursor
 install_cursor_extensions() {
@@ -84,18 +86,6 @@ install_cursor_extensions() {
         fi
     done
 
-    # Install Cursor-specific extensions
-    for ext in "${CURSOR_EXTENSIONS[@]}"; do
-        if cursor --list-extensions | grep -q "^$ext$"; then
-            log_info "$ext already installed in Cursor"
-        else
-            log_info "Installing $ext in Cursor..."
-            if ! cursor --install-extension "$ext" --force 2>/dev/null; then
-                log_warning "Failed to install $ext"
-                sleep 1
-            fi
-        fi
-    done
 
     log_success "Cursor extensions installed"
 }
