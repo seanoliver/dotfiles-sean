@@ -22,7 +22,6 @@ fi
 eval "$(starship init zsh)"
 
 # --- Tools ---
-eval "$(zoxide init zsh)"
 
 # --- Plugins ---
 [ -s "$HOME/.zsh/plugins/bd/bd.zsh" ] && source "$HOME/.zsh/plugins/bd/bd.zsh"
@@ -80,6 +79,9 @@ alias pnpmr='pnpm run'
 alias pnpmt='pnpm test'
 alias pnpml='pnpm lint'
 
+# Mise
+alias mf='mise fullstack'
+
 # Help / Docs
 alias help='tldr'
 alias man='tldr'
@@ -104,3 +106,30 @@ alias system-info='~/dotfiles/scripts/system-info.sh'
 alias setup-ssh='~/dotfiles/scripts/setup-ssh.sh'
 alias sync-ide='~/dotfiles/scripts/sync-ide-settings.sh'
 
+# Claude Code
+alias yolo="claude --dangerously-skip-permissions"
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/Users/seanoliver/Library/Python/3.9/bin:$PATH"
+export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:/opt/homebrew/bin:$PATH"
+eval "$(mise activate zsh)"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/seanoliver/.antigravity/antigravity/bin:$PATH"
+
+# GitHub PAT for Codex (via keychain)
+export CODEX_GITHUB_PAT="$(security find-generic-password -a "$USER" -s CODEX_GITHUB_PAT -w 2>/dev/null)"
+export GITHUB_PERSONAL_ACCESS_TOKEN="$CODEX_GITHUB_PAT"
+
+# Context7 API Key (via keychain)
+export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s CONTEXT7_API_KEY -w 2>/dev/null)"
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+
+# opencode
+export PATH=/Users/seanoliver/.opencode/bin:$PATH
+
+eval "$(zoxide init zsh)"

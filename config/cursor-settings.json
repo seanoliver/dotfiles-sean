@@ -1,12 +1,12 @@
 {
   "editor.fontSize": 14,
-  "editor.fontFamily": "MonoLisa, JetBrainsMono NFM, JetBrains Mono, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "MonoLisa, JetBrains Mono, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 100,
-  "editor.rulers": [80, 100],
+  "editor.rulers": [100],
   "editor.minimap.enabled": false,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -14,16 +14,16 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
-  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "files.autoSave": "afterDelay",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.startupEditor": "welcomePage",
   "workbench.sideBar.location": "left",
   "workbench.activityBar.location": "default",
   "workbench.activityBar.orientation": "vertical",
   "terminal.integrated.fontSize": 13,
-  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono, JetBrainsMono Nerd Font, MonoLisa, JetBrains Mono",
+  "terminal.integrated.fontFamily": "MonoLisa, JetBrains Mono",
   "terminal.integrated.shell.osx": "/bin/zsh",
-  "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
@@ -40,7 +40,7 @@
   },
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
-  "git.autofetch": true,
+  "git.autofetch": false,
   "eslint.enable": true,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
@@ -52,18 +52,43 @@
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
-  "vim.easymotion": true,
-  "vim.incsearch": true,
-  "vim.useSystemClipboard": true,
-  "vim.hlsearch": true,
   "security.workspace.trust.enabled": false,
   "telemetry.telemetryLevel": "off",
-  "editor.lineHeight": 1.6,
-  "cursor.cpp.disabledLanguages": [
-    "plaintext",
-    "markdown"
-  ],
+  "window.commandCenter": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "editor.accessibilitySupport": "off",
+  "editor.lineHeight": 1.8,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "go.toolsManagement.autoUpdate": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsserver.log": "off",
+  "githubPullRequests.pullBranch": "never",
+  "mise.binPath": "/opt/homebrew/bin/mise",
+  "explorer.confirmDelete": false,
+  "security.promptForLocalFileProtocolHandling": false,
+  "explorer.confirmDragAndDrop": false,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "gitlens.ai.model": "gitkraken",
+  "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash"
 }
