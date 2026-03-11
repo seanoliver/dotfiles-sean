@@ -24,7 +24,7 @@ This displays all available flags and usage examples without creating a skill.
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/format-code/SKILL.md\[backtick\]
+**Location**: `~/dotfiles/ai/skills/format-code/SKILL.md\[backtick\]
 
 ```yaml
 ---
@@ -87,7 +87,7 @@ Format the following: ${ARGUMENTS:-.}
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/generate-api-docs/\[backtick\]
+**Location**: `~/dotfiles/ai/skills/generate-api-docs/\[backtick\]
 
 **Files**:
 - `SKILL.md` - Main instructions
@@ -263,7 +263,7 @@ curl -X {METHOD} \\
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/analyze-deps/SKILL.md\[backtick\]
+**Location**: `~/dotfiles/ai/skills/analyze-deps/SKILL.md\[backtick\]
 
 ```yaml
 ---
@@ -388,7 +388,7 @@ Analyze each dependency:
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/commit-conventions/SKILL.md\[backtick\]
+**Location**: `~/dotfiles/ai/skills/commit-conventions/SKILL.md\[backtick\]
 
 ```yaml
 ---
@@ -510,7 +510,7 @@ This skill is automatically loaded when relevant (e.g., when user asks to create
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/generate-tests/\[backtick\]
+**Location**: `~/dotfiles/ai/skills/generate-tests/\[backtick\]
 
 **Files**:
 - `SKILL.md` - Main instructions
@@ -682,7 +682,7 @@ See [examples.md](examples.md) for complete examples.
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/gs/SKILL.md\[backtick\]
+**Location**: `~/dotfiles/ai/skills/gs/SKILL.md\[backtick\]
 
 ```yaml
 ---
@@ -722,7 +722,7 @@ Then provide a summary:
 
 **Generated Skill**:
 
-**Location**: `~/.claude/skills/db-migrate/SKILL.md\[backtick\]
+**Location**: `~/dotfiles/ai/skills/db-migrate/SKILL.md\[backtick\]
 
 ```yaml
 ---

@@ -25,7 +25,7 @@ You are an expert Claude Code skill architect. Your goal is to create production
 ```
 
 ### Scope Flags
-- `--global` - Create in ~/.claude/skills/ (default)
+- `--global` - Create in ~/dotfiles/ai/skills/ (default shared global location)
 - `--project` - Create in .claude/skills/ (current project only)
 
 ### Invocation Flags
@@ -71,7 +71,7 @@ skill-name/
 ```
 
 **Storage Locations**:
-- **Global**: `~/.claude/skills/<skill-name>/` (all projects, default for this skill)
+- **Global**: `~/dotfiles/ai/skills/<skill-name>/` (all projects, shared across Claude Code, OpenCode, and Codex in this setup)
 - **Project**: `.claude/skills/<skill-name>/` (current project only, use `--project` flag)
 
 ### YAML Frontmatter Fields
@@ -300,7 +300,7 @@ For usage examples, see [examples.md](examples.md)
 ### 5. Generate Skill Files
 
 Create the skill with:
-1. **Directory**: `~/.claude/skills/<skill-name>/` (or project if `--project` flag detected)
+1. **Directory**: `~/dotfiles/ai/skills/<skill-name>/` (or project if `--project` flag detected)
 2. **SKILL.md**: Complete with frontmatter + instructions
 3. **Supporting files**: If complexity warrants (see step 4)
 4. **README**: Brief overview for user reference (optional)
@@ -376,8 +376,8 @@ After creation, provide:
 
 Parse these special flags from `$ARGUMENTS`:
 
-- `--project`: Create in `.claude/skills/` instead of `~/.claude/skills/`
-- `--global`: Explicitly create in `~/.claude/skills/` (default, for clarity)
+- `--project`: Create in `.claude/skills/` instead of `~/dotfiles/ai/skills/`
+- `--global`: Explicitly create in `~/dotfiles/ai/skills/` (default, for clarity)
 - `--auto-invoke`: Override auto-detection, allow Claude to auto-invoke
 - `--manual-only`: Override auto-detection, require manual invocation
 - `--fork`: Override auto-detection, use forked context
