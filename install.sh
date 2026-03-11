@@ -116,6 +116,14 @@ main() {
     link_directory "$DOTFILES_DIR/zsh/plugins" "$HOME/.zsh/plugins"
     link_file "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 
+    # Link shared AI skills for supported CLIs
+    if [[ -x "$DOTFILES_DIR/scripts/link-ai-skills.sh" ]]; then
+        log_info "Linking shared AI skills..."
+        "$DOTFILES_DIR/scripts/link-ai-skills.sh"
+    else
+        log_warning "AI skills linking script not found or not executable; skipping"
+    fi
+
     # Install Homebrew if not present
     if ! command -v brew &> /dev/null; then
         log_info "Installing Homebrew..."
@@ -136,11 +144,20 @@ main() {
         log_success "Homebrew packages installed"
     fi
 
+    # Install Claude Code via Anthropic's native installer
+    if command -v claude &> /dev/null; then
+        log_info "Claude Code already installed."
+    else
+        log_info "Installing Claude Code via native installer..."
+        curl -fsSL https://claude.ai/install.sh | bash
+        log_success "Claude Code installed"
+    fi
+
     # Install global npm packages
     if command -v npm &> /dev/null; then
         log_info "Installing global npm packages..."
 
-        packages=("claude-cli" "expo-cli" "npm-check-updates" "eslint" "prettier" "typescript")
+        packages=("expo-cli" "npm-check-updates" "eslint" "prettier" "typescript")
 
         for pkg in "${packages[@]}"; do
             if ! npm list -g --depth=0 "$pkg" &> /dev/null; then

@@ -30,6 +30,7 @@ brew "vercel-cli"                 # Vercel CLI for preview deployments
 brew "graphviz"                   # Render diagrams from `.dot` files
 brew "deno"                       # Secure JavaScript/TypeScript runtime
 brew "direnv"                     # Load per-project `.envrc` files into shell
+brew "anomalyco/tap/opencode"     # OpenCode terminal agent via official tap
 
 # --- GUI apps (casks) ---
 cask "raycast"                    # Universal launcher (replaces Spotlight)
@@ -37,6 +38,7 @@ cask "cursor"                     # AI-powered code editor (Cursor)
 cask "zed"                        # Rust-based collaborative code editor
 cask "visual-studio-code"         # VS Code editor
 cask "warp"                       # Warp terminal GUI
+cask "codex"                      # OpenAI Codex terminal agent
 cask "iterm2"                     # Terminal replacement
 cask "notion"                     # Notes and personal knowledge base
 cask "notion-calendar"            # Calendar app from Notion (formerly Cron)

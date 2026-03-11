@@ -38,6 +38,11 @@ That's it! The script will:
 ├── install.sh              # Main installation script
 ├── README.md               # This file
 ├── Brewfile                # Homebrew packages, casks, Mac App Store apps
+├── ai/
+│   ├── README.md           # Shared AI skills setup notes
+│   └── skills/             # Canonical shared AI skills for all CLIs
+├── scripts/
+│   └── link-ai-skills.sh   # Re-links Claude/OpenCode/Codex to canonical skills
 ├── zshrc                   # Zsh configuration and aliases
 ├── gitconfig               # Git configuration
 ├── gitignore               # Global git ignore patterns
@@ -117,6 +122,35 @@ cp ~/.zshrc ~/dotfiles/zshrc
 ```
 
 After installing new extensions in Cursor, run the dump command and copy the formatted array from the generated file into `scripts/sync-ide-settings.sh` to keep your install script up to date.
+
+### Managing AI Skills Across CLIs
+```bash
+# Re-link Claude Code, OpenCode, and Codex to shared skills folder
+~/dotfiles/scripts/link-ai-skills.sh
+```
+
+### AI Tool Installation Policy
+
+- `Claude Code` is installed via Anthropic's native installer from `install.sh`
+- `OpenCode` is installed via Homebrew using `anomalyco/tap/opencode`
+- `Codex` is installed via Homebrew using `brew install --cask codex`
+- `Warp` is installed via Homebrew using `brew install --cask warp`
+
+Why this split:
+
+- Claude's official recommended path is the native installer, which also auto-updates
+- OpenCode recommends its own Homebrew tap for the freshest releases
+- Codex and Warp both have solid Homebrew cask support and fit well in the Brewfile
+
+To make another machine match this one:
+
+```bash
+cd ~/dotfiles
+git pull
+./install.sh
+```
+
+If the AI skills symlinks are already set up, future skill edits only need a `git pull`.
 
 ### Committing Changes
 ```bash
