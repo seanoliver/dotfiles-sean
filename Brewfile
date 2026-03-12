@@ -21,6 +21,7 @@ brew "python3"                    # Python 3 runtime
 brew "supabase"                   # Supabase CLI
 brew "mas"                        # Mac App Store CLI tool
 brew "fzf"                        # Fuzzy finder (used for file search, history, etc.)
+brew "atuin"                      # Shell history search and sync
 brew "bat"                        # Enhanced `cat` with syntax highlighting
 brew "fd"                         # Simplified, faster `find` alternative
 brew "eza"                        # Modern `ls` replacement with tree view and icons

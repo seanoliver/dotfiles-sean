@@ -112,7 +112,9 @@ alias yolo="claude --dangerously-skip-permissions"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Users/seanoliver/Library/Python/3.9/bin:$PATH"
 export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:/opt/homebrew/bin:$PATH"
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 # Added by Antigravity
@@ -125,11 +127,20 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="$CODEX_GITHUB_PAT"
 # Context7 API Key (via keychain)
 export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s CONTEXT7_API_KEY -w 2>/dev/null)"
 
-. "$HOME/.atuin/bin/env"
+if [ -f "$HOME/.atuin/bin/env" ]; then
+  . "$HOME/.atuin/bin/env"
+fi
 
-eval "$(atuin init zsh)"
+if command -v atuin >/dev/null 2>&1; then
+  eval "$(atuin init zsh)"
+fi
 
 # opencode
 export PATH=/Users/seanoliver/.opencode/bin:$PATH
 
-eval "$(zoxide init zsh)"
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Machine-specific shell additions live outside shared dotfiles.
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
