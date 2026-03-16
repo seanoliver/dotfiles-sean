@@ -9,4 +9,4 @@ config/ide-settings.json
 
 # Temporary files
 *.tmp
-*.log
+*.log.worktrees/
