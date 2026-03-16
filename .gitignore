@@ -10,3 +10,9 @@ config/ide-settings.json
 # Temporary files
 *.tmp
 *.log.worktrees/
+
+# Eval results (runtime output, not committed)
+ai/evals/results/
+
+# Eval virtualenv
+ai/evals/.venv/
