@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 PASS_THRESHOLD = 7  # score >= 7 is a pass
-EVAL_MODEL = "haiku"  # fast + cheap for eval runs; override with --model flag
+EVAL_MODEL = "sonnet"  # matches real Claude Code usage; override with --model flag
 
 
 def call_claude(prompt: str, system_prompt: str | None = None, model: str | None = None) -> str:
