@@ -85,6 +85,7 @@ digraph brainstorming {
 **Implementation:**
 - Invoke the writing-plans skill to create a detailed implementation plan
 - Do NOT invoke any other skill. writing-plans is the next step.
+- After writing-plans completes, the next step is using-cmux (or using-git-worktrees as fallback) to set up an isolated worktree for execution.
 
 ## Documentation Requirements
 

@@ -14,6 +14,26 @@ Load plan, review critically, execute tasks in batches, report for review betwee
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
+## Setting Up a Parallel Session (Before You Start)
+
+This skill is designed to run in a **separate session** from the planning session. Before executing a plan, set up an isolated worktree:
+
+**If cmux is available (preferred):**
+```
+Use the using-cmux skill to set up the workspace.
+```
+
+Provide the user with a ready-to-run command:
+```
+To start executing this plan in an isolated session, run:
+
+  cmux new exec-<plan-slug> -p "Execute the plan at <plan-file-path> using the executing-plans skill."
+```
+
+**If cmux is not available:** Use the `using-git-worktrees` skill instead.
+
+Once the new session is running in its worktree, proceed with the steps below.
+
 ## The Process
 
 ### Step 1: Load and Review Plan
