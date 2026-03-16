@@ -1,0 +1,61 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(open \"raycast://extensions/raycast/raycast/confetti\")",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__list_dir",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_file",
+      "mcp__github__pull_request_read",
+      "Bash(pnpm eslint:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm test:prettier:*)",
+      "mcp__serena__initial_instructions",
+      "mcp__serena__check_onboarding_performed",
+      "mcp__serena__think_about_collected_information",
+      "mcp__github__update_pull_request",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__list_network_requests",
+      "mcp__chrome-devtools__click",
+      "mcp__linear-server__list_teams",
+      "mcp__linear-server__create_issue",
+      "mcp__linear-server__update_issue",
+      "Bash(gh pr view:*)",
+      "Bash(gh api:*)",
+      "Bash(git log:*)",
+      "mcp__notion-stdio__notion-search",
+      "mcp__notion-stdio__notion-fetch",
+      "Bash(echo:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c 'node \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)dist/index.js\"'"
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "claude-hud@claude-hud": true,
+    "github@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "serena@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "posthog@claude-plugins-official": true
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true
+}

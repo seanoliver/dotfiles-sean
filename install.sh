@@ -116,6 +116,10 @@ main() {
     link_directory "$DOTFILES_DIR/zsh/plugins" "$HOME/.zsh/plugins"
     link_file "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 
+    # Link Claude Code settings
+    log_info "Linking Claude Code settings..."
+    link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+
     # Link shared AI skills for supported CLIs
     if [[ -x "$DOTFILES_DIR/scripts/link-ai-skills.sh" ]]; then
         log_info "Linking shared AI skills..."
