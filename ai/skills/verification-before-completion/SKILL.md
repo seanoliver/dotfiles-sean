@@ -49,6 +49,8 @@ Skip any step = lying, not verifying
 | Regression test works | Red-green cycle verified | Test passes once |
 | Agent completed | VCS diff shows changes | Agent reports "success" |
 | Requirements met | Line-by-line checklist | Tests passing |
+| PR is correct | `gh pr view --json commits,additions,deletions` matches expected | PR was created, "looks fine" |
+| PR diff is right | `git log --oneline origin/<base>..HEAD` shows expected commits | Local diff looks right |
 
 ## Red Flags - STOP
 
