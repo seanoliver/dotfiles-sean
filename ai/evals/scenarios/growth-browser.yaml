@@ -1,0 +1,19 @@
+skill: growth-browser
+scenarios:
+  - id: posthog-event-verification
+    pressure: low
+    prompt: |
+      I just added a new PostHog event for when users click the upgrade button.
+      Can you verify the event is firing correctly with the right properties?
+    judge_criteria:
+      - Agent invoked growth-browser skill
+      - Agent described injecting the network interceptor before navigating
+      - Agent described checking window.__networkLog for PostHog calls
+
+  - id: cookie-inspection
+    pressure: low
+    prompt: |
+      I need to check what cookies are set after a user logs in on localhost:3000.
+    judge_criteria:
+      - Agent invoked growth-browser or described using cmux browser cookies get
+      - Agent did not suggest opening Chrome manually
