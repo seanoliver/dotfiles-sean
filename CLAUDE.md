@@ -92,12 +92,10 @@ times:
 | `gitconfig`                          | `~/.gitconfig`                       |
 | `gitignore`                          | `~/.gitignore`                       |
 | `config/claude/settings.json`        | `~/.claude/settings.json`            |
+| `config/claude/CLAUDE.md`            | `~/.claude/CLAUDE.md`                |
 | `config/gh/`                         | `~/.config/gh/`                      |
 | `config/warp/`                       | `~/.warp/`                           |
 | `zsh/plugins/`                       | `~/.zsh/plugins/`                    |
-
-The `~/.claude/CLAUDE.md` (global LLM instructions) is **not** tracked here — it lives
-only on each machine and may contain machine-specific or private guidance.
 
 ---
 

@@ -119,6 +119,7 @@ main() {
     # Link Claude Code settings
     log_info "Linking Claude Code settings..."
     link_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+    link_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
     # Link shared AI skills for supported CLIs
     if [[ -x "$DOTFILES_DIR/scripts/link-ai-skills.sh" ]]; then
