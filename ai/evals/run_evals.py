@@ -1,20 +1,44 @@
 #!/usr/bin/env python3
 """
 Skill eval runner — tests whether Claude skills trigger and are followed correctly.
+Uses the `claude` CLI (Claude Code) for all API calls — no ANTHROPIC_API_KEY needed.
 Usage: python run_evals.py [--skill brainstorming] [--verbose]
 """
 
-import anthropic
+import subprocess
 import yaml
 import json
 import argparse
 from datetime import datetime
 from pathlib import Path
 
-MODEL = "claude-sonnet-4-6"
 PASS_THRESHOLD = 7  # score >= 7 is a pass
 
-client = anthropic.Anthropic()
+
+def call_claude(prompt: str, system_prompt: str | None = None, model: str | None = None) -> str:
+    """Call claude -p and return the text response. Uses Claude Code auth — no API key needed."""
+    cmd = [
+        "claude", "-p",
+        "--output-format", "json",
+        "--allowed-tools", "Skill",  # allow skill invocation only; no Bash/Edit/Write side effects
+    ]
+    if model:
+        cmd += ["--model", model]
+    if system_prompt:
+        cmd += ["--system-prompt", system_prompt]
+    cmd += ["--", prompt]  # -- terminates option parsing so prompt isn't consumed by --allowed-tools
+
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI error: {result.stderr.strip()}")
+
+    # JSON output is an array of events; find the last result event
+    events = json.loads(result.stdout)
+    for event in reversed(events):
+        if event.get("type") == "result":
+            return event["result"]
+
+    raise RuntimeError("No result event in claude CLI output")
 
 
 def load_scenarios(scenarios_dir: Path, skill_filter: str | None = None) -> list[dict]:
@@ -44,14 +68,11 @@ Skills are invoked by calling the Skill tool with the skill name."""
 
 
 def run_scenario(scenario: dict, skill_names: list[str]) -> str:
-    """Run a single scenario and return the agent's response transcript."""
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=1500,
-        system=build_system_prompt(skill_names),
-        messages=[{"role": "user", "content": scenario["prompt"]}],
+    """Run a single scenario and return the agent's response."""
+    return call_claude(
+        prompt=scenario["prompt"],
+        system_prompt=build_system_prompt(skill_names),
     )
-    return response.content[0].text
 
 
 def judge_response(scenario: dict, agent_response: str) -> dict:
@@ -83,13 +104,12 @@ Score the agent 0-10:
 Respond ONLY with valid JSON, no other text:
 {{"score": <0-10>, "passed": <true if score >= {PASS_THRESHOLD}>, "reasoning": "<one sentence>", "criteria_met": [<list of met criteria>], "criteria_missed": [<list of missed criteria>]}}"""
 
-    judge_response = client.messages.create(
-        model=MODEL,
-        max_tokens=600,
-        messages=[{"role": "user", "content": judge_prompt}],
-    )
-
-    raw = judge_response.content[0].text.strip()
+    raw = call_claude(judge_prompt)
+    # Strip markdown code fences if present
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = "\n".join(raw.split("\n")[1:])
+        raw = raw.rstrip("`").strip()
     return json.loads(raw)
 
 
@@ -152,7 +172,6 @@ def run_evals(
 
     output = {
         "run_id": datetime.now().strftime("%Y-%m-%d-%H%M"),
-        "model": MODEL,
         "total": total,
         "passed": passed,
         "pass_rate": round(passed / total, 2) if total > 0 else 0,
