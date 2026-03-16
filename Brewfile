@@ -7,7 +7,6 @@ tap "1password/tap"               # 1Password CLI tap
 # --- CLI tools ---
 brew "starship"                   # Fast, minimal terminal prompt
 brew "zsh"                        # Z shell
-brew "zoxide"                     # Directory jumper
 brew "ripgrep"                    # Faster alternative to grep
 brew "httpie"                     # Modern CLI for HTTP requests
 brew "git"                        # Git version control

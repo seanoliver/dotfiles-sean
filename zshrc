@@ -40,11 +40,6 @@ alias tree='eza --tree -L 2'
 alias ..='cd ..'
 alias ...='cd ../..'
 
-function cd() { z "$@" || builtin cd "$@"; }   # Safer zoxide fallback
-alias j='z'
-alias jh='zoxide query -l'
-alias cdz='zoxide add $(pwd)'
-
 # Fuzzy
 alias f='fzf'
 alias fh='history | fzf'
@@ -137,10 +132,6 @@ fi
 
 # opencode
 export PATH=/Users/seanoliver/.opencode/bin:$PATH
-
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-fi
 
 # Machine-specific shell additions live outside shared dotfiles.
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
