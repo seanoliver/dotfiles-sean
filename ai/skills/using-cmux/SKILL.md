@@ -33,7 +33,7 @@ command -v cmux &>/dev/null && echo "cmux available" || echo "cmux not found"
 |------|---------|
 | Open directory in new workspace | `cmux <path>` |
 | Open workspace and run a command | `cmux new-workspace --cwd <path> --command "<cmd>"` |
-| Open workspace and start Claude | `cmux new-workspace --cwd <path> --command "claude"` |
+| Open workspace and start Claude | `cmux new-workspace --cwd <path> --command "yolo"` |
 | List workspaces | `cmux list-workspaces` |
 | Close a workspace | `cmux close-workspace --workspace <id>` |
 | Rename a workspace | `cmux rename-workspace <title>` |
@@ -51,7 +51,7 @@ Verify the worktree was created and you know the full path.
 ```
 To open this worktree in a new Claude session, run in your terminal:
 
-  cmux new-workspace --cwd <worktree-path> --command "claude"
+  cmux new-workspace --cwd <worktree-path> --command "yolo"
 
 This opens a new cmux workspace at that directory and starts Claude Code.
 ```
@@ -80,7 +80,7 @@ Always provide both steps together:
 ```
 Step 1 — Run in your terminal:
 
-  cmux new-workspace --cwd <worktree-path> --command "claude"
+  cmux new-workspace --cwd <worktree-path> --command "yolo"
 
 Step 2 — Once Claude opens, paste this task:
 
@@ -97,7 +97,7 @@ Step 2 — Once Claude opens, paste this task:
 **Always:**
 - Create the git worktree BEFORE providing the cmux command
 - Provide both the cmux command AND the task text to paste in one message
-- Use `cmux new-workspace --cwd <path> --command "claude"` for Claude sessions
+- Use `cmux new-workspace --cwd <path> --command "yolo"` for Claude sessions
 
 ## Integration
 
@@ -121,7 +121,7 @@ I'm using the using-cmux skill to open this workspace in cmux.
 
 Step 1 — Run in your terminal:
 
-  cmux new-workspace --cwd ~/supabase/supabase/.worktrees/fix-enabled-gate --command "claude"
+  cmux new-workspace --cwd ~/supabase/supabase/.worktrees/fix-enabled-gate --command "yolo"
 
 Step 2 — Once Claude opens, paste this task:
 
