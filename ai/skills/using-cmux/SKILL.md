@@ -1,6 +1,6 @@
 ---
 name: using-cmux
-description: Use when starting feature work, spinning up a parallel agent session, or managing multiple concurrent worktrees with cmux. Replaces using-git-worktrees when cmux is available.
+description: Use when opening a worktree or directory in a new isolated Claude Code session via cmux terminal workspace
 allowed-tools: Bash, Read, Grep, Glob
 ---
 
@@ -8,18 +8,16 @@ allowed-tools: Bash, Read, Grep, Glob
 
 ## Overview
 
-cmux is a worktree lifecycle manager for Claude Code. It wraps `git worktree` with one-command setup, a project setup hook (`.cmux/setup`), and a consistent layout — so each feature gets a fully isolated checkout without any manual plumbing.
+cmux (manaflow-ai/cmux) is a macOS terminal app for running multiple AI coding agents in parallel workspaces. It manages terminal workspaces, panes, notifications, and browser integration — but does **NOT** manage git worktrees.
 
-**Core principle:** One command to create an isolated workspace with a running Claude session. No manual `git worktree add`, no manual `npm install`, no manual branch tracking.
+**Core principle:** cmux opens isolated terminal workspaces. Git worktree creation is handled separately by `using-git-worktrees` or `git worktree add`. cmux and git worktrees complement each other — they are not alternatives.
 
-**Announce at start:** "I'm using the using-cmux skill to set up an isolated workspace."
+**Announce at start:** "I'm using the using-cmux skill to open this workspace in cmux."
 
 ## When to Use This Skill
 
-- Starting feature work that needs branch isolation
-- Spinning up a **parallel agent session** for independent work (called from `executing-plans` or `subagent-driven-development`)
-- Resuming work in an existing worktree
-- Managing the lifecycle of active worktrees (list, merge, remove)
+- Opening a git worktree in a new cmux workspace for a parallel Claude session
+- After `using-git-worktrees` has created the worktree and you need to open it
 
 ## Detection: Is cmux available?
 
@@ -27,197 +25,107 @@ cmux is a worktree lifecycle manager for Claude Code. It wraps `git worktree` wi
 command -v cmux &>/dev/null && echo "cmux available" || echo "cmux not found"
 ```
 
-**If cmux is not available:** Fall back to the `using-git-worktrees` skill.
+**If not available:** Provide the worktree path and tell the user to open it manually in their terminal.
 
 ## Commands Quick Reference
 
 | Goal | Command |
 |------|---------|
-| New feature / new agent session | `cmux new <branch-name>` |
-| New with initial prompt | `cmux new <branch-name> -p "your prompt"` |
-| Resume existing worktree | `cmux start <branch-name>` |
-| Resume with prompt | `cmux start <branch-name> -p "your prompt"` |
-| List active worktrees | `cmux ls` |
-| cd into a worktree | `cmux cd <branch-name>` |
-| Merge worktree → main checkout | `cmux merge <branch-name> [--squash]` |
-| Remove worktree + branch | `cmux rm <branch-name>` |
-| Remove all worktrees | `cmux rm --all` |
-| Generate setup hook | `cmux init` |
-| View worktree layout config | `cmux config` |
+| Open directory in new workspace | `cmux <path>` |
+| Open workspace and run a command | `cmux new-workspace --cwd <path> --command "<cmd>"` |
+| Open workspace and start Claude | `cmux new-workspace --cwd <path> --command "claude"` |
+| List workspaces | `cmux list-workspaces` |
+| Close a workspace | `cmux close-workspace --workspace <id>` |
+| Rename a workspace | `cmux rename-workspace <title>` |
 
-## Workflow: Starting New Feature Work
+## Workflow: Opening a Worktree
 
-### Step 1: Choose a branch name
+After `using-git-worktrees` (or `git worktree add`) creates the worktree:
 
-Branch names become directory names. Use kebab-case. Slashes are automatically converted to hyphens.
+### Step 1: Confirm the worktree path
 
-```
-feature/auth-flow     → .worktrees/feature-auth-flow
-fix-payments-bug      → .worktrees/fix-payments-bug
-```
+Verify the worktree was created and you know the full path.
 
-### Step 2: Output the cmux command to run
-
-Provide the command to the user to run in their terminal:
+### Step 2: Provide the cmux command to the user
 
 ```
-To start work in an isolated worktree, run this in your terminal:
+To open this worktree in a new Claude session, run in your terminal:
 
-  cmux new <branch-name>
+  cmux new-workspace --cwd <worktree-path> --command "claude"
 
-This will:
-  1. Create .worktrees/<branch-name>/ with a new git branch
-  2. Run .cmux/setup (symlinks .env, installs deps, runs codegen)
-  3. Launch a new Claude Code session in that directory
+This opens a new cmux workspace at that directory and starts Claude Code.
 ```
 
-**For parallel work:** If this is being called from `executing-plans` to set up a parallel session, use `-p` to pass in the initial task:
+### Step 3: Provide the task to paste
+
+cmux does not pass prompts to Claude automatically. Provide the task text separately so the user can paste it once Claude opens:
 
 ```
-  cmux new <branch-name> -p "<initial task description>"
-```
+Once Claude opens, paste this task:
 
-### Step 3: Verify .cmux/setup exists
-
-Before telling the user to run `cmux new`, check:
-
-```bash
-test -f .cmux/setup && echo "setup exists" || echo "no setup hook"
-```
-
-**If no setup hook:** Warn the user and suggest running `cmux init` first to generate one, OR proceed with a note that dependencies must be installed manually after the worktree is created.
-
-### Step 4: Verify .worktrees/ is gitignored
-
-```bash
-git check-ignore -q .worktrees 2>/dev/null && echo "ignored" || echo "NOT ignored"
-```
-
-**If not ignored:** Add `.worktrees/` to `.gitignore` before proceeding. Commit the change.
-
-## Workflow: Resuming Existing Work
-
-When the user wants to continue work in an existing worktree:
-
-```bash
-# Check what worktrees exist
-cmux ls
-```
-
-Then output:
-
-```
-To resume work on <branch-name>, run:
-
-  cmux start <branch-name>
-
-This will resume from where you left off with --continue.
+  <full task description>
 ```
 
 ## Workflow: Parallel Sessions (called from executing-plans)
 
-When `executing-plans` or another skill needs a parallel session:
+When a parallel session is needed:
 
-1. Determine a branch name from the plan name (e.g., `plan-name` → `exec-plan-name`)
-2. Check if that worktree already exists (`cmux ls`)
-3. If it exists: provide `cmux start <branch>` command
-4. If new: provide `cmux new <branch> -p "..."` command with the plan context as the prompt
+1. **Claude creates the worktree** (via Bash — `git worktree add`)
+2. **Claude provides two things:** the `cmux new-workspace` command + the task text to paste
+3. **User runs the command** → new cmux workspace opens with Claude
+4. **User pastes the task** → parallel session begins
 
-Provide the exact command to paste into a terminal, along with the plan file path so the new session picks it up:
+Always provide both steps together:
 
 ```
-Spawn a parallel Claude session to execute this plan:
+Step 1 — Run in your terminal:
 
-  cmux new exec-<plan-slug> -p "Execute the implementation plan at docs/plans/YYYY-MM-DD-<name>.md using the executing-plans skill."
+  cmux new-workspace --cwd <worktree-path> --command "claude"
 
-Once the new Claude session opens in that worktree, it will pick up the plan and start executing.
+Step 2 — Once Claude opens, paste this task:
+
+  Execute the implementation plan at docs/plans/YYYY-MM-DD-<name>.md using the executing-plans skill.
 ```
-
-## Setup Hook: .cmux/setup
-
-The `.cmux/setup` script runs automatically when `cmux new` creates a worktree. It handles:
-- Symlinking gitignored secrets (`.env`, `.dev.vars`)
-- Installing dependencies (`npm ci`, `pip install`, etc.)
-- Running codegen (`prisma generate`, etc.)
-
-**To generate one for this project:**
-```bash
-cmux init
-```
-
-**Minimal example:**
-```bash
-#!/bin/bash
-REPO_ROOT="$(git rev-parse --git-common-dir | xargs dirname)"
-ln -sf "$REPO_ROOT/.env" .env
-npm ci
-```
-
-## Lifecycle: Merging and Cleanup
-
-When work in a worktree is complete:
-
-```bash
-# From repo root or from inside the worktree
-cmux merge <branch-name> [--squash]   # merge into current branch
-cmux rm <branch-name>                  # remove worktree + delete branch
-```
-
-Or from inside the worktree:
-```bash
-cmux merge    # auto-detects current branch
-cmux rm       # auto-detects current branch (after merging)
-```
-
-## Worktree Layout
-
-Default layout: `<repo-root>/.worktrees/<branch>/`
-
-Other layouts available via `cmux config set layout <preset>`:
-- `nested` (default): `.worktrees/` inside repo
-- `outer-nested`: `<repo-name>.worktrees/` next to repo
-- `sibling`: `<repo-name>-<branch>/` next to repo
 
 ## Red Flags
 
 **Never:**
-- Tell the user to run `git worktree add` directly — always use `cmux new`
-- Skip checking for `.cmux/setup` — missing setup causes broken worktrees
-- Skip checking `.worktrees/` is gitignored — prevents tracking worktree contents
+- Use `cmux new`, `cmux start`, `cmux ls`, `cmux merge`, `cmux rm` — these do NOT exist in manaflow-ai/cmux
+- Assume cmux handles git worktrees — it does not; always use `git worktree add` or `using-git-worktrees` first
 - Attempt to programmatically spawn a new Claude session — provide the command for the user to run
 
 **Always:**
-- Provide the exact `cmux` command to paste, not a description
-- Check `cmux ls` before creating a new worktree for the same branch
-- Include the full branch name in the `cmux` command (no ambiguity)
+- Create the git worktree BEFORE providing the cmux command
+- Provide both the cmux command AND the task text to paste in one message
+- Use `cmux new-workspace --cwd <path> --command "claude"` for Claude sessions
 
 ## Integration
 
-**Called by:**
-- **brainstorming** (Phase 4) — REQUIRED when design approved and implementation follows
-- **executing-plans** — REQUIRED before executing any tasks in a parallel session
-- **subagent-driven-development** — REQUIRED before executing any tasks
+**Works alongside (not a replacement for):**
+- **using-git-worktrees** — creates the worktree that cmux then opens
 
-**Replaces:**
-- **using-git-worktrees** — use this skill instead when cmux is available
+**Called by:**
+- **brainstorming** — after design approved, before implementation
+- **executing-plans** — for parallel execution sessions
+- **subagent-driven-development** — for isolated task execution
 
 **Pairs with:**
-- **finishing-a-development-branch** — REQUIRED for cleanup after work complete
+- **finishing-a-development-branch** — REQUIRED for cleanup after work is complete
 
 ## Example Output
 
 ```
-I'm using the using-cmux skill to set up an isolated workspace.
+I'm using the using-cmux skill to open this workspace in cmux.
 
-[Checked: cmux is available]
-[Checked: .cmux/setup exists]
-[Checked: .worktrees/ is gitignored ✓]
+[Worktree created at: ~/supabase/supabase/.worktrees/fix-enabled-gate]
 
-To start work on this feature, run in your terminal:
+Step 1 — Run in your terminal:
 
-  cmux new feature-auth-flow
+  cmux new-workspace --cwd ~/supabase/supabase/.worktrees/fix-enabled-gate --command "claude"
 
-This creates an isolated worktree at .worktrees/feature-auth-flow/ on branch
-feature-auth-flow, runs .cmux/setup to install dependencies and symlink secrets,
-then opens a new Claude Code session in that directory.
+Step 2 — Once Claude opens, paste this task:
+
+  Fix the unresolved CodeRabbit issue in packages/common/telemetry.tsx around
+  lines 343-351: handlePageTelemetry() bypasses the enabled gate. Wrap it with
+  the same enabled condition used elsewhere. Branch: sean/growth-656-enabled-gate-fix.
 ```

@@ -5,20 +5,6 @@ description: Use when starting feature work that needs isolation from current wo
 
 # Using Git Worktrees
 
-## CMUX Check — Do This First
-
-Before doing anything in this skill, check if cmux is available:
-
-```bash
-command -v cmux &>/dev/null && echo "cmux available" || echo "cmux not found"
-```
-
-**If cmux is available:** Stop this skill and use the `using-cmux` skill instead. It provides the same worktree isolation with one-command setup, setup hooks, and session management.
-
-**If cmux is NOT available:** Continue with this skill as documented below.
-
----
-
 ## Overview
 
 Git worktrees create isolated workspaces sharing the same repository, allowing work on multiple branches simultaneously without switching.
@@ -228,8 +214,8 @@ Ready to implement auth feature
 - **executing-plans** - REQUIRED before executing any tasks
 - Any skill needing isolated workspace
 
-**Superseded by:**
-- **using-cmux** - Use this skill instead when cmux is available (check first)
+**Pairs with:**
+- **using-cmux** - After creating the worktree, use `using-cmux` to open it in a new cmux workspace
 
 **Pairs with:**
 - **finishing-a-development-branch** - REQUIRED for cleanup after work complete

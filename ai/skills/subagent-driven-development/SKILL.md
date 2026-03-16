@@ -230,7 +230,8 @@ Done!
 ## Integration
 
 **Required workflow skills:**
-- **using-cmux** - REQUIRED: Set up isolated workspace before starting (invoke using-git-worktrees as fallback if cmux unavailable)
+- **using-git-worktrees** - REQUIRED: Create the isolated worktree before starting
+- **using-cmux** - REQUIRED: Open the worktree in a new cmux workspace (if cmux available)
 - **writing-plans** - Creates the plan this skill executes
 - **requesting-code-review** - Code review template for reviewer subagents
 - **finishing-a-development-branch** - Complete development after all tasks
@@ -239,4 +240,4 @@ Done!
 - **test-driven-development** - Subagents follow TDD for each task
 
 **Alternative workflow:**
-- **executing-plans** - Use for parallel session instead of same-session execution. When the `"Stay in this session?" → "no - parallel session"` branch is taken, use `using-cmux` to spin up the parallel session with `cmux new <plan-slug> -p "Execute the plan at <path> using the executing-plans skill."`
+- **executing-plans** - Use for parallel session instead of same-session execution. When the `"Stay in this session?" → "no - parallel session"` branch is taken, use `using-git-worktrees` to create the worktree, then `using-cmux` to open it with `cmux new-workspace --cwd <worktree-path> --command "claude"`

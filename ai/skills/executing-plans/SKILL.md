@@ -16,21 +16,25 @@ Load plan, review critically, execute tasks in batches, report for review betwee
 
 ## Setting Up a Parallel Session (Before You Start)
 
-This skill is designed to run in a **separate session** from the planning session. Before executing a plan, set up an isolated worktree:
+This skill is designed to run in a **separate session** from the planning session. Before executing a plan, set up an isolated worktree and open it in cmux:
 
-**If cmux is available (preferred):**
+**Step 1 — Create the worktree:**
+Use the `using-git-worktrees` skill (or run `git worktree add` directly).
+
+**Step 2 — Open in cmux (if available):**
+Use the `using-cmux` skill. Provide the user with both the command to run and the task to paste:
+
 ```
-Use the using-cmux skill to set up the workspace.
+Step 1 — Run in your terminal:
+
+  cmux new-workspace --cwd <worktree-path> --command "claude"
+
+Step 2 — Once Claude opens, paste this task:
+
+  Execute the plan at <plan-file-path> using the executing-plans skill.
 ```
 
-Provide the user with a ready-to-run command:
-```
-To start executing this plan in an isolated session, run:
-
-  cmux new exec-<plan-slug> -p "Execute the plan at <plan-file-path> using the executing-plans skill."
-```
-
-**If cmux is not available:** Use the `using-git-worktrees` skill instead.
+**If cmux is not available:** Tell the user to open the worktree path in a new terminal and run `claude` there.
 
 Once the new session is running in its worktree, proceed with the steps below.
 
