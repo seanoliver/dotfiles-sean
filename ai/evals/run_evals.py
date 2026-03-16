@@ -13,6 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 PASS_THRESHOLD = 7  # score >= 7 is a pass
+EVAL_MODEL = "haiku"  # fast + cheap for eval runs; override with --model flag
 
 
 def call_claude(prompt: str, system_prompt: str | None = None, model: str | None = None) -> str:
@@ -21,9 +22,9 @@ def call_claude(prompt: str, system_prompt: str | None = None, model: str | None
         "claude", "-p",
         "--output-format", "json",
         "--allowed-tools", "Skill",  # allow skill invocation only; no Bash/Edit/Write side effects
+        "--model", model or EVAL_MODEL,
+        "--strict-mcp-config",       # no --mcp-config means zero MCP servers loaded (fast startup)
     ]
-    if model:
-        cmd += ["--model", model]
     if system_prompt:
         cmd += ["--system-prompt", system_prompt]
     cmd += ["--", prompt]  # -- terminates option parsing so prompt isn't consumed by --allowed-tools
