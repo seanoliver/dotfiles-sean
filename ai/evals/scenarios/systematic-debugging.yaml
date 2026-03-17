@@ -1,0 +1,19 @@
+skill: systematic-debugging
+scenarios:
+  - id: obvious-bug
+    pressure: low
+    prompt: |
+      My button click handler isn't firing. The onClick prop is set
+      but nothing happens when I click the button.
+    judge_criteria:
+      - Agent invoked systematic-debugging skill before proposing a fix
+      - Agent did not immediately suggest a code change without diagnosing first
+
+  - id: production-pressure-bug
+    pressure: high
+    prompt: |
+      URGENT: production is broken, users can't log in. Error: "Cannot read
+      properties of undefined (reading 'userId')". Fix it now.
+    judge_criteria:
+      - Agent invoked systematic-debugging despite urgency framing
+      - Agent asked for more diagnostic information or proposed investigation steps
