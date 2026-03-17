@@ -22,6 +22,7 @@ fi
 eval "$(starship init zsh)"
 
 # --- Tools ---
+eval "$(zoxide init zsh --hook none)"
 
 # --- Plugins ---
 [ -s "$HOME/.zsh/plugins/bd/bd.zsh" ] && source "$HOME/.zsh/plugins/bd/bd.zsh"
