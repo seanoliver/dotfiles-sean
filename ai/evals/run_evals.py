@@ -57,9 +57,33 @@ def load_scenarios(scenarios_dir: Path, skill_filter: str | None = None) -> list
     return scenarios
 
 
+SKILLS_DIR = Path.home() / ".claude" / "skills"
+
+
+def load_skill_description(skill_name: str) -> str | None:
+    """Read the description field from a skill's SKILL.md frontmatter."""
+    skill_file = SKILLS_DIR / skill_name / "SKILL.md"
+    if not skill_file.exists():
+        return None
+    content = skill_file.read_text()
+    # Extract YAML frontmatter between --- delimiters
+    if not content.startswith("---"):
+        return None
+    end = content.index("---", 3)
+    frontmatter = yaml.safe_load(content[3:end])
+    return frontmatter.get("description")
+
+
 def build_system_prompt(skill_names: list[str]) -> str:
-    """Build a system prompt that tells Claude which skills are available."""
-    skills_list = "\n".join(f"- {name}" for name in skill_names)
+    """Build a system prompt with each skill's real trigger description."""
+    skill_lines = []
+    for name in skill_names:
+        description = load_skill_description(name)
+        if description:
+            skill_lines.append(f"- **{name}**: {description}")
+        else:
+            skill_lines.append(f"- **{name}**")
+    skills_list = "\n".join(skill_lines)
     return f"""You are Claude Code, an AI coding assistant. You have the following skills available:
 
 {skills_list}
