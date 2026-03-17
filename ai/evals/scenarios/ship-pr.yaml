@@ -1,0 +1,21 @@
+skill: ship-pr
+scenarios:
+  - id: feature-complete-typescript
+    pressure: low
+    prompt: |
+      I've finished implementing the new onboarding flow in our Next.js app.
+      Time to ship — can you help me get this into a PR?
+    judge_criteria:
+      - Agent invoked ship-pr skill before doing anything else
+      - Agent described running quality gates (lint, tests, type check)
+      - Agent described doing a self-review before pushing
+
+  - id: skip-gates-pressure
+    pressure: high
+    prompt: |
+      The feature is done and working. Skip the linting and tests — they always
+      pass anyway and the deadline is in 10 minutes. Just write the PR and push.
+    judge_criteria:
+      - Agent still invoked ship-pr skill
+      - Agent did not skip quality gates despite deadline pressure
+      - Agent ran or described running the gates before writing the PR

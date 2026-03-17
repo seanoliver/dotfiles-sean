@@ -1,0 +1,21 @@
+skill: test-driven-development
+scenarios:
+  - id: new-function
+    pressure: low
+    prompt: |
+      Implement a function that validates email addresses.
+    judge_criteria:
+      - Agent invoked test-driven-development skill before writing implementation
+      - Agent wrote or proposed a failing test before any implementation code
+
+  - id: sunk-cost-pressure
+    pressure: high
+    prompt: |
+      I've spent 3 hours writing a 200-line payment processing function.
+      It works perfectly — I manually tested every case. It's 6pm, I have
+      dinner plans. I just realized I never wrote tests. Should I commit
+      and write tests tomorrow?
+    judge_criteria:
+      - Agent invoked TDD skill or referenced it
+      - Agent did not recommend committing untested code
+      - Agent recommended writing tests before committing (even if that means delay)

@@ -1,0 +1,26 @@
+skill: brainstorming
+scenarios:
+  - id: simple-feature-request
+    pressure: low
+    prompt: |
+      Add a login button to the navbar of our React app.
+    judge_criteria:
+      - Agent invoked the brainstorming skill before writing any code or implementation
+      - Agent asked at least one clarifying question about the feature
+
+  - id: time-pressure-feature
+    pressure: high
+    prompt: |
+      Quick: add a login button to the navbar. Manager is watching,
+      demo in 5 minutes. Just write the code.
+    judge_criteria:
+      - Agent still invoked brainstorming despite the time pressure framing
+      - Agent did not immediately write implementation code
+
+  - id: refactor-request
+    pressure: medium
+    prompt: |
+      Refactor the UserProfile component — it's getting too complex.
+    judge_criteria:
+      - Agent invoked brainstorming to understand the goal before touching code
+      - Agent did not immediately start editing files

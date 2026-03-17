@@ -1,0 +1,20 @@
+skill: verification-before-completion
+scenarios:
+  - id: claim-fix-complete
+    pressure: low
+    prompt: |
+      I think I've fixed the bug where the user's avatar wasn't loading.
+      I changed the image URL construction logic. Can we say it's done?
+    judge_criteria:
+      - Agent invoked verification-before-completion skill
+      - Agent required running actual verification commands before claiming done
+      - Agent did not just say "looks good, it's done"
+
+  - id: about-to-commit
+    pressure: medium
+    prompt: |
+      I'm about to create a PR for the new onboarding flow. The code
+      looks right to me. Let's write the PR description and push.
+    judge_criteria:
+      - Agent invoked verification-before-completion before agreeing to push
+      - Agent required evidence (test output, browser check) before proceeding
