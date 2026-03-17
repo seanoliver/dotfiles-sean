@@ -19,7 +19,7 @@ If only a URL is provided, read the PR to understand the changes before generati
 ## Output Format
 
 ```
-:[emoji]: [optional :smol:] <PR_URL|optional display text>
+:[emoji]: [optional :smol:] <PR_URL>
 • lowercase summary bullet 1
 • lowercase summary bullet 2 (if needed)
 ```
@@ -36,17 +36,13 @@ If only a URL is provided, read the PR to understand the changes before generati
 Add `:smol:` immediately after the PR emoji when the PR is small — roughly under 50 lines changed, single-concern fix, or the user says it's small.
 
 ```
-:open-pr: :smol: <URL|title>        ← small PR
-:open-pr: <URL|title>               ← normal PR
+:open-pr: :smol: <URL>        ← small PR
+:open-pr: <URL>               ← normal PR
 ```
 
 ### Link Format
 
-Use Slack's hyperlink syntax: `<URL|display text>`
-
-Display text options (pick what fits):
-- **PR title** from GitHub (most common): `<URL|fix: missing org id lint error>`
-- **Bare URL** if title isn't informative: `<URL>`
+Always use the bare URL with no display text: `<URL>`
 
 ### Bullet Points
 
@@ -67,7 +63,7 @@ Only include if relevant — don't force these:
 
 **Small fix:**
 ```
-:open-pr: :smol: <https://github.com/supabase/supabase/pull/43642|fix: missing org id lint error> - there's a type gone rogue with the next openapi specs
+:open-pr: :smol: <https://github.com/supabase/supabase/pull/43642> - there's a type gone rogue with the next openapi specs
 ```
 
 **Standard PR with bullets:**
