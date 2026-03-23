@@ -56,6 +56,7 @@
     "skill-creator@claude-plugins-official": true,
     "posthog@claude-plugins-official": true
   },
+  "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true
+  "model": "opus[1m]"
 }

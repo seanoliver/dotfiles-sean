@@ -15,6 +15,8 @@ The key insight is that your work is spread across four systems that don't talk 
 
 Dispatch all four background agents **in a single message** (parallel, not sequential). Announce to the user: "Sweeping across Slack, Linear, Notion, and GitHub in parallel — this will take 2-3 minutes."
 
+**Model:** Always use `model: "sonnet"` for all four agents — never Haiku. These agents make nuanced judgment calls (filtering noise, identifying follow-ups, reading context across threads). Haiku has demonstrated hallucinating PRs that don't exist, missing permalinks entirely, and misapplying filter logic. Sonnet is required, no exceptions.
+
 ---
 
 ### Agent 1: Slack
@@ -108,12 +110,16 @@ Find everything open on GitHub for the user. Be exhaustive — check every open 
 5. Search for open issues assigned to the user across the supabase org.
 6. Flag any stale PRs (open > 2 weeks) and security-related PRs.
 
-IMPORTANT: When listing PRs awaiting the user's review, EXCLUDE the following noise:
-- PRs in the platform repo authored by bots or automated services (renovate[bot], dependabot[bot], github-actions[bot], etc.)
-- PRs in the platform repo that are CI/infrastructure updates (package bumps, dependency updates, workflow changes) where the user was tagged only via CODEOWNERS and the PR is requested of many teams, not specifically Growth Eng
-- The signal to filter these out: the author is a bot, OR the PR title indicates a routine dependency/CI update (e.g., "chore(deps):", "ci:", "Update X to vY.Z"), AND it's in the platform repo
+IMPORTANT: When listing PRs awaiting the user's review, EXCLUDE the following noise from the platform repo:
 
-Only include platform repo review requests that are clearly directed at the user or Growth Eng specifically, or that involve code the user actually owns.
+Filter out a platform repo PR if it meets ANY of these conditions:
+1. The author is a bot (renovate[bot], dependabot[bot], github-actions[bot], etc.)
+2. The PR title starts with a routine CI/infra prefix: `ci:`, `chore(deps):`, `chore:`, `fix(deps):`, or matches patterns like "Update X to vY.Z" — even if the author is a human
+3. The PR appears to be a CODEOWNERS blanket request (requested of many teams, not specifically Growth Eng) with no Growth Eng code in the diff
+
+Examples of PRs to EXCLUDE: "ci: workflow to update supabase-js" (human author, ci: prefix, platform repo = exclude), "chore(deps): bump lodash" (bot author = exclude).
+
+Only include platform repo review requests that are clearly directed at Growth Eng specifically, or that touch code the user actually owns.
 
 Return a structured summary with:
 - Open PRs authored by user — for each PR include:
