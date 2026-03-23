@@ -16,3 +16,6 @@ ai/evals/results/
 
 # Eval virtualenv
 ai/evals/.venv/
+
+# MCP server secrets (local to each machine)
+config/claude/mcp.env
