@@ -6,7 +6,7 @@
   "editor.insertSpaces": true,
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 100,
-  "editor.rulers": [100],
+  "editor.rulers": [80, 100],
   "editor.minimap.enabled": false,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -15,7 +15,7 @@
     "source.organizeImports": "explicit"
   },
   "files.autoSave": "afterDelay",
-  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.startupEditor": "welcomePage",
   "workbench.sideBar.location": "left",
@@ -53,42 +53,5 @@
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
   "security.workspace.trust.enabled": false,
-  "telemetry.telemetryLevel": "off",
-  "window.commandCenter": true,
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.accessibilitySupport": "off",
-  "editor.lineHeight": 1.8,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "diffEditor.ignoreTrimWhitespace": false,
-  "go.toolsManagement.autoUpdate": true,
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "typescript.tsserver.log": "off",
-  "githubPullRequests.pullBranch": "never",
-  "mise.binPath": "/opt/homebrew/bin/mise",
-  "explorer.confirmDelete": false,
-  "security.promptForLocalFileProtocolHandling": false,
-  "explorer.confirmDragAndDrop": false,
-  "[dockercompose]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.autoIndent": "advanced",
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "gitlens.ai.model": "gitkraken",
-  "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash"
+  "telemetry.telemetryLevel": "off"
 }
