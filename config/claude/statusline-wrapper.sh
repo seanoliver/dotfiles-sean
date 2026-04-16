@@ -152,8 +152,14 @@ def rate_segment(label, block):
     p = (block or {}).get("used_percentage")
     if p is None:
         return None
-    color = RED if p >= 80 else (YELLOW if p >= 50 else DIM)
-    return c(color, f"{label}:{fmt_pct(p)}%")
+    p_f = float(p)
+    if   p_f >= 80: color = RED
+    elif p_f >= 50: color = YELLOW
+    else:           color = GREEN
+    seg_bar_len = 5
+    filled = round(seg_bar_len * p_f / 100)
+    seg_bar = "█" * filled + "░" * (seg_bar_len - filled)
+    return c(color, f"{label} {seg_bar} {fmt_pct(p)}%")
 
 rate_parts = [s for s in (
     rate_segment("5h", rate_limits.get("five_hour")),
