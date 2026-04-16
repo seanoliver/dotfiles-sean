@@ -79,7 +79,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 ## Example Output
 
 ```markdown
-## Data & Callouts
+#### Data & Callouts
 
 *(read async before / during silent reading time)*
 
@@ -91,7 +91,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 -
 
-## Changelog
+#### Changelog
 
 *(read async — one line per item shipped to prod)*
 
@@ -99,7 +99,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 - **[Sean]:** Sentry telemetry instrumentation: instrumented the telemetry pipeline, no silent failures found so far, continuing to monitor passively https://linear.app/supabase/issue/GROWTH-674/...
 - **[Sean]:** posthog-js bumped from 1.257.2 → 1.357.0 https://github.com/supabase/supabase/pull/43574
 
-## Notes
+#### Notes
 
 *(Interesting work, findings, or FYIs worth sharing — read during silent time)*
 
@@ -112,7 +112,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
     - what's our privacy/consent approach for CLI telemetry? opt-in vs opt-out, etc.?
     - who are the right contacts on the CLI team to loop in?
 
-## Discussion Topics
+#### Discussion Topics
 
 *(Add after reading above — tag with [Name]. State the Issue clearly; we'll Discuss and Solve together)*
 
@@ -120,7 +120,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
     - what's our privacy/consent approach for CLI telemetry? opt-in vs opt-out, etc.?
     - who are the right contacts on the CLI team to loop in?
 
-## Blockers
+#### Blockers
 
 *(Things actively stuck that need the team)*
 
@@ -139,4 +139,4 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 ## Output Format
 
-Output the full structured document with all section headers, emoji prefixes, and section descriptions. Include all sections even if some are empty (use placeholders). Start directly with `## Data & Callouts`.
+Output the full structured document with all section headers, emoji prefixes, and section descriptions. Include all sections even if some are empty (use placeholders). **All section headers must be H4 level (`####`)** — this matches the nesting depth in the Growth Eng Catch-ups Notion doc. Start directly with `#### Data & Callouts`.

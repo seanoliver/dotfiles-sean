@@ -233,6 +233,14 @@ style = 'bold dimmed green'
 symbol = '🐏'
 
 
+# Claude account indicator — disabled, Warp strips custom prompt elements.
+# Account indicator lives in the Claude Code statusline instead.
+# [env_var.CLAUDE_ACCOUNT]
+# format = '[$env_value]($style) '
+# style = 'bold magenta'
+# variable = 'CLAUDE_ACCOUNT'
+# disabled = false
+
 # Custom commands for additional context
 [custom.git_email]
 disabled = true

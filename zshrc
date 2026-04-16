@@ -22,7 +22,7 @@ fi
 eval "$(starship init zsh)"
 
 # --- Tools ---
-eval "$(zoxide init zsh --hook none)"
+eval "$(zoxide init zsh)"
 
 # --- Plugins ---
 [ -s "$HOME/.zsh/plugins/bd/bd.zsh" ] && source "$HOME/.zsh/plugins/bd/bd.zsh"
@@ -102,8 +102,21 @@ alias system-info='~/dotfiles/scripts/system-info.sh'
 alias setup-ssh='~/dotfiles/scripts/setup-ssh.sh'
 alias sync-ide='~/dotfiles/scripts/sync-ide-settings.sh'
 
-# Claude Code
-alias yolo="claude --dangerously-skip-permissions"
+# Claude multi-account switching (both default to dangerously-skip-permissions)
+claude-work() {
+  unset CLAUDE_CODE_OAUTH_TOKEN
+  export CLAUDE_ACCOUNT="work"
+  command claude --dangerously-skip-permissions "$@"
+}
+
+claude-personal() {
+  export CLAUDE_CODE_OAUTH_TOKEN="$(security find-generic-password -a "$USER" -s CLAUDE_PERSONAL_TOKEN -w)"
+  export CLAUDE_ACCOUNT="personal"
+  command claude --dangerously-skip-permissions "$@"
+}
+
+# Default bare `claude` to work account
+alias claude='claude-work'
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Users/seanoliver/Library/Python/3.9/bin:$PATH"
@@ -136,3 +149,9 @@ export PATH=/Users/seanoliver/.opencode/bin:$PATH
 
 # Machine-specific shell additions live outside shared dotfiles.
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+# Cortex automation trigger consumer — runs commands from launchd-scheduled
+# wrappers (e.g. morning-routine) in a fresh interactive shell.
+# See ~/cortex/automation/bin/zshrc-trigger-consumer.sh for the full mechanism.
+[ -f "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh" ] && \
+  source "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh"

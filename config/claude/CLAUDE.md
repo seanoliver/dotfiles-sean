@@ -10,8 +10,9 @@
 - Always RTFM and double/triple check the type definitions to make sure you're using a custom hook or
 function from a third party API library to make sure you are passing the correct params and reading the crorrect response values. do not guess!
 - when adding debugging comments, group them for easy searching by prepending them with a custom 1-2 character id (e.g. "[a] [NewTab] Data recieved" where "a" might be shared by other related logs in other files and you simply want to review them together -- always use unique ids for different "groups" of related debugging logs, and review wich "groups" you've already created in context to determine if you need to pick an existing one or create a new one for the given log it pertains to.
-- After any non-trivial bug fix, create/update a bug journal entry in `docs/bugs/` (use `docs/bugs/TEMPLATE.md`) capturing symptom, root cause, repro steps, fix, verification, and a recurrence guardrail. Bug journal entries are part of done criteria — a fix is not complete without one.
-- After any non-trivial investigation or exploration into how something works, create an investigation entry in `docs/investigations/` (use `docs/investigations/TEMPLATE.md`) capturing context, key findings, how it works, gotchas, and references. This applies whether the investigation was prompted by a bug fix, feature build, or curiosity.
+- After any non-trivial bug fix, create/update a bug journal entry in `docs/bugs/` (use `docs/bugs/TEMPLATE.md` for the template) capturing symptom, root cause, repro steps, fix, verification, and a recurrence guardrail. Bug journal entries are part of done criteria — a fix is not complete without one.
+- After any non-trivial investigation or exploration into how something works, create an investigation entry in `docs/investigations/` (use `docs/investigations/TEMPLATE.md` for the template) capturing context, key findings, how it works, gotchas, and references. This applies whether the investigation was prompted by a bug fix, feature build, or curiosity.
+- Documentation convention: `docs/` is relative to the project root. For multi-repo hubs (like ~/supabase/), docs live at the hub root, not inside individual repos. Do not write project documentation to ~/cortex/ — Cortex is for higher-level personal knowledge only.
 
 ## PR Pre-Push Checklist (MANDATORY — no exceptions)
 
