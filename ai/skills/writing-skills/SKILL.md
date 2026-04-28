@@ -132,10 +132,26 @@ Link to file for heavy reference or reusable tools
 ## Common Mistakes
 What goes wrong + fixes
 
+## Out of Scope
+Explicitly list what the skill does NOT do. Required — prevents agents from extending into adjacent territory and failing badly.
+
 ## Real-World Impact (optional)
 Concrete results
 ```
 
+
+## Six Anatomy Patterns (self-audit checklist)
+
+Independent corroboration from [The Anatomy of a Perfect Skill](https://x.com/zodchiii/status/2048345453096313005) — patterns observed across 100 effective skills. Audit every skill against these before deploying:
+
+1. **Description tells WHEN, not just WHAT** — covered in detail in the CSO section below.
+2. **Directive imperative language** — "Strip tracking params" not "you might want to strip the tracking params." Numbered steps, verbs first. Conversational skills are followed loosely; directive skills are followed reliably.
+3. **Explicit output format** — specify the structure, fields, and examples of what the skill's deliverable should look like. Without this, agents invent a format each time and outputs are inconsistent.
+4. **"Read first" step** — when the skill touches project code or state, instruct Claude to read existing files / patterns / conventions first. Match what's there, don't generate generic content. Skip only for skills that don't depend on project state.
+5. **Out of Scope section (REQUIRED)** — explicitly list what the skill does NOT do. The single highest-leverage addition for skill quality. Without it, agents try to extend the skill into adjacent territory and fail. A three-line list improves routing dramatically.
+6. **Under 500 lines** — covered in the Token Efficiency section below.
+
+Patterns 1 and 6 are already heavily emphasized below. The patterns most often missing from existing skills (audit yours): **2, 3, and especially 5**.
 
 ## Claude Search Optimization (CSO)
 
@@ -627,6 +643,12 @@ Deploying untested skills = deploying untested code. It's a violation of quality
 - [ ] Common mistakes section
 - [ ] No narrative storytelling
 - [ ] Supporting files only for tools or heavy reference
+
+**Anatomy Patterns (final audit, see Six Anatomy Patterns section):**
+- [ ] Directive imperative language throughout (no "you might want to...")
+- [ ] Output format explicitly specified (what the skill's deliverable should look like)
+- [ ] "Read first" step included if skill touches project code or state
+- [ ] **Out of Scope section** explicitly lists what the skill does NOT do
 
 **Deployment:**
 - [ ] Commit skill to git and push to your fork (if configured)

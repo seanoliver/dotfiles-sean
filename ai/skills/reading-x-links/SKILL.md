@@ -57,6 +57,17 @@ If `replying_to` is non-null and Sean's question implies he wants the thread con
 | Not following `t.co` redirect first | The shortened URL needs to resolve to know which method to use |
 | Confidently asserting "fxtwitter.com works" | Test before claiming. The JSON API works; the HTML version does not (in this tool). |
 
+## Out of Scope
+
+This skill does NOT:
+
+- Fetch entire reply trees — only the parent chain via `replying_to`, and only when Sean's question implies he wants thread context
+- Handle X Spaces, livestreams, video transcripts, or audio content (not present in the JSON API)
+- Read DMs, age-restricted content, blocked accounts, or deleted posts
+- Read authenticated-only views (protected accounts, paywalled lists) — use Playwright MCP with a logged-in session for those
+- Resolve or summarize external links inside a tweet's link card. Follow the `t.co` redirect to find the destination, but treat the destination as a separate fetch (it's not always an X URL)
+- Translate non-English tweets — return the original `text` verbatim and let Sean ask for translation if he wants
+
 ## When all else fails
 
 State what you tried (which fallbacks, which errors) and ask Sean to paste the tweet text or screenshot. Don't pretend you can't read X links when you have untried fallbacks left.

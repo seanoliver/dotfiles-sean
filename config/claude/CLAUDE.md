@@ -35,3 +35,13 @@ gh pr view <number> --json commits,additions,deletions \
 
 **Stacked PRs are especially dangerous.** If the local base branch has commits that were never force-pushed to origin (e.g. after a rebase or code-review fixups), `origin/<base>` will be behind the local version, and GitHub will include all those extra commits in your PR. Always use `origin/<base>` (not the local branch name) as the reference in step 1.
 
+## Skill suggestions
+
+Skills live in `~/dotfiles/ai/skills/<name>/SKILL.md` (symlinked into `~/.claude/skills/`). When creating or editing any skill, invoke the `writing-skills` skill first — it has the discipline (TDD for skills, six anatomy patterns, CSO).
+
+**When you spot a skill opportunity** — a new skill would help, or an existing skill could be improved / split / merged — don't break the current task. Append a one-liner to `~/dotfiles/ai/SKILL_BACKLOG.md` (format: `- YYYY-MM-DD — short description (type: new | improve | split | merge). Why.`) and tell me in one line that you logged it. Re-evaluate the backlog during periodic skill-system passes.
+
+**Create or edit a skill in the moment only if:** (a) the deliverable IS the skill (the user asked for one), or (b) we're already touching the skills system. Otherwise log to the backlog and continue.
+
+Watch especially for: tasks the user does repeatedly (skill candidate), existing skills that lack an Out of Scope section (improve), skills that try to do 3+ unrelated things (split candidate), instructions the user gives mid-task that should persist across sessions (skill or memory candidate).
+
