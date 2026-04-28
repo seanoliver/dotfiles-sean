@@ -13,6 +13,10 @@ skill — this adds growth-specific criteria.
 
 **REQUIRED BACKGROUND:** Read `telemetry-standards` for event naming and property conventions.
 
+**Posting findings to GitHub:** Growth-specific findings should be posted as inline comments on a pending GitHub review using the procedure in `pr-review`'s "Posting Inline Comments as a Pending GitHub Review" section. The severity mapping below determines the prefix for each growth finding.
+
+**Verdict & overall review comment:** End the terminal summary with `pr-review` section 6 — the verdict recommendation and draft overall review comment go in the **terminal only**, not in the pending GitHub review body. For growth PRs, any `**Blocker:**` finding (exposure contamination, missing conversion event, wrong flag provider, PII in properties) pushes the verdict to **Request Changes**. A clean experiment setup with only naming/typing Nits is usually **Comment**; **Approve** is rare for growth PRs since there's almost always at least one thing to refine in the instrumentation.
+
 ## Experiment Lifecycle Checklist
 
 Every experiment PR must have **both** an exposure event and a conversion event. Missing either
@@ -209,6 +213,52 @@ When reviewing a growth engineering PR, verify each applicable item:
 - [ ] Error/failure states are tracked where they affect growth metrics
 - [ ] Existing funnel events not broken by the change
 - [ ] Dev toolbar works for testing the new tracking (flags override correctly)
+
+## Severity Mapping for Inline Comments
+
+When posting growth findings as inline GitHub review comments (see `pr-review`'s posting section), use these severity prefixes so Sean can skim and triage in the UI:
+
+### `**Blocker:**` — must fix before merge
+These break the experiment or analytics pipeline:
+- Exposure event fires when `variant === undefined` (contaminates non-enrolled users)
+- Missing conversion event for an experiment (unanalyzable)
+- Conversion reuses an existing product event (can't isolate the experiment signal)
+- Wrong flag provider (`useFlag` for a PostHog experiment, or vice versa)
+- PII in event properties
+- Direct `posthog.capture()` instead of `useTrack` (breaks group attribution)
+- Event missing from `TelemetryEvent` union (silently untyped)
+
+### `**Nit:**` — should fix, not merge-blocking
+- Variant typed as `string` instead of a union of actual variant names
+- Exposure not deduped (will fire on every render)
+- Event name doesn't follow `{object}_{experiment}_experiment_exposed`/`_converted` pattern
+- Missing JSDoc tags on the event interface
+- Variant values not lowercase
+
+### `**Question:**` — flag for user judgment
+- Conversion action is ambiguous (is this really the target metric?)
+- No flag cleanup plan documented (ask where the sunset is tracked)
+- Exposure location unclear (does this actually fire when the user sees the surface?)
+
+### Draft comment phrasing examples
+
+```
+**Blocker:** `variant` is `string | undefined` here — if the user isn't enrolled
+(`undefined`), this `track(...)` call fires and pollutes the experiment. Guard:
+`if (variant === undefined) return` before tracking.
+```
+
+```
+**Nit:** consider `useTrackExperimentExposure('myExperiment', variant, {...})` —
+it handles session-scoped dedup via `sessionStorage` and captures directly through
+`posthogClient.captureExperimentExposure()`.
+```
+
+```
+**Question:** what's the conversion event for this experiment? I only see the
+exposure — without a paired `_experiment_converted` event we won't be able to
+measure lift.
+```
 
 ## Common Mistakes
 

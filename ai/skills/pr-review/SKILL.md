@@ -299,6 +299,158 @@ Flag issues for separate PRs:
 - Nice-to-have improvements
 - Broader architectural changes
 
+### 6. Verdict & Draft Overall Review Comment (Terminal Only)
+
+This section goes **only in the terminal output**. Do not include it in the pending GitHub review `body` — the user will paste their own overall comment when they click "Finish your review" on GitHub.
+
+Format it like this so the user can copy/paste directly:
+
+```
+────────────────────────────────────────────────
+Recommended verdict: <Approve | Comment | Request Changes>
+
+Reasoning: <1-2 sentences citing the load-bearing finding(s)>
+
+Draft overall review comment (copy/paste into GitHub):
+<<<
+<2-5 sentence narrative addressed to the author>
+>>>
+────────────────────────────────────────────────
+```
+
+**How to pick the verdict:**
+
+| Verdict | When |
+|---|---|
+| **Approve** | No blockers, only Nits or Questions you're confident the author will resolve. Inline comments are suggestions, not must-fixes. |
+| **Comment** | Mix of Nits and Questions where the author needs to weigh in, but nothing merge-blocking. Default when uncertain between Approve and Request Changes. |
+| **Request Changes** | At least one `**Blocker:**` inline comment exists, **or** a merge-blocking PR-level concern (security issue, breaking change, missing critical functionality, failing type check). |
+
+**How to draft the overall comment:**
+
+- 2-5 sentences, addressed to the PR author.
+- Open with what the PR does well (genuine — skip if nothing fits; don't manufacture praise).
+- Summarize the main findings at a high level. Reference that inline comments cover specifics; don't re-list them.
+- State the verdict and what it's contingent on (e.g., "blocking on the exposure guard — rest is Nits").
+- Match Sean's register: direct, dry, no hype words ("amazing", "great", "perfect"), no hollow openers ("Nice PR!" by itself), no trailing sign-offs.
+
+**Example terminal output:**
+
+```
+────────────────────────────────────────────────
+Recommended verdict: Request Changes
+
+Reasoning: The exposure event fires when `variant === undefined`, which
+contaminates the experiment with non-enrolled users. Merge-blocking.
+
+Draft overall review comment (copy/paste into GitHub):
+<<<
+The tracking setup here is on the right track — event naming matches the
+convention and the conversion event is properly separated from the product
+event. One blocker: the exposure in Foo.tsx fires for users not in the
+experiment (variant can be undefined). See inline for the guard. A few
+nits on the variant type and dedup hook while you're there. Happy to
+re-review once the exposure is fixed.
+>>>
+────────────────────────────────────────────────
+```
+
+## Posting Inline Comments as a Pending GitHub Review
+
+After the terminal summary, post findings with file/line context as **inline comments on a pending (unresolved) GitHub review**. A pending review is visible only to the review author in the GitHub UI — they can edit wording, delete comments that don't apply, and submit or discard as a unit. This gets the findings out of the terminal and anchored to the code so the user can review them in context.
+
+The terminal output is still required — this is additive, not a replacement.
+
+### When to post
+
+- Post only if a PR exists on GitHub (confirmed in Step 0 via `gh pr view`).
+- Skip posting for local-only branches — terminal summary is sufficient.
+- Post every finding that maps to a specific file and line. Send one comment per finding; don't batch unrelated issues into a single comment.
+
+### What goes where
+
+| Finding type | Destination |
+|---|---|
+| Issue tied to a specific file:line (or range) | Inline comment on that line |
+| PR-level concern with no single location | Review body |
+| Critical blocker | Inline comment prefixed with `**Blocker:**` |
+| Suggestion / nit | Inline comment prefixed with `**Nit:**` |
+| Question / clarification | Inline comment prefixed with `**Question:**` |
+
+### How to post (single API call, pending review)
+
+Assemble all comments into one JSON payload and POST it. Leaving the `event` field out keeps the review in PENDING state — visible only to you in the GitHub UI until you submit or discard it.
+
+**1. Clear any stale pending review you previously created for this PR** (prevents duplicates on re-runs):
+
+```bash
+LOGIN=$(gh api user --jq .login)
+STALE_ID=$(gh api repos/<owner>/<repo>/pulls/<pr-number>/reviews \
+  --jq ".[] | select(.state == \"PENDING\" and .user.login == \"$LOGIN\") | .id" | head -n1)
+if [ -n "$STALE_ID" ]; then
+  gh api --method DELETE repos/<owner>/<repo>/pulls/<pr-number>/reviews/$STALE_ID
+fi
+```
+
+Only delete pending reviews authored by the current user. Never touch other authors' reviews.
+
+**2. Write the payload to a temp file** (avoids shell quoting pitfalls with multi-line comment bodies):
+
+Keep the review `body` minimal. The executive summary, verdict, and overall review comment all live in the **terminal output** — the user will paste their own narrative when they submit the review on GitHub. The body field here is just a placeholder so the pending review isn't awkwardly empty.
+
+```bash
+cat > /tmp/pr-review-<pr-number>.json <<'EOF'
+{
+  "body": "Draft review — see inline comments. Overall review comment and verdict will be added on submit.",
+  "comments": [
+    {
+      "path": "apps/studio/components/Foo.tsx",
+      "line": 42,
+      "side": "RIGHT",
+      "body": "**Nit:** `any` drops type safety here — prefer `UserProfile` from `types/user.ts`."
+    },
+    {
+      "path": "apps/studio/components/Foo.tsx",
+      "start_line": 60,
+      "start_side": "RIGHT",
+      "line": 65,
+      "side": "RIGHT",
+      "body": "**Blocker:** this block calls `posthog.capture()` directly; switch to `useTrack` so org/project groups are attached."
+    }
+  ]
+}
+EOF
+```
+
+**3. Create the pending review** (no `event` field = PENDING):
+
+```bash
+gh api --method POST \
+  repos/<owner>/<repo>/pulls/<pr-number>/reviews \
+  --input /tmp/pr-review-<pr-number>.json
+```
+
+The response includes `id` and `html_url`. Surface the `html_url` in the terminal output so the user can jump straight to the pending review:
+
+> Pending review posted: `<html_url>` — review inline in GitHub, then Submit or Discard from the UI.
+
+### Rules for each inline comment
+
+- `side: "RIGHT"` for new/current code; `"LEFT"` for lines only in the pre-PR version.
+- `line` must appear in the PR diff. Commenting on unchanged lines returns 422 — move that finding to the review `body` instead.
+- For multi-line spans use `start_line` + `start_side` alongside `line` + `side`.
+- Keep every comment self-contained — don't assume the reader has the terminal output open.
+- Use the severity prefixes above (`**Blocker:**`, `**Nit:**`, `**Question:**`) so the user can skim.
+- One issue per comment. Do not pile unrelated findings into a single inline comment.
+- Never claim a fix is applied. These are draft comments, not commits.
+
+### Fallback on API failure
+
+If the POST fails:
+- **422 line-not-in-diff**: remove the offending comment from the payload, append its content to the review `body`, and retry once.
+- **401/403 auth**: abort posting, note in terminal that `gh auth status` needs attention. Do not retry.
+- **Any other failure**: report the error, keep the terminal summary intact, do not retry blindly.
+
 ## Execution Steps
 
 1. **Discovery Phase (Step 0)**:
@@ -344,11 +496,20 @@ Flag issues for separate PRs:
    - Ensure no new issues introduced
    - Verify changes align with PR purpose
 
-8. **Provide Comprehensive Summary**:
-   - Follow the Review Output structure above
+8. **Post Inline Comments as a Pending Review** (if a PR exists on GitHub):
+   - Delete any stale pending review you previously authored for this PR
+   - Assemble all findings with file:line context into a single JSON payload
+   - POST to `repos/<owner>/<repo>/pulls/<pr>/reviews` with no `event` field (PENDING)
+   - Capture `html_url` from the response and surface it in the terminal output
+   - Follow the rules and fallback in the "Posting Inline Comments" section above
+
+9. **Provide Comprehensive Summary**:
+   - Follow the Review Output structure above (sections 1–6)
    - Be specific with file references (file:line format)
    - Provide actionable feedback
    - Celebrate good engineering where present
+   - Include the pending review URL (from step 8) so the user can click straight to it
+   - **End the summary with section 6 — "Verdict & Draft Overall Review Comment" — so the user can copy/paste the draft comment into GitHub's "Finish your review" form and pick the recommended verdict**
 
 ## Remember
 

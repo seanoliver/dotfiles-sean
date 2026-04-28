@@ -1,6 +1,6 @@
 {
   "editor.fontSize": 14,
-  "editor.fontFamily": "MonoLisa, JetBrains Mono, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Berkeley Mono, MonoLisa, JetBrains Mono, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
