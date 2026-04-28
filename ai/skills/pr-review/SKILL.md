@@ -361,6 +361,8 @@ After the terminal summary, post findings with file/line context as **inline com
 
 The terminal output is still required — this is additive, not a replacement.
 
+**REQUIRED SUB-SKILL:** Apply the `writing-pr-review-comments` skill to draft each inline comment body. It enforces the comment voice, length, and prefix conventions used here. Do not write inline comments without it — the result is invariably too verbose, too lawyerly, and reads like a ruling rather than a teammate's note.
+
 ### When to post
 
 - Post only if a PR exists on GitHub (confirmed in Step 0 via `gh pr view`).
