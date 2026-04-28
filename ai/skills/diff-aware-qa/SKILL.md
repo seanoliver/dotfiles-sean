@@ -5,7 +5,7 @@ description: Use after making code changes to test only the affected pages in a 
 
 # Diff-Aware QA
 
-Test only what changed — read the git diff, identify affected pages, test those with cmux browser.
+Test only what changed — read the git diff, identify affected pages, test those with the Playwright MCP browser.
 
 ## Workflow
 
@@ -24,18 +24,13 @@ Use `references/page-detection.md` to map each changed file to a route.
 
 ### Step 3: Test each affected page
 
-For each route identified:
+For each route identified, use the Playwright MCP tools (load schemas via ToolSearch first):
 
-```bash
-# Navigate
-cmux browser goto http://localhost:3000<route>
-
-# Check for errors
-cmux browser errors list
-cmux browser console list
-
-# Take snapshot to verify render
-cmux browser snapshot -i
+```
+browser_navigate({ url: "http://localhost:3000<route>" })
+browser_console_messages({ level: "error" })   // JS errors
+browser_console_messages({ level: "info" })    // all console output
+browser_snapshot()                              // accessibility tree to verify render
 ```
 
 If the diff includes analytics/tracking changes, also run the `growth-browser` workflow:

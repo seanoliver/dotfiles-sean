@@ -5,43 +5,48 @@ description: Use when verifying analytics events fired correctly, checking what 
 
 # Growth Browser
 
-Drive cmux's persistent browser to verify analytics events, network calls, cookies, and localStorage — without touching Chrome DevTools manually.
+Drive the Playwright MCP browser to verify analytics events, network calls, cookies, and localStorage — without touching Chrome DevTools manually.
 
-## Setup (once per session)
+## Setup
 
-Inject the network interceptor BEFORE navigating anywhere:
+The Playwright MCP tools used by this skill are deferred. Load their schemas via ToolSearch before calling:
 
-```bash
-cmux browser addinitscript "$(cat ~/.claude/skills/growth-browser/scripts/inject-interceptor.js)"
 ```
-
-If the browser is already on a page, reload after injecting:
-```bash
-cmux browser reload
+select:mcp__plugin_playwright_playwright__browser_navigate,mcp__plugin_playwright_playwright__browser_evaluate,mcp__plugin_playwright_playwright__browser_snapshot,mcp__plugin_playwright_playwright__browser_click,mcp__plugin_playwright_playwright__browser_console_messages,mcp__plugin_playwright_playwright__browser_take_screenshot
 ```
 
 ## Standard Workflow
 
-1. **Inject interceptor** (above)
-2. **Navigate** to the page under test: `cmux browser goto <url>`
-3. **Trigger the user action** (click, fill form, etc.) using snapshot refs
+1. **Navigate** to the page under test:
+   ```
+   browser_navigate({ url: "https://localhost:3000/your-page" })
+   ```
+
+2. **Inject the network interceptor.** Pass the contents of `scripts/inject-interceptor.js` as the function body to `browser_evaluate`. Re-inject after any cross-page navigation since `window.__networkLog` lives in page context.
+
+3. **Trigger the user action.** Use `browser_snapshot()` to find element refs, then `browser_click({ target: "<ref>", element: "<description>" })`.
+
 4. **Retrieve what fired:**
+   - All network calls: `browser_evaluate({ function: "() => JSON.stringify(window.__networkLog, null, 2)" })`
+   - PostHog only: `browser_evaluate({ function: "() => JSON.stringify(window.__networkLog.filter(r => r.url.includes('posthog')), null, 2)" })`
+   - Segment only: `browser_evaluate({ function: "() => JSON.stringify(window.__networkLog.filter(r => r.url.includes('segment')), null, 2)" })`
+   - Count by hostname: `browser_evaluate({ function: "() => JSON.stringify(window.__networkLog.reduce((acc, r) => { const k = new URL(r.url).hostname; acc[k] = (acc[k]||0)+1; return acc; }, {}))" })`
+   - Clear log: `browser_evaluate({ function: "() => { window.__networkLog = [] }" })`
+   - All cookies: `browser_evaluate({ function: "() => document.cookie" })`
+   - All localStorage: `browser_evaluate({ function: "() => Object.fromEntries(Object.entries(localStorage))" })`
+   - Specific localStorage key: `browser_evaluate({ function: "() => localStorage.getItem('posthog_session')" })`
+   - Console output: `browser_console_messages({ level: "info" })` (or `"error"` for errors only)
 
-```bash
-# All network calls
-cmux browser eval "JSON.stringify(window.__networkLog, null, 2)"
+5. **Verify** payload properties match expected values.
 
-# PostHog only
-cmux browser eval "JSON.stringify(window.__networkLog.filter(r => r.url.includes('posthog')), null, 2)"
+## Screenshots
 
-# Cookies + storage
-cmux browser cookies get
-cmux browser storage local get
-cmux browser console list
+```
+browser_take_screenshot({ filename: "before.png", type: "png" })
 ```
 
-5. **Verify** payload properties match expected values
+## Gotchas
 
-## Reference
-
-See `references/cmux-browser-commands.md` for full command reference, filtering patterns, and gotchas.
+- The interceptor must be re-injected after any cross-page navigation. `window.__networkLog` is page-scoped.
+- `browser_snapshot` refs reset on navigation. Re-snapshot after navigating before clicking refs.
+- Clear `window.__networkLog` between tests to avoid stale entries from prior interactions.

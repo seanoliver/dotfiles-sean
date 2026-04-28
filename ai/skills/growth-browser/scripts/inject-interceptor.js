@@ -1,10 +1,10 @@
 /**
  * growth-browser network interceptor
- * Injected via: cmux browser addinitscript "$(cat path/to/inject-interceptor.js)"
- * Captures all fetch and XHR calls into window.__networkLog
+ * Injected via: pass this file's contents as the function body to Playwright MCP's browser_evaluate.
+ * Captures all fetch and XHR calls into window.__networkLog.
  *
- * IMPORTANT: Must be injected BEFORE navigating to the target page.
- * If already on a page, reload after injecting.
+ * IMPORTANT: Must be injected AFTER navigating to the target page (before user actions).
+ * Re-inject after any full navigation, since window.__networkLog lives in page context.
  */
 (function () {
   if (window.__interceptorInstalled) return;

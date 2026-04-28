@@ -70,15 +70,11 @@ cat TODOS.md 2>/dev/null | grep "^- \[ \]"
 
 ## Step 7: Write the PR
 
-Title format: `<type>(<scope>): <short description>` (conventional commits style)
+**Title:** `<type>(<scope>): <short description>` (conventional commits style).
 
-Body sections:
-- **Summary** — what changed and why (2-4 bullets)
-- **Test plan** — what was tested and how
-- **Screenshots** — for UI changes (attach from `cmux browser screenshot`)
-- **Notes** — anything reviewers should know
+**Body:** Invoke the `writing-pr-descriptions` skill. It enforces the concise, skimmable format and respects any project PR template at `.github/PULL_REQUEST_TEMPLATE.md`.
 
-For Supabase repos: follow the existing PR template if one exists (check `.github/PULL_REQUEST_TEMPLATE.md`).
+For UI changes, attach screenshots (from Playwright MCP's `browser_take_screenshot`) under the relevant section of whatever structure that skill produces.
 
 ## Step 8: Confirm before pushing
 

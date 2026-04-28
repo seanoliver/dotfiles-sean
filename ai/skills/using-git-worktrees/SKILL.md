@@ -215,7 +215,4 @@ Ready to implement auth feature
 - Any skill needing isolated workspace
 
 **Pairs with:**
-- **using-cmux** - After creating the worktree, use `using-cmux` to open it in a new cmux workspace
-
-**Pairs with:**
 - **finishing-a-development-branch** - REQUIRED for cleanup after work complete
