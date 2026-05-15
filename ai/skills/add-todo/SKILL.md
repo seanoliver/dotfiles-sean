@@ -1,260 +1,204 @@
 ---
 name: add-todo
-description: Add a new task to Things with rich context, checklist items, tags, and organization
+description: Add a new task to Things 3 with correct area/project routing, tag inference, and URL-safe encoding. Use when the user says "add a task", "remind me to...", "create a todo", "put this in Things", "things 3 task", or similar Things-capture intent.
 argument-hint: <task description>
-allowed-tools: mcp__things__add_todo, mcp__things__get_tags, mcp__things__get_projects, mcp__things__get_areas, mcp__things__get_todos
+allowed-tools: mcp__things__add_todo, mcp__things__get_tags, mcp__things__get_projects, mcp__things__get_areas, mcp__things__get_todos, Bash
 ---
 
-You are a task capture specialist. Your goal is to capture tasks in Things 3 with maximum context and organization so the user never loses track of what they were thinking.
+# Add a Things 3 Task
 
-## Task to Capture
+Capture tasks into Things 3 with rich context, correct routing, and **no encoding bugs**. This skill exists to prevent recurring failure modes: `+`-encoded spaces in titles, wrong-area placement, and crowded Today views from unscoped defaults.
 
-**Task**: $ARGUMENTS
+## Hard rules (do not skip)
 
-## Context Awareness
+1. **Always discover the user's current areas/projects/tags before creating.** They evolve; never hard-code names.
+2. **Never use `quote_plus` or `urlencode`** when building Things URLs. Use `urllib.parse.quote(value, safe='')` per parameter so spaces become `%20`, not `+`. Things treats `+` literally and you get titles like `Submit+PR+review+on+Pam`.
+3. **Open the URL from a shell variable**, not by passing it inline to `open`. Some characters (`#`, `&`) trip zsh globbing.
+4. **Verify the task landed** before reporting success. Query Things via AppleScript and confirm title + area match what you intended.
 
-Before creating the task, gather context from the conversation:
-- File paths or names mentioned
-- Code snippets discussed
-- Links or URLs referenced
-- Related project or feature area
-- Any deadlines or timing mentioned
-- Sub-tasks or steps implied
+## Step 1 — Discover current Things 3 structure
 
-## Things 3 Integration Process
+Run all three; cache results in conversation context:
 
-### 1. Fetch Available Organization Structure
-
-First, fetch the existing organization structure to match the task appropriately:
-
-```
-mcp__things__get_tags (with include_items: false)
-mcp__things__get_projects (with include_items: false)
-mcp__things__get_areas (with include_items: false)
+```bash
+osascript -e 'tell application "Things3" to get name of every area'
+osascript -e 'tell application "Things3" to get name of every project whose status is open'
+osascript -e 'tell application "Things3" to get name of every tag'
 ```
 
-This gives you:
-- **Tags**: Available tags to apply (CANNOT create new ones)
-- **Projects**: Active projects to assign to
-- **Areas**: Life/work areas for organization
+Areas and tags include emoji — preserve them exactly when passing back to Things.
 
-### 2. Analyze the Task
+## Step 2 — Decide routing
 
-Determine:
-- **Title**: Clear, actionable task title (use task description or derive from context)
-- **When**: Default to "today" unless user specified otherwise (tomorrow, specific date, someday, etc.)
-- **Notes**: Detailed context (see Notes Format below)
-- **Checklist items**: Break down if task has sub-steps or inherent list (e.g., shopping items)
-- **Tags**: Match to existing tags based on task type/context
-- **Project/Area**: Match if obvious from context, otherwise leave unassigned
-- **Deadline**: Only if explicitly mentioned
+### Area assignment
 
-### 3. Notes Format (Things 3 Markdown)
+**Work signals** (any of: Supabase, Growth Eng, a github.com/supabase URL, a Linear ticket ID, Customer.io, PostHog, work-Slack thread URL, named teammates Marc/Pam/Pedro/etc., Hex thread, anything from `~/supabase/`) → land in the **Supabase** area.
 
-Structure notes with rich context:
+If the task references an active *project* (e.g. PostHog renewal, MCP activation push, a named experiment), try to find a matching open project and use that instead. Currently no Supabase-area projects exist in Things — area-only is the practical default.
+
+**Personal signals** (home, errand, family, personal finance, mom, Tina, side projects) → try matching an open project first (`💰 Finance`, `🏡 41 Westwood`, `❤️ Mom`, `🧠 TheraGPT`, `🎿 Skiing`, etc.), then fall back to the **Personal** area, then to Inbox if nothing fits.
+
+**Indie / side-project signals** (own product names, code in `~/indie/` or similar, "my side project") → **Indie Hacking** area, or its matching project if one exists.
+
+**Ambiguous** → Inbox. Don't force a guess.
+
+### Scheduling
+
+Default `when: "today"`. Override only when the user explicitly says otherwise:
+
+| User says | `when` |
+|---|---|
+| "tomorrow" | `tomorrow` |
+| "this evening" / "tonight" | `evening` |
+| "next week" / "later" | `someday` (or specific date if given) |
+| "someday" | `someday` |
+| YYYY-MM-DD or natural date | that date |
+| no urgency | `anytime` |
+
+### Tags
+
+**Apply tags only when explicitly inferable** from user language. Otherwise leave untagged. Match against the discovered tag list — use exact strings including emoji:
+
+| Signal | Tag |
+|---|---|
+| "urgent" | `🔴 Urgent` |
+| "important" / "MIT" / "most important" | `🟠 Important` or `🌟 MIT` |
+| "blocked on X" / "waiting for X" / "waiting on" | `🟡 Waiting` |
+| "at home" / "from home" | `🟣 Home` |
+| "at the office" | `Office` |
+| "on my laptop" / "needs computer" | `🟢 Laptop` |
+| "with Tina" / "ask Tina" / "Tina needs to" | `🔵 Tina Required` |
+| "errand" / "while I'm out" | `Errand` |
+
+Max 2-3 tags. Drop anything that doesn't match cleanly.
+
+## Step 3 — Notes format (scale to complexity)
+
+**Atomic task** (one verb, one object, no context to carry): one-line note or no note at all.
+
+> Example: "buy birthday card for Mom" — no notes needed.
+
+**Has context** (PR review, follow-up, decision pending, references a URL/file): structured notes.
 
 ```markdown
-[Brief context about why this task matters or what prompted it]
+[One-line why-this-matters.]
 
 ## Context
-- Related to: [file, feature, or project area]
-- Conversation: [brief summary of what we discussed]
+- Related to: [PR, ticket, file, person]
+- Source: [link or path]
 
 ## Details
-[Any specific requirements, constraints, or considerations]
+[Anything specific the future-you needs to act: the draft message, the verdict, the constraint.]
 
 ## Resources
-- Files: `path/to/file.swift`
-- Links: [Description](https://url.com)
-- Code reference:
-  ```language
-  relevant code snippet
-  ```
-
-## Next Steps
-1. [If applicable, high-level approach]
+- [Description](url)
+- `file/path/here.ext`
 ```
 
-**Markdown Features Supported by Things 3**:
-- `**bold**` and `*italic*`
-- `[link text](url)`
-- `` `inline code` ``
-- ```` ```code blocks``` ````
-- `- lists`
-- `1. numbered lists`
-- Headings with `##`
+**Heavy context** (debugging session, drafted message ready to paste, multi-step recovery): keep the structure, add a `## Draft` or `## Next Steps` section with the ready-to-execute content.
 
-### 4. Determine Checklist Items
+Never force the template. If a section would be empty, omit it.
 
-Create checklist items if:
-- Task naturally breaks into steps (e.g., "Implement user authentication" → ["Add login form", "Create auth service", "Add token storage"])
-- Task is inherently a list (e.g., "Buy groceries" → ["Milk", "Eggs", "Bread"])
-- Task has clear sub-components mentioned
+## Step 4 — Create the task
 
-**Keep checklist items**:
-- Actionable and specific
-- Short (2-5 words each)
-- 3-7 items maximum (if more, consider making them separate tasks)
+**Prefer the Things MCP if available** in the session (`mcp__things__add_todo`). It bypasses URL encoding entirely:
 
-**Don't create checklist for**:
-- Simple, atomic tasks
-- Tasks that are already specific enough
-- Vague or unclear tasks
+```python
+mcp__things__add_todo(
+    title="Submit PR review on growth-eng#9 (Pam)",
+    notes="...",
+    when="today",
+    list_title="❇️ Supabase",
+    tags=["🟢 Laptop"],
+)
+```
 
-### 5. Match Tags Intelligently
+**Fallback: `things://` URL scheme.** Use this Python helper exactly — the `quote(safe='')` and tempfile-via-variable pattern are both load-bearing:
 
-Based on the fetched tags, apply relevant ones:
-
-**Common tag patterns** (match to whatever exists in user's system):
-- Context: `@work`, `@personal`, `@errands`, `@computer`, `@phone`
-- Energy: `#quick`, `#deep-work`, `#waiting`
-- Type: `#bug`, `#feature`, `#research`, `#documentation`
-
-**Rules**:
-- Only apply tags that exist (from step 1)
-- Apply 0-3 tags maximum
-- Match based on task context and conversation
-- If no good match, leave untagged
-
-### 6. Match Project or Area
-
-**Project assignment**:
-- If task clearly relates to an active project, assign it
-- Projects are time-bound initiatives with end dates
-- Check project names/descriptions for keyword matches
-
-**Area assignment**:
-- If no project match but task fits a life/work area, assign it
-- Areas are ongoing responsibilities (Work, Health, Home, etc.)
-- Use when task is maintenance or general category work
-
-**Leave unassigned if**:
-- No clear match
-- Task is standalone
-- Ambiguous which project/area fits
-
-### 7. Set Schedule
-
-**Default**: `when: "today"` (shows in Today view immediately)
-
-**Override if user specified**:
-- "tomorrow" → `when: "tomorrow"`
-- "this evening" → `when: "evening"`
-- "next week" → `when: "someday"` (or specific date if given)
-- "someday" → `when: "someday"`
-- Specific date (YYYY-MM-DD) → `when: "YYYY-MM-DD"`
-
-**Anytime**: Use for tasks with no urgency
-
-### 8. Create the Task
-
-Use `mcp__things__add_todo` with parameters:
-
-```javascript
-{
-  title: "Clear, actionable task title",
-  notes: "Detailed markdown notes with context",
-  when: "today",  // or other timing
-  deadline: "YYYY-MM-DD",  // only if explicitly mentioned
-  tags: ["tag1", "tag2"],  // only existing tags
-  checklist_items: ["Item 1", "Item 2"],  // if applicable
-  list_id: "project-uuid",  // or null
-  // OR
-  list_title: "Project Name",  // alternative to list_id
-  heading: "Section Name"  // optional, if project has headings
+```bash
+python3 <<'PY' > /tmp/things_url.txt
+from urllib.parse import quote
+params = {
+    "title": "Submit PR review on growth-eng#9 (Pam)",
+    "notes": "...",            # raw string, newlines OK
+    "when": "today",
+    "tags": "🟢 Laptop",       # comma-separated for multiple
+    "list": "❇️ Supabase",     # area OR project name
 }
+encoded = "&".join(f"{k}={quote(v, safe='')}" for k, v in params.items())
+print(f"things:///add?{encoded}")
+PY
+URL=$(cat /tmp/things_url.txt) && open "$URL"
 ```
 
-**Parameter priority**:
-- Use `list_id` if you have the UUID from fetched projects/areas
-- Use `list_title` as fallback to match by name
-- Use `heading` only if user mentioned a specific section
+**Things URL parameters reference:**
 
-### 9. Confirm Creation
+| Param | Notes |
+|---|---|
+| `title` | Required. Plain string. |
+| `notes` | Plain string with `\n` for newlines. Markdown rendered in Things. |
+| `when` | `today`, `tomorrow`, `evening`, `anytime`, `someday`, or `YYYY-MM-DD`. |
+| `deadline` | `YYYY-MM-DD`. Only set if user explicitly named a deadline. |
+| `tags` | Comma-separated. Must match existing tags exactly (including emoji). |
+| `list` | Area OR project name. Exact match against discovered list. |
+| `heading` | Section within a project. Use only if user named one. |
+| `checklist-items` | Newline-separated. For tasks with natural sub-steps. |
 
-After creating the task, provide:
-- Confirmation message
-- Summary of what was captured
-- Tags applied (if any)
-- Project/Area assigned (if any)
-- When scheduled
-- Checklist items (if any)
+### Anti-patterns (this is why this skill exists)
 
-## Special Cases
+- `urllib.parse.urlencode(params)` — defaults to `quote_plus`, encodes spaces as `+`. Don't.
+- `urllib.parse.quote_plus(...)` — same problem.
+- `quote(v)` without `safe=''` — leaves `/` unencoded; fine for most fields but inconsistent with the rule. Always pass `safe=''`.
+- Building `things:///add?title=...` inline in `bash -c` or `open` — special characters (`#`, `&`, `(`, `)`) break. Always go through a file or shell variable.
+- Hard-coding area names like `"Supabase"` instead of the exact `"❇️ Supabase"` — silent failure, task lands in Inbox.
 
-### Task Already Exists
-If similar task might exist, still create it. Things handles duplicates gracefully and user can merge/delete as needed.
+## Step 5 — Verify
 
-### Unclear Task
-If task is vague:
-1. Create it with best interpretation
-2. Add note in the notes section: "Note: Consider clarifying [specific aspect]"
-3. Don't block on ambiguity
+After creating, query Things to confirm. The just-added task should appear in its destination list:
 
-### Multiple Tasks Mentioned
-If user mentions multiple distinct tasks, ask if they want one task with checklist or multiple separate tasks.
+```bash
+osascript -e 'tell application "Things3" to get name of to dos of list "Today"'
+osascript -e 'tell application "Things3" to get name of to dos of list "Inbox"'
+```
 
-### Non-Task Mentions
-Don't trigger for:
-- "Linear task" or "Linear issue"
-- "GitHub issue" (unless explicitly asked to also add to Things)
-- General discussion about tasks without intent to create
-- Questions about tasks ("What tasks do I have?")
+For an area:
 
-**DO trigger for**:
-- "Remind me to..."
-- "I need to..."
-- "Add this to my todo list..."
-- "Create a task for..."
-- "Don't let me forget to..."
-- Direct mentions of adding tasks to Things
+```bash
+osascript <<'AS'
+tell application "Things3"
+    set theArea to area "❇️ Supabase"
+    return name of to dos of theArea
+end tell
+AS
+```
 
-## Output Format
+If the title isn't there with the expected wording (especially no `+` in place of spaces), report the mismatch — don't claim success.
 
-After creating the task:
+## Step 6 — Report back
 
 ```markdown
 **Task created in Things**
 
-**Title**: [Task title]
-**Scheduled**: [When]
-**Project/Area**: [Name or "Inbox"]
-**Tags**: [Tags or "None"]
+**Title**: [exact title as it landed]
+**Scheduled**: [today / tomorrow / etc.]
+**Area / Project**: [❇️ Supabase / etc., or "Inbox"]
+**Tags**: [list, or "none"]
 
 **Notes preview**:
-[First 2-3 lines of notes]
-
-**Checklist** ([N] items):
-- [Item 1]
-- [Item 2]
-...
-
-The task is now in your Today view and ready to work on.
+> [first 1-2 lines]
 ```
 
-## Best Practices
+Skip the closing pleasantries.
 
-- **Rich context**: Capture everything relevant from the conversation
-- **Actionable titles**: Start with verbs (Implement, Fix, Research, Review, etc.)
-- **Specific notes**: Include file paths, code snippets, links
-- **Smart defaults**: Today scheduling, existing tags only
-- **Break down wisely**: Checklist for natural sub-tasks, not forced
-- **Respect structure**: Use existing projects/areas/tags
-- **Don't create tags**: Only use existing ones
-- **Don't force assignment**: Leave in Inbox if unclear
-- **Don't over-checklist**: Keep it simple and relevant
-- **Don't lose context**: Always include why/what/where information
+## Special cases
 
-## Example
+- **Multiple tasks in one request**: ask whether to create one task with a checklist or several separate tasks. Don't guess.
+- **Vague request** ("remind me about that thing"): capture with best interpretation; add a `Note: [aspect needs clarification]` line in the notes. Don't block on ambiguity.
+- **User wants this in Linear/GitHub, not Things**: skip this skill. This is Things-specific.
+- **Recurring task**: the Things URL scheme doesn't natively support recurrence. Create the task and add a note `Note: set repeat in Things UI after capture` — recurrence is configured in the app.
 
-**User says**: "I need to fix that bug in the tutorial system where the highlight isn't showing correctly on the iOS build"
+## When not to use this skill
 
-**Your analysis**:
-- Title: "Fix tutorial highlight rendering on iOS"
-- Notes: Include file context (TutorialHighlightNode.swift), mention iOS-specific issue
-- When: "today" (implied urgency)
-- Tags: Match to `#bug`, `@computer` if they exist
-- Project: Match to "Summa" project if it exists
-- Checklist: Maybe break into ["Debug rendering in TutorialHighlightNode", "Test on iOS device", "Verify highlight appears correctly"]
-
-**Result**: Task created with all context, scheduled for today, tagged appropriately, organized in project.
+- The user is asking *about* tasks ("what's on my list?") — that's a query, not a capture. Use AppleScript directly.
+- Creating tasks in another system (Linear, GitHub, the conversation's TaskCreate tool) — this skill is Things-only.
+- Bulk-importing many tasks from a list — fine to invoke once per task, but check whether the user actually wants them all in Today (usually not).
