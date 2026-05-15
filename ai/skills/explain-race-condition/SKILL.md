@@ -123,3 +123,4 @@ This explanation got the user from "wrong model, partially close" to "correct mo
 - The user asks "what is a race condition in general?" (educational, not debugging) — give them a textbook definition, not this template.
 - The bug isn't actually a race — it's a logic error or a config issue. Don't force-fit. If you can't name the two racing operations in step 2, the bug isn't a race; figure out what it actually is.
 - The race is documented elsewhere already (a bug journal entry, an investigation doc) — link to that, don't re-derive.
+- The bug isn't really about ordering — e.g. "the function returns the wrong value when the cache is stale." That's a stale-cache bug, not a race; explain it as a freshness problem instead.
