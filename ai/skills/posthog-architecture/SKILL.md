@@ -146,7 +146,7 @@ Any of these in a PR means you're working against the architecture:
 - Calling `posthog.capture` for a product event (not a pageview)
 - A frontend hook that "waits for identify to complete" before reading a flag
 - An audience filter that references a property without a corresponding update to `feature-flags.controller.ts`
-- A new telemetry event added without a backend endpoint
+- A new `/telemetry/*` endpoint added to send a single custom event (use the existing `/telemetry/event` via `useTrack()` instead)
 
 ## Out of Scope
 
