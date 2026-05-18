@@ -18,10 +18,12 @@ When debugging or extending PostHog behavior in this codebase, ALWAYS read these
 | Flag evaluation handler | `~/supabase/platform/api/apps/mgmt-api/src/routes/platform/telemetry/feature-flags.controller.ts` |
 | Frontend flag context | `~/supabase/supabase/packages/common/feature-flags.tsx` |
 | Frontend flag hook | `~/supabase/supabase/apps/studio/hooks/ui/useFlag.ts` |
+| Frontend custom event hook | `~/supabase/supabase/apps/studio/lib/telemetry/track.ts` |
+| Custom event transport | `~/supabase/supabase/packages/common/telemetry.tsx` (`sendTelemetryEvent`) |
 | Frontend identify (pageviews only) | `~/supabase/supabase/apps/studio/lib/telemetry.tsx` |
-| posthog-js wrapper (pageviews only) | `~/supabase/supabase/packages/common/posthog-client.ts` |
+| posthog-js wrapper | `~/supabase/supabase/packages/common/posthog-client.ts` |
 
-Do not infer behavior from posthog-js documentation alone. The wrapper at `posthog-client.ts` is used for pageviews; flags and custom events bypass it.
+Do not infer behavior from posthog-js documentation alone. posthog-js is initialized client-side and does its own background work (pageviews, auto-`$feature_flag_called` events, internal flag store), but our app code only consumes its pageview path. Flags and product events go through the backend.
 
 ## Architecture in One Diagram
 
