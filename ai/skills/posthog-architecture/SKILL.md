@@ -28,38 +28,47 @@ Do not infer behavior from posthog-js documentation alone. posthog-js is initial
 ## Architecture in One Diagram
 
 ```
-┌─ Frontend (apps/studio) ───────────────────────────────────────────┐
-│                                                                    │
-│  FeatureFlagProvider  ──HTTP──>  GET /telemetry/feature-flags      │
-│      │                                                             │
-│      ▼                                                             │
-│  React context                                                     │
-│      │                                                             │
-│      ▼                                                             │
-│  usePHFlag('foo')                                                  │
-│                                                                    │
-│  posthog-js (client)  ──HTTP──>  POST /pageview                    │
-│                                  (PAGEVIEWS ONLY)                  │
-└────────────────────────────────────────────────────────────────────┘
+┌─ Frontend (apps/studio) ─────────────────────────────────────────────────┐
+│                                                                          │
+│  FeatureFlagProvider ──HTTP──> GET /telemetry/feature-flags              │
+│      │                          (returns resolved flag values)           │
+│      ▼                                                                   │
+│  React context  ──read by──>  usePHFlag('foo')                           │
+│                                                                          │
+│  usePHFlag (on first observation)                                        │
+│      ──HTTP──> POST /telemetry/feature-flags/track                       │
+│                 (records the $feature_flag_called auto-event)            │
+│                                                                          │
+│  useTrack()(action, properties)  ──HTTP──> POST /telemetry/event         │
+│                                            (all custom product events)   │
+│                                                                          │
+│  posthog-js  ──direct──> ph.supabase.green                               │
+│              (pageviews / pageleaves only — other auto-events ignored)   │
+└──────────────────────────────────────────────────────────────────────────┘
                                   │
                                   ▼
 ┌─ Backend (platform/api/mgmt-api) ──────────────────────────────────┐
 │                                                                    │
-│  TelemetryFeatureFlagsController.callFeatureFlag                   │
-│      │                                                             │
-│      │  build personProperties + groups                            │
-│      ▼                                                             │
-│  ctx.posthog.getAllFlagsAndPayloads({                              │
-│    distinctId: gotrue_id,                                          │
-│    options: { personProperties, groups, groupProperties }          │
-│  })                                                                │
-│      │                                                             │
-│      ▼                                                             │
+│  Each /telemetry/* handler builds a payload and calls the          │
+│  PostHog server SDK on behalf of the frontend.                     │
+│                                                                    │
+│  feature-flags.controller.ts:getFeatureFlags                       │
+│      ──> ctx.posthog.getAllFlagsAndPayloads({                      │
+│            distinctId: gotrue_id,                                  │
+│            options: { personProperties, groups, groupProperties }, │
+│          })                                                        │
+│                                                                    │
+│  feature-flags.controller.ts:trackFeatureFlag                      │
+│      ──> ctx.posthog.capture({ event: '$feature_flag_called', … })│
+│                                                                    │
+│  event.controller.ts (v2 generic)                                  │
+│      ──> ctx.posthog.capture({ event: <action>, … })              │
+│                                                                    │
 │  PostHog server SDK  ──>  PostHog cloud (eu.posthog.com)           │
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-Custom events follow the same shape via sibling routes (e.g. `POST /telemetry/feature-flags/track`, other `/telemetry/*` handlers). The frontend never calls `posthog.capture` for product events directly.
+Three distinct backend endpoints for three distinct concerns. Don't confuse them — `/telemetry/feature-flags/track` is purpose-built for `$feature_flag_called` events only; arbitrary custom events go through `useTrack()` → `/telemetry/event`. The frontend never calls `posthog.capture` for product events directly.
 
 ## Hard Rules
 
