@@ -83,7 +83,7 @@ Three distinct backend endpoints for three distinct concerns. Don't confuse them
 1. Create the flag in PostHog UI with bucketing on `distinct_id`. Audience filters use person properties (e.g. `org_count`, `signup_timestamp`, `plan`).
 2. **Confirm the backend already sends every property your audience filter references.** Read `feature-flags.controller.ts:getFeatureFlags`. If your filter mentions `org_count` and the controller doesn't pass it in `personProperties`, your flag will not work — see "Audience Filter Silently Fails" below.
 3. Read the flag in React with `usePHFlag<T>('flagKey')`. Handle the three return states: `undefined` (loading or missing), `false` (explicitly disabled / not in audience), `T` (a real value).
-4. For experiments: fire an exposure event via the existing telemetry track endpoint. Include `experiment_id` and `variant`. See the `growth-pr-review` skill for full exposure/conversion event conventions.
+4. For experiments: fire an exposure event via `useTrack()` (which routes to `POST /telemetry/event`). Include `experiment_id` and `variant`. See the `growth-pr-review` skill for full exposure/conversion event conventions.
 
 ## Adding a Property to the Audience-Filter Vocabulary
 
