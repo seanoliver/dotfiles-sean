@@ -74,7 +74,7 @@ Three distinct backend endpoints for three distinct concerns. Don't confuse them
 
 1. **Do not call posthog-js for flags or custom events.** No `posthog.getFeatureFlag`, `posthog.onFeatureFlags`, `posthog.identify`-driven flag re-evaluation, `posthog.capture` for product events. These compile and look correct but operate on a store the rest of the app ignores.
 2. **Feature flag values come from `usePHFlag`** (`apps/studio/hooks/ui/useFlag.ts`). It reads from a React context populated once per dep-change by `FeatureFlagProvider`. There is no live subscription to posthog-js.
-3. **Custom events go through the backend.** Add a new telemetry endpoint when adding a new event type — do not bypass it.
+3. **Custom events go through `useTrack()`.** `useTrack()(action, properties)` dispatches to `POST /telemetry/event` (the v2 generic endpoint). Do NOT add a new telemetry endpoint per event, and do NOT route through `/telemetry/feature-flags/track` (that's reserved for the `$feature_flag_called` auto-event). New event types are added by extending the `TelemetryEvent` union in `packages/common/telemetry-constants.ts`, not by adding routes.
 4. **Audience filters need explicit `personProperties`.** PostHog evaluates audience filters against the `personProperties` payload the backend sends. If the property isn't in that payload, PostHog falls back to whatever's stored on the person profile from prior events — usually empty/stale for new signups. Audience filter then silently fails and the user gets `false` (control).
 5. **Bucketing identifier is `distinctId: gotrue_id`** (the user's gotrue UUID). Stable per user. Do not bucket on anonymous distinct_ids.
 
