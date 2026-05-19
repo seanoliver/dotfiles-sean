@@ -7,12 +7,12 @@ add_newline = true
 # Set scan timeout to 100ms to handle large repos like supabase/
 scan_timeout = 100
 
-# Set command timeout to 200ms for external commands
-command_timeout = 200
+# Set command timeout for external commands (bumped to handle slow git in large repos)
+command_timeout = 1000
 
 # Main prompt format - clean and minimal with new additions
 format = '''
-$username$hostname$directory$git_branch$git_status$git_state$git_commit$nodejs$python$rust$golang$docker_context$cmd_duration$jobs
+$username$hostname$directory$git_branch$git_status$git_state$git_commit$python$rust$golang$docker_context$cmd_duration$jobs
 $character'''
 
 # Right prompt format for additional context
@@ -101,12 +101,7 @@ style = 'bold yellow'
 
 # Node.js module - enhanced with package manager detection
 [nodejs]
-format = 'via [$symbol($version)]($style) '
-symbol = '󰎙 '
-style = 'bold green'
-detect_extensions = ['js', 'mjs', 'cjs', 'ts', 'mts', 'cts', 'jsx', 'tsx', 'json']
-detect_files = ['package.json', '.nvmrc', '.node-version']
-detect_folders = ['node_modules']
+disabled = true
 
 # Package version module - shows package.json version
 [package]

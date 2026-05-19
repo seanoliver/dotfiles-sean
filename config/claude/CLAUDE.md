@@ -44,4 +44,3 @@ Skills live in `~/dotfiles/ai/skills/<name>/SKILL.md` (symlinked into `~/.claude
 **Create or edit a skill in the moment only if:** (a) the deliverable IS the skill (the user asked for one), or (b) we're already touching the skills system. Otherwise log to the backlog and continue.
 
 Watch especially for: tasks the user does repeatedly (skill candidate), existing skills that lack an Out of Scope section (improve), skills that try to do 3+ unrelated things (split candidate), instructions the user gives mid-task that should persist across sessions (skill or memory candidate).
-

@@ -53,5 +53,7 @@
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
   "security.workspace.trust.enabled": false,
-  "telemetry.telemetryLevel": "off"
+  "telemetry.telemetryLevel": "off",
+  "mise.binPath": "/opt/homebrew/bin/mise",
+  "window.autoDetectColorScheme": false
 }
