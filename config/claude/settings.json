@@ -48,6 +48,10 @@
           {
             "type": "command",
             "command": "[ -f ~/.claude/SOUL.md ] && cat ~/.claude/SOUL.md || true"
+          },
+          {
+            "type": "command",
+            "command": "[ -f ~/.claude/skills/using-superpowers/SKILL.md ] && { echo '<EXTREMELY_IMPORTANT>'; echo 'You have superpowers. Below is the full content of your local using-superpowers skill — your introduction to using skills. For all other skills, use the Skill tool.'; echo; cat ~/.claude/skills/using-superpowers/SKILL.md; echo '</EXTREMELY_IMPORTANT>'; } || true"
           }
         ]
       }
@@ -58,6 +62,10 @@
           {
             "type": "command",
             "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          },
+          {
+            "type": "command",
+            "command": "jq -r --arg ts \"$(date -u +%FT%TZ)\" --arg cwd \"$PWD\" 'if (.prompt | test(\"^/[a-zA-Z0-9_:-]+\")) then (.prompt | capture(\"^/(?<cmd>[a-zA-Z0-9_:-]+)\\\\s*(?<rest>.*)$\")) as $m | [$ts, $cwd, (\"slash:\" + $m.cmd), $m.rest] | @tsv else empty end' >> ~/.claude/skill-usage.tsv 2>/dev/null || true"
           }
         ]
       }
@@ -72,6 +80,17 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r --arg ts \"$(date -u +%FT%TZ)\" --arg cwd \"$PWD\" '[$ts, $cwd, (.tool_input.skill // \"\"), ((.tool_input.args // \"\") | tostring)] | @tsv' >> ~/.claude/skill-usage.tsv 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "*",
@@ -79,6 +98,16 @@
           {
             "type": "command",
             "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -z \"$f\" ] && exit 0; real=$(readlink -f \"$f\" 2>/dev/null); [ -z \"$real\" ] && exit 0; case \"$real\" in \"$HOME/dotfiles/\"*) ;; *) exit 0 ;; esac; rel=\"${real#$HOME/dotfiles/}\"; cd \"$HOME/dotfiles\" 2>/dev/null || exit 0; git add \"$real\" 2>/dev/null; if ! git diff --cached --quiet -- \"$real\" 2>/dev/null; then git commit -m \"dotfiles: auto-commit $rel\" -- \"$real\" 2>/dev/null && git push origin main 2>/dev/null; fi; } 2>>\"$HOME/.claude/dotfiles-autocommit.log\" || true",
+            "async": true
           }
         ]
       }
@@ -115,13 +144,17 @@
     "claude-hud@claude-hud": true,
     "github@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "serena@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "posthog@claude-plugins-official": true,
-    "warp@claude-code-warp": true
+    "warp@claude-code-warp": true,
+    "vercel@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -131,9 +164,9 @@
       }
     }
   },
-  "effortLevel": "medium",
+  "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
   "verbose": true,
-  "preferredNotifChannel": "ghostty"
+  "preferredNotifChannel": "ghostty",
+  "voiceEnabled": true
 }
