@@ -106,7 +106,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -z \"$f\" ] && exit 0; real=$(readlink -f \"$f\" 2>/dev/null); [ -z \"$real\" ] && exit 0; case \"$real\" in \"$HOME/dotfiles/\"*) ;; *) exit 0 ;; esac; rel=\"${real#$HOME/dotfiles/}\"; cd \"$HOME/dotfiles\" 2>/dev/null || exit 0; git add \"$real\" 2>/dev/null; if ! git diff --cached --quiet -- \"$real\" 2>/dev/null; then git commit -m \"dotfiles: auto-commit $rel\" -- \"$real\" 2>/dev/null && git push origin main 2>/dev/null; fi; } 2>>\"$HOME/.claude/dotfiles-autocommit.log\" || true",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -z \"$f\" ] && exit 0; real=$(readlink -f \"$f\" 2>/dev/null); [ -z \"$real\" ] && exit 0; case \"$real\" in \"$HOME/dotfiles/\"*) ;; *) exit 0 ;; esac; rel=\"${real#$HOME/dotfiles/}\"; case \"$rel\" in *.env|*.env.*|.env|.env.*|*secret*|*Secret*|*SECRET*|*token*|*Token*|*TOKEN*|*credentials*|*Credentials*|*CREDENTIALS*|*password*|*Password*|*PASSWORD*|*.pem|*.PEM|*.key|*.KEY|*.p12|*.pfx|private/*|.private/*|*/.private/*|.aws/*|.ssh/*) echo \"[$(date -u +%FT%TZ)] skip-secret-pattern: $rel\" >> \"$HOME/.claude/dotfiles-autocommit.log\"; exit 0 ;; esac; cd \"$HOME/dotfiles\" 2>/dev/null || exit 0; git add \"$real\" 2>/dev/null; if ! git diff --cached --quiet -- \"$real\" 2>/dev/null; then git commit -m \"dotfiles: auto-commit $rel\" -- \"$real\" 2>/dev/null && git push origin main 2>/dev/null; fi; } 2>>\"$HOME/.claude/dotfiles-autocommit.log\" || true",
             "async": true
           }
         ]
