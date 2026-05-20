@@ -195,7 +195,7 @@ Read the existing description first (`gh pr view <number> --json body`) and iden
 
 ## Output format
 
-A finished PR description should look like:
+When the repo has no PR template, a finished description should look like:
 
 ```markdown
 [Opening paragraph: 1-3 sentences. Lead with cause. State the symptom and root cause. Reference linked PRs/tickets inline.]
@@ -212,20 +212,16 @@ A finished PR description should look like:
 - [Strategy bullet 2]
 - [Strategy bullet 3, with sub-bullets if a constraint needs explaining]
 
-## Experiment / rollout impact
-
-[If applicable. Skip otherwise.]
-
 ## Testing
 
 [Flat bullet list of test paths, OR casual narration of what you verified.]
 
-## Post-deploy expectations
-
-[What metric should move, what residual failures would mean, validation timeframe.]
-
 [Issue reference]
 ```
+
+Add `## Experiment / rollout impact` and/or `## Post-deploy expectations` only when the PR's content meets the inclusion criteria for those sections (see Step 4). For a routine bug fix, the three core sections above are the whole shape.
+
+When the repo HAS a template, fill the template's sections in its order. Apply the compression principles (Steps 3, 5, 6) to whichever sections it asks for. Don't add the optional sections above unless the template invites them (often under a freeform "Additional context" section).
 
 Aim for ~300-500 words total for a focused PR. Larger refactors may run longer; one-line fixes may need less.
 
