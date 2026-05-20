@@ -108,11 +108,11 @@ Schema:
 {
   "source": "linear|github|slack|notion|posthog|things|docs",
   "summary": "<one-line headline, max 100 chars>",
-  "shipped": [{"title": "...", "url": "...", "context": "...", "timestamp": "..."}],
-  "in_progress": [{"title": "...", "url": "...", "context": "...", "timestamp": "..."}],
-  "launched": [{"title": "...", "url": "...", "context": "...", "timestamp": "..."}],
-  "discussions": [{"title": "...", "url": "...", "context": "...", "timestamp": "..."}],
-  "flags": [{"title": "...", "url": "...", "context": "...", "timestamp": "..."}],
+  "shipped": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "in_progress": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "launched": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "discussions": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "flags": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
   "error": null
 }
 ```
