@@ -199,6 +199,55 @@ The **source pill** (LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS)
 
 When in doubt about whether to keep a row: if it adds information the reader doesn't already have from the rows above, keep it. Otherwise drop it.
 
+### View toggle (7 days vs last 24 hours)
+
+The report supports a CSS-only toggle that filters items to the last 24 hours. No JavaScript.
+
+Wrap the document like this:
+
+```html
+<body>
+  <input type="radio" id="view-7d" name="view" class="view-radio" checked>
+  <input type="radio" id="view-24h" name="view" class="view-radio">
+  <div class="container">
+    <header>
+      ...
+      <div class="view-toggle">
+        <label for="view-7d" class="toggle-btn">7 days</label>
+        <label for="view-24h" class="toggle-btn">24 hours</label>
+      </div>
+    </header>
+    ...
+  </div>
+</body>
+```
+
+Computation rules — precompute at generation time:
+
+- Each `<li>` MUST have `data-recent="true"` if its timestamp is on TODAY or YESTERDAY (the trailing 24-hour window, day-precision), else `data-recent="false"`.
+- A `<section.report-section>` MUST gain class `no-recent` IF AND ONLY IF every item in it has `data-recent="false"`.
+- Every `<section.report-section>` includes `<p class="empty-24h">No activity in last 24 hours.</p>` after its `<ul>`. CSS hides it except when the section is `.no-recent` AND 24h mode is active.
+- Velocity tiles render BOTH counts: `<div class="num"><span class="n-7d">6</span><span class="n-24h">2</span></div>`. CSS shows only one at a time.
+
+Required CSS rules:
+
+```css
+.view-radio { position: absolute; opacity: 0; pointer-events: none; }
+#view-24h:checked ~ .container li[data-recent="false"] { display: none; }
+.tile .n-24h { display: none; }
+#view-24h:checked ~ .container .tile .n-7d { display: none; }
+#view-24h:checked ~ .container .tile .n-24h { display: inline; }
+.empty-24h { display: none; }
+#view-24h:checked ~ .container .report-section.no-recent > ul { display: none; }
+#view-24h:checked ~ .container .report-section.no-recent .empty-24h { display: block; }
+#view-7d:checked ~ .container label[for="view-7d"],
+#view-24h:checked ~ .container label[for="view-24h"] {
+  background: var(--accent); color: white;
+}
+```
+
+The exec-summary stays visible in both modes — it's a synthesis of the 7-day window and remains relevant context even in 24h view. Do NOT try to also filter it.
+
 ### Cross-source deduplication
 
 The same underlying piece of work often appears in multiple source payloads — a single shipment shows up as a Linear issue, a merged GitHub PR, AND a completed Things task. Before rendering, collapse these into ONE item with multiple source pills.
