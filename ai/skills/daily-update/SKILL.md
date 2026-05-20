@@ -152,15 +152,17 @@ Font stack: `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`. Mono fal
 <header>
   Daily Update | {TODAY} | Rolling 7 days from {WINDOW_START} | Generated {GENERATED_AT}
 
-<section.exec-summary>           accent-bordered box, 2-3 sentences
+<section.exec-summary>           accent-bordered box, bulleted highlights (NOT a paragraph)
 <section.velocity-grid>          5 stat tiles
-<section.report-section.in-progress>    h2 + ul, cyan left border
+<section.report-section.launched>       h2 + ul, purple left border   ← top
 <section.report-section.shipped>        h2 + ul, green left border
-<section.report-section.launched>       h2 + ul, purple left border
+<section.report-section.in-progress>    h2 + ul, cyan left border
 <section.report-section.discussions>    h2 + ul, gray left border
 <section.report-section.flags>          h2 + ul, amber left border
 <footer>                         link to yesterday's report (if file exists)
 ```
+
+**Section order is intentional:** Launched first because it's the most user-visible outcome and the rarest signal — burying it under "Shipped" hides the headline. Shipped + In Progress next because they're the densest sections. Discussions + Flags are awareness-not-action, so they go last.
 
 ### Velocity grid tiles
 
