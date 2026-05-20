@@ -63,7 +63,7 @@ Each subagent receives a prompt of the form:
 
 ### Per-source instructions
 
-**1. Linear** — Use `mcp__claude_ai_Linear__list_issues` with filter on team `a2feb365-231c-4bd2-9be7-b40217f8ad33` and assignee containing "Sean Oliver", updated since `{WINDOW_START}`. For each issue capture: `identifier` (e.g., GROWTH-123), `title`, `state.name`, `state.type`, `project.name`, `url`, `updatedAt`. Issues with `state.type = completed` go to `shipped`; others to `in_progress`. Issues untouched for 5+ days but still open go to `flags` with context "stalled".
+**1. Linear** — Use `mcp__claude_ai_Linear__list_issues` with filter on team `a2feb365-231c-4bd2-9be7-b40217f8ad33` and assignee containing "Sean Oliver", updated since `{WINDOW_START}`. For each issue capture: `identifier` (e.g., GROWTH-123), `title`, `state.name`, `state.type`, `project.name`, `url`, `updatedAt`, AND `description` (first sentence of the issue body, max 120 chars, or empty string if no body). Issues with `state.type = completed` go to `shipped`; others to `in_progress`. Issues untouched for 5+ days but still open go to `flags` with context "stalled".
 
 **2. GitHub** — Use `mcp__plugin_github_github__search_pull_requests` twice:
   - `is:pr author:seanoliver org:supabase updated:>={WINDOW_START}` → authored PRs
