@@ -162,7 +162,7 @@ Font stack: `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`. Mono fal
 <footer>                         link to yesterday's report (if file exists)
 ```
 
-**Section order is intentional:** Launched first because it's the most user-visible outcome and the rarest signal — burying it under "Shipped" hides the headline. Shipped + In Progress next because they're the densest sections. Discussions + Flags are awareness-not-action, so they go last.
+**Section order is intentional:** Launched first because it's the most user-visible outcome and the rarest signal — burying it under "Shipped" hides the headline. Shipped + In Progress next because they're the densest action sections. Flags before Discussions because flags want attention (stalled work, bugs), while discussions are passive awareness signal. Discussions live at the bottom.
 
 ### Velocity grid tiles
 
