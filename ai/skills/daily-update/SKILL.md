@@ -262,10 +262,15 @@ After generating, before declaring complete:
 
 ## Automation
 
-To run daily without manual invocation, pair with `/schedule`:
+**This skill cannot be scheduled via `/schedule`.** `/schedule` creates *remote* agents that run in Anthropic's cloud, but this skill depends on three local-only resources:
 
-```
-/schedule daily-update at 5pm America/Los_Angeles
-```
+- **Things 3 MCP** — runs against the local Things database on the Mac; no remote equivalent.
+- **`~/supabase/docs/bugs/` + `~/supabase/docs/investigations/`** — local files at the hub root, not in any git repo.
+- **`~/Documents/daily-updates/`** — local output destination.
 
-The `schedule` skill handles cron registration. Out of scope for this skill.
+A remote schedule would silently drop Things + local docs and have nowhere to write the HTML. Run this skill manually (`/daily-update` or trigger from a fresh Claude Code session). If you later want hands-off daily delivery, the right pivot is either:
+
+- A separate, stripped-down "remote-daily-update" skill that uses only cloud sources (Linear, GitHub, Slack, Notion, PostHog) and delivers via Notion/Slack/email; OR
+- A local launchd job that opens Claude Code with `/daily-update` primed at a fixed time.
+
+Both are net-new work, not a config change on this skill.
