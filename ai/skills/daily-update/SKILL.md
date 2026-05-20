@@ -238,6 +238,8 @@ OUT="$HOME/Documents/daily-updates/daily-update-$(date +%Y-%m-%d).html"
 open "$OUT"
 ```
 
+**Same-day idempotency (REQUIRED):** the filename is keyed to TODAY's date alone. Running the skill multiple times in a single day OVERWRITES the existing file with the latest synthesis. Do NOT append a timestamp, run-counter, or any uniqueness token to the filename — repeated same-day runs are intentional refreshes, not new artifacts. The `open` call re-focuses the browser tab; the user sees the latest data in place.
+
 Print this terminal one-liner (replace placeholders with actual counts):
 
 ```
