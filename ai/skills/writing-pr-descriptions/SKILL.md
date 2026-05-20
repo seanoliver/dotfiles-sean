@@ -7,7 +7,7 @@ description: Use when writing or revising a pull request description, converting
 
 A PR description's job is to let a reviewer skim it in 60 seconds and leave knowing: (1) what changed, (2) why, (3) what to test. Everything else is decoration.
 
-Match Sean's voice as documented in `~/supabase/CLAUDE.md`'s "PR Description Guidelines": conversational, like a thoughtful Slack message to a teammate. No corporate speak. No marketing copy. No emoji. End on the issue reference, no formal sign-off.
+The work splits into two skills that compose: **voice** (conversational, like a thoughtful Slack message — no corporate speak, no marketing copy, no emoji) and **compression** (lead with cause, structure aggressively, cut chronology). Voice without compression produces friendly-sounding noise. Compression without voice produces clinical filler. You need both.
 
 ## Step 1 — Use the repo's PR template when one exists
 
@@ -32,39 +32,110 @@ For `~/supabase/supabase/` (the frontend monorepo), the canonical template is at
 
 Re-read this template before writing; it may have evolved. If you find a section the live template asks for that this skill doesn't mention, prefer the live template.
 
-## Step 2 — Voice and tone (from Sean's CLAUDE.md)
+## Step 2 — Voice and tone
 
-- Conversational. "Back in October we changed X" not "On October 17, 2025, the implementation was modified to X."
-- Plain narrative. Skip background the team already knows.
-- Use "we/our" instead of passive voice when natural.
-- Specific about technical details but don't over-explain the obvious.
-- Minor imperfections and casual phrasing are fine and signal a human wrote it.
-- For testing, describe what you actually tested, not formal test cases.
-- No emojis. No excessive formatting. No marketing copy. No "Resolves #123" footers (just reference the issue inline or at the end).
+From Sean's CLAUDE.md PR Description Guidelines, plus tone calibration:
 
-## Step 3 — Structure inside template sections
+- **Conversational.** "Back in October we changed X" not "On October 17, 2025, the implementation was modified to X."
+- **Calm and technically precise.** Senior engineer in a busy production environment, not performative.
+- **Confident.** Not hedge-heavy ("should probably maybe") and not over-asserted either ("definitely will solve all").
+- **Plain narrative.** Skip background the team already knows.
+- **Use "we/our"** instead of passive voice when natural.
+- **Specific about technical details** but don't over-explain the obvious.
+- **Minor imperfections and casual phrasing** are fine and signal a human wrote it.
+- **For testing**, describe what you actually tested, not formal test cases.
+- **No emojis. No excessive formatting. No marketing copy.** No "Resolves #123" footers (just reference the issue inline or at the end).
 
-Most PR descriptions break down into three movements regardless of template shape:
+## Step 3 — Lead with cause, not chronology
+
+The first paragraph must answer **what broke, why, why this PR exists** — without storytelling. Chronology padding is the most common AI/junior-engineer tell and adds zero reviewer signal.
+
+| Don't | Do |
+|---|---|
+| "After deploying #123 we noticed an uptick in..." | "A race between X and Y returns null Z." |
+| "We started investigating and found that..." | State the root cause directly. |
+| "It turns out the issue was..." | "The issue is..." |
+| "After tracing through the logs, we eventually realized..." | State the finding. |
+
+Compress timelines into causality. Replace "We noticed... then we found... this led us to realize..." with direct statements.
+
+## Step 4 — Structure aggressively
+
+Most PR descriptions break down into five movements. Use named section headers; don't write giant prose blocks. The reviewer should be able to jump to the section that answers their question.
 
 ### Problem
 
-What's wrong, what we're fixing, why it matters. One short paragraph or a few bullets. If there's load-bearing evidence (a metric, a query result, a screenshot), surface it here — don't make the reviewer hunt for it.
+What's wrong, root cause, user impact. One short paragraph or 2-3 bullets. **Lead with the cause, not the symptom timeline.** If there's load-bearing evidence (a metric, a query result, a screenshot), surface it here — don't make the reviewer hunt for it.
 
-For complex bugs, the diagnosis is the load-bearing part. Show the reviewer how you know the bug is what you say it is. A diagnostic narrative — "running query X showed Y; isolating Z confirmed it" — earns confidence faster than asserting the conclusion.
+For complex bugs, the diagnosis is the load-bearing part. Show the reviewer how you know. But prefer **directional summaries over exhaustive evidence**:
 
-### Changes
+| Don't | Do |
+|---|---|
+| "Every one of the 484 sampled events showed `project_ref` and `org_slug` null in context, with no exceptions across the entire 20-minute window" | "Affected events consistently lacked org/project context — the signup race signature." |
+| "Bucketing rate was 1.02%, 1.16%, 0.94%, 0.88%, ..." | "Bucketing rate hovered around 1% before the fix." |
 
-What you did, usually as a few bullets. Don't restate the diff line-by-line; describe the strategy. Bullets are fine.
+### Fix
+
+Chosen strategy. **Collapse verbose implementation detail.** When multiple steps serve one conceptual purpose, summarize together; only expand if individual steps matter semantically.
+
+| Verbose | Compressed |
+|---|---|
+| `- add field to decorator`<br>`- thread through function`<br>`- pass through middleware`<br>`- plumb into helper` | "Thread JWT `iat` through request auth into feature-flag person properties." |
+
+**Keep the "why" for constraints.** Retain rationale that explains safety bounds, correctness, rollout decisions, fallback validity. Example: "The 5-minute cap avoids treating token refresh time as signup time."
 
 If the change touches a non-obvious mechanism (a flag eval pattern, a cache invalidation strategy, an SDK behavior), explain the mechanism briefly. Future-them needs the why, not just the what.
 
-### Testing / Validation
+### Experiment / rollout impact (when applicable)
 
-What you actually verified. Casual narration: "ran the e2e suite locally, all green. spot-checked the new toggle in Chrome and Safari." If there's a post-merge validation step (rerun query in 24h, watch a metric, check a dashboard), name it explicitly with the timeframe.
+Whether data integrity is affected, what gating logic protects (or fails to protect) the change, expected behavior differences. Skip if the PR isn't experiment- or rollout-adjacent.
 
-Don't write formal test cases. Don't list every test name. Reviewers know what tests exist.
+### Testing
 
-## Step 4 — Pre-PR checklist
+What you actually verified. Prefer a **flat bullet list** when there are multiple paths; prefer casual narration when there's one or two ("Ran the e2e suite locally, all green. Spot-checked the new toggle in Chrome and Safari."). Don't write formal test cases. Don't list every test name — reviewers know what tests exist.
+
+### Post-deploy expectations (when applicable)
+
+Close with what should improve, how validation works, what residual failures would mean. Make this its own section, not a buried sentence. Examples:
+- "The Sentry rate should drop from ~1,400/hr to single-digit. A non-trivial residual would indicate a non-race miss path we haven't covered."
+- "Conversion rate for the new flow should land above 8%; under 6% means the audience filter is wrong."
+
+If validation has a timeframe ("rerun query in 24h", "watch the dashboard through end of week"), name it explicitly.
+
+## Step 5 — Compression heuristics
+
+When compressing a draft into final form, aim for ~40-70% word reduction relative to a "thorough" first draft. The reduction comes from:
+
+**Aggressively compress:**
+- Deploy timelines and investigation chronology
+- Repeated metric references (state once, refer back)
+- Duplicated causal explanations
+- Low-level plumbing details that don't change reviewer judgment
+- Repeated mentions of the same invariant
+- Balanced phrasings ("well beyond X and well below Y") — usually rewriteable as a single sentence
+
+**Preserve verbatim:**
+- Exact race condition descriptions
+- Important schema/table names, exact identifiers
+- Precise fallback behavior
+- Rollout safety constraints
+- Experiment gating logic
+- Operational thresholds (cache TTLs, rate limits, timeouts)
+
+## Step 6 — Defensive-phrase blacklist
+
+These phrases add hedging and word count without adding signal. Replace with a direct statement or delete the sentence:
+
+- "Worth noting that..." / "It's worth noting..."
+- "As a heads up..."
+- "Interestingly..."
+- "Technically..."
+- "It turns out..."
+- "I'd argue that..."
+- "Arguably..."
+- "It could potentially..."
+
+## Step 7 — Pre-PR checklist
 
 Before opening the PR, run through Sean's PR Pre-Push Checklist from `~/.claude/CLAUDE.md`:
 
@@ -81,7 +152,7 @@ gh pr view <number> --json commits,additions,deletions
 
 This is mandatory before every push. The most common failure it catches: stacked-PR contamination where `origin/<base>` is behind the local base and the PR ends up including unintended commits.
 
-## Step 5 — When updating an existing PR description
+## Step 8 — Updating an existing PR description
 
 Use `gh pr edit <number> --body "$(cat <<'EOF' ... EOF)"` rather than the web UI. This keeps the PR description versioned in commit-adjacent state and makes the rewrite reviewable in chat.
 
@@ -94,11 +165,51 @@ Read the existing description first (`gh pr view <number> --json body`) and iden
 | Skip the repo's PR template because "it's a small PR" | Always use it. Reviewers expect it. |
 | "This PR adds support for X" (template-violating opener) | Answer the template's "What kind of change" prompt directly. |
 | Long narrative about what you were thinking while debugging | Lead with the finding. Trim the journey. |
+| Open with chronology ("After deploying...") | Open with cause ("A race between X and Y...") |
 | List every file changed | Describe the strategy. The diff shows the files. |
 | Formal test case enumeration | "Ran the suite locally, all green. Spot-checked X in Chrome." |
 | Emojis, "🚀", "✨", marketing copy | None of that. Sean's voice is dry. |
 | "Resolves #123" or "Closes #123" footer with auto-linking phrasing | Just reference the issue inline or at the end; don't add closure keywords unless the repo conventions require them. |
 | Re-deriving the bug story in the PR when it's documented elsewhere (Linear, bug journal) | Link to the diagnosis doc; summarize the conclusion in two lines. |
+| Long balanced framings ("well beyond X and well below Y") | One direct sentence: "5 min covers the race; tokens live up to 1 hour." |
+| Exhaustive enumeration of evidence | Directional summary: "Affected events consistently lacked org context." |
+| Sub-bullets for parallel implementation steps that serve one purpose | Collapse into one sentence describing the strategy. |
+
+## Output format
+
+A finished PR description should look like:
+
+```markdown
+[Opening paragraph: 1-3 sentences. Lead with cause. State the symptom and root cause. Reference linked PRs/tickets inline.]
+
+## Problem
+
+[Optional expanded problem section if the opener didn't cover diagnosis. Or fold into opener if short enough.]
+
+## Fix
+
+[Strategy + key constraint rationale. Bullets if multiple changes; prose if one coherent change.]
+
+- [Strategy bullet 1]
+- [Strategy bullet 2]
+- [Strategy bullet 3, with sub-bullets if a constraint needs explaining]
+
+## Experiment / rollout impact
+
+[If applicable. Skip otherwise.]
+
+## Testing
+
+[Flat bullet list of test paths, OR casual narration of what you verified.]
+
+## Post-deploy expectations
+
+[What metric should move, what residual failures would mean, validation timeframe.]
+
+[Issue reference]
+```
+
+Aim for ~300-500 words total for a focused PR. Larger refactors may run longer; one-line fixes may need less.
 
 ## Worked example
 
@@ -161,8 +272,12 @@ Live PostHog readout: https://eu.posthog.com/project/34344/insights/fBk4AZ1K.
 
 Notice what's *not* in there: no race-condition theory deep-dive (linked to GROWTH-858 instead), no list of changed files, no formal test plan, no emoji, no closure keyword.
 
-## When not to use this skill
+## Out of scope
 
-- Drafting commit messages — different shape and audience. Commit messages live forever in `git log`; PR descriptions are for the reviewer in the moment.
-- Writing PR review comments — use the `writing-pr-review-comments` skill for inline review feedback.
-- Generating release notes — those have a different shape (user-facing changelog vs reviewer-facing PR body).
+This skill does NOT cover:
+
+- **Commit messages** — different shape and audience. Commit messages live forever in `git log`; PR descriptions are for the reviewer in the moment. Use the project's commit-message conventions instead.
+- **PR review comments** — use the `writing-pr-review-comments` skill for inline review feedback.
+- **Release notes** — those have a different shape (user-facing changelog vs reviewer-facing PR body).
+- **Slack messages announcing the PR** — use the `share-pr-for-review` skill.
+- **The actual code review** — separate skill (`pr-review` or `growth-pr-review` depending on context).
