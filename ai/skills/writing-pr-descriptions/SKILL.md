@@ -108,9 +108,13 @@ When you do include it, cover: whether data integrity is affected, what gating l
 
 What you actually verified. Prefer a **flat bullet list** when there are multiple paths; prefer casual narration when there's one or two ("Ran the e2e suite locally, all green. Spot-checked the new toggle in Chrome and Safari."). Don't write formal test cases. Don't list every test name — reviewers know what tests exist.
 
-### Post-deploy expectations (when applicable)
+### Post-deploy expectations (optional)
 
-Close with what should improve, how validation works, what residual failures would mean. Make this its own section, not a buried sentence. Examples:
+**Include when:** the PR has a measurable post-deploy signal — a Sentry rate that should move, a conversion metric that should change, a dashboard to watch, a query to rerun on a timeframe. Also include for production hotfixes where reviewers need to know what "working" looks like after merge.
+
+**Skip when:** the PR has no specific metric to track post-deploy. Most PRs don't need this section.
+
+When you do include it, name what should improve, how validation works, what residual failures would mean. Examples:
 - "The Sentry rate should drop from ~1,400/hr to single-digit. A non-trivial residual would indicate a non-race miss path we haven't covered."
 - "Conversion rate for the new flow should land above 8%; under 6% means the audience filter is wrong."
 
