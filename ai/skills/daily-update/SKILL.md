@@ -121,6 +121,16 @@ Not every source fills every array — that's fine; leave irrelevant ones empty.
 
 **Exclusivity rule:** an item MUST appear in at most ONE section per source payload. `flags` is reserved for problems, risks, and unfinished items only — never as a cross-reference to a launched/shipped success. If a thing both shipped and has a follow-up concern, put it in `shipped` and write a SEPARATE flag item describing the concern, not the same row duplicated. The Slack rate-limit and subagent-error cases are the only exception (those are by definition flag-only).
 
+**Headline field (REQUIRED for every item):** `headline` is a 5–10 word natural-language summary of what the item is or what it does, written for a human skim — NOT the raw PR title, Linear title, or filename. Drop ticket numbers, drop conventional-commit prefixes (`fix:`, `feat:`, `refactor:`), drop scope tags (`(telemetry)`), drop project codes. Strip jargon when possible without losing meaning.
+
+Examples:
+- title: `"fix(telemetry): pass org_count and signup_timestamp in flag personProperties"` → headline: `"Wire org_count + signup_timestamp into flag audiences"`
+- title: `"GROWTH-853 · Set up 5% rollout of new-default-grants experiment for brand-new dashboard signups"` → headline: `"Activate default-grants experiment at 5% rollout"`
+- title: `"Default-grants experiment bucketing at 1.2% instead of 5%"` → headline: `"Default-grants bucketed at 1.2%, not 5%"` (already concise; light rewrite acceptable)
+- Things task title `"Send Austin corrected Usercentrics numbers + PostHog projection (Vertice negotiation)"` → headline: same as title (already natural language; pass through unchanged).
+
+For Things tasks and other items where the title is already a natural-language sentence, `headline` MAY equal `title` verbatim. For PR/Linear/insight items with technical prefixes, the headline MUST be a rewrite.
+
 ## Phase 3: Synthesize HTML
 
 Merge all seven payloads into a single HTML file using the styling below. The visual language mirrors Marc's weekly report so cross-report familiarity holds.
