@@ -69,7 +69,7 @@ Each subagent receives a prompt of the form:
   - `is:pr author:seanoliver org:supabase updated:>={WINDOW_START}` → authored PRs
   - `is:pr reviewed-by:seanoliver org:supabase updated:>={WINDOW_START}` → reviewed PRs
   
-  Authored merged PRs → `shipped`. Authored open PRs → `in_progress` (skip drafts older than 5 days; flag those). Reviewed PRs → `discussions` (collaboration signal). Capture: `repo`, `number`, `title`, `state`, `merged_at`/`updated_at`, `html_url`.
+  Authored merged PRs → `shipped`. Authored open PRs → `in_progress` (skip drafts older than 5 days; flag those). Reviewed PRs → `discussions` (collaboration signal). Capture: `repo`, `number`, `title`, `state`, `merged_at`/`updated_at`, `html_url`, AND `description` (first sentence of PR body, max 120 chars; for reviewed PRs this is usually unnecessary — leave empty if the title is self-explanatory).
 
 **3. Slack** — Use `mcp__claude_ai_Slack__slack_search_public` with query `from:<@U094379BQLB> after:{WINDOW_START}`. Then a second search: `<@U094379BQLB> after:{WINDOW_START}` (where Sean was mentioned). Rank threads by reply count + decision-weight signals (words like "decision", "ship", "block", "RFC", "?"). Top 3-5 go to `discussions`. Capture: `channel`, `one_line_summary`, `reply_count`, `permalink`. If rate-limited (429), put a single item in `flags` with text "Slack rate-limited" and do NOT retry.
 
