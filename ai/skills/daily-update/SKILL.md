@@ -89,7 +89,20 @@ For each file, read the first `# ` heading (title) and the `Repo` line if presen
 
 ### Subagent Output Format
 
-Each subagent MUST return exactly this JSON shape — no surrounding prose:
+Each subagent MUST return RAW JSON only. The FIRST character of the response must be `{`. No prose before, no prose after, no markdown code fences. Do not narrate your classification reasoning — apply rules silently and emit JSON.
+
+**Wrong** (will break synthesis):
+```
+Now I have the data. Let me classify...
+{"source": "linear", ...}
+```
+
+**Right** (parseable):
+```
+{"source": "linear", ...}
+```
+
+Schema:
 
 ```json
 {
