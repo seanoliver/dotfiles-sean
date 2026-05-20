@@ -203,11 +203,16 @@ If a section has zero items, render `<p class="empty">No activity in this window
 
 ### Executive summary box
 
-Open with 2-3 sentences synthesizing the week's headline:
+Render as a SHORT bulleted list (3-5 bullets), NOT a dense paragraph. Each bullet is one tight line. Group related items into a single bullet — don't list every PR.
 
-- Lead with the highest-impact ship (biggest PR, launched experiment, finished investigation)
-- Mention any flags worth a glance
-- Match Sean's voice: terse, plain, no hype words
+Priority order for bullets:
+
+1. Biggest launch or shipping theme of the window (group related PRs/issues into one bullet, name the user-visible outcome)
+2. Other notable shipped work
+3. Notable in-progress work that's blocking or about to land
+4. Any stalled work or new bugs worth a triage pass
+
+Voice: terse, plain, declarative. No "let's", "great", "awesome", "amazing", "exciting", "we crushed it." Read like a senior eng's slack note to themselves.
 
 ### Footer
 
