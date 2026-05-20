@@ -53,7 +53,7 @@ Check if `~/Documents/daily-updates/daily-update-${YESTERDAY}.html` exists. If y
 
 ## Phase 2: Parallel Intelligence
 
-Dispatch seven subagents in a SINGLE message to maximize parallelism. Each agent uses `subagent_type: general-purpose` and `model: haiku` (these are data-pull tasks, not reasoning-heavy).
+Dispatch seven subagents in a SINGLE message to maximize parallelism. Each agent uses `subagent_type: general-purpose` and `model: sonnet`. Haiku is appealing on cost but several sources (PostHog, Slack ranking, Things filtering) need light reasoning + iterative tool loading via ToolSearch — Sonnet is the reliable default. Downgrade individual agents to Haiku only after they're observed to work consistently.
 
 **REQUIRED PATTERN:** Follow `dispatching-parallel-agents` — all seven Agent calls in one tool-use block.
 
