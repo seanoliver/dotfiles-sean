@@ -178,11 +178,13 @@ Each tile: large number + small caption. Tile bg is `--surface`, number color is
 
 ### Section item rendering
 
-Each item is a `<li>` with:
+Each item is a `<li>` with up to three text rows:
 
-- Title (linked to `url` if present)
-- Source tag (small uppercase pill: LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS) colored to match the section accent
-- Context line (smaller, `--text-muted`): `{timestamp formatted as 'May 15'}{ · project/repo if present}{ · context phrase}`
+1. **Title** (linked to `url` if present) + **source tag** pill (LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS, colored to match section accent).
+2. **Description** (optional) — one-line explanation of WHAT the item is or what changed, drawn from the `description` field on the source payload. Render in `--text-muted` at 13px. **Omit the row entirely when no description is present** (do not render an empty div). Self-explanatory items — most Things tasks, most reviewed PRs whose title says everything — should have NO description row.
+3. **Context line** (smaller, 12px, more muted): `{timestamp 'May 15'}{ · project/repo}{ · state}`.
+
+Items that ARE worth a description row: PRs (pull from PR body first sentence), Linear issues (pull from issue description), Slack threads (pull from `one_line_summary`), investigations and bug journal entries (pull from "Symptom" / "Context" first sentence), PostHog experiments (pull from hypothesis if available).
 
 ### Cross-source deduplication
 
