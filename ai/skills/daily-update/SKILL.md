@@ -180,6 +180,19 @@ Each item is a `<li>` with:
 - Source tag (small uppercase pill: LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS) colored to match the section accent
 - Context line (smaller, `--text-muted`): `{timestamp formatted as 'May 15'}{ · project/repo if present}{ · context phrase}`
 
+### Cross-source deduplication
+
+The same underlying piece of work often appears in multiple source payloads — a single shipment shows up as a Linear issue, a merged GitHub PR, AND a completed Things task. Before rendering, collapse these into ONE item with multiple source pills.
+
+**Dedup signals (any one match → collapse):**
+- A Linear identifier like `GROWTH-123` appearing in a GitHub PR title or Things task title.
+- A GitHub PR number or URL appearing in a Things task title or Linear issue body.
+- Two titles with >70% word overlap referencing the same date and the same outcome (e.g. "Ship 5% rollout" Things task + "GROWTH-853 · Set up 5% rollout" Linear issue).
+
+**Collapse rule:** keep the most informative title (usually the Linear or GitHub one — it has the formal identifier), then render all matched source pills inline (`<span class="pill linear">LINEAR</span> <span class="pill github">GITHUB</span> <span class="pill things">THINGS</span>`). Use the earliest timestamp of the group.
+
+**Do NOT dedup across different work items just because they share a project tag** — only merge when the items are clearly the same underlying ship.
+
 ### Empty-section behavior
 
 If a section has zero items, render `<p class="empty">No activity in this window.</p>` inside the section. Do NOT omit the section — consistency makes day-over-day diffs scannable.
