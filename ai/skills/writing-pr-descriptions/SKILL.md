@@ -63,7 +63,15 @@ Compress timelines into causality. Replace "We noticed... then we found... this 
 
 ## Step 4 — Structure aggressively
 
-Most PR descriptions break down into five movements. Use named section headers; don't write giant prose blocks. The reviewer should be able to jump to the section that answers their question.
+If the repo has a template (Step 1), fill its sections. If it doesn't, the structure below is a reasonable default. Either way, **use named section headers and don't write giant prose blocks** — the reviewer should be able to jump to the section that answers their question.
+
+The default structure has three core sections that nearly every PR needs, plus optional sections that you add only when the PR's context demands them.
+
+**Core sections (use for nearly every PR):** Problem, Fix, Testing.
+
+**Optional sections (include only when relevant):** Experiment / rollout impact, Post-deploy expectations.
+
+Don't pad a PR with optional sections just to look thorough. A routine bug fix or refactor needs Problem / Fix / Testing and nothing else.
 
 ### Problem
 
