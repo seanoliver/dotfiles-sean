@@ -188,13 +188,16 @@ Each tile: large number + small caption. Tile bg is `--surface`, number color is
 
 ### Section item rendering
 
-Each item is a `<li>` with up to three text rows:
+Each item is a `<li>` with up to FOUR text rows:
 
-1. **Title** (linked to `url` if present) + **source tag** pill (LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS, colored to match section accent).
-2. **Description** (optional) — one-line explanation of WHAT the item is or what changed, drawn from the `description` field on the source payload. Render in `--text-muted` at 13px. **Omit the row entirely when no description is present** (do not render an empty div). Self-explanatory items — most Things tasks, most reviewed PRs whose title says everything — should have NO description row.
-3. **Context line** (smaller, 12px, more muted): `{timestamp 'May 15'}{ · project/repo}{ · state}`.
+1. **Headline** (prominent, 15px, weight 600) — the `headline` field from the source payload. This is what the eye lands on first. Render as plain `<strong>` (not a link) so the click target is unambiguous downstream.
+2. **Reference line** (small, 11–12px, muted, mono font) — the raw `title` field, linked to `url` if present. This is the formal identifier: PR number + commit-style title, Linear ID + ticket title, etc. When `headline` and `title` are identical (e.g. Things tasks, some Notion pages), OMIT this row entirely — no point repeating the same string twice.
+3. **Description** (optional, 13px, muted) — one-line natural-language explanation of WHAT the item does or what changed, drawn from the `description` field. Render between reference and context. Omit the row entirely when `description` is empty.
+4. **Context line** (12px, dim) — `{timestamp 'May 15'}{ · project/repo}{ · state}`.
 
-Items that ARE worth a description row: PRs (pull from PR body first sentence), Linear issues (pull from issue description), Slack threads (pull from `one_line_summary`), investigations and bug journal entries (pull from "Symptom" / "Context" first sentence), PostHog experiments (pull from hypothesis if available).
+The **source pill** (LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS) sits on the headline row to the right, colored to match the section accent.
+
+When in doubt about whether to keep a row: if it adds information the reader doesn't already have from the rows above, keep it. Otherwise drop it.
 
 ### Cross-source deduplication
 
