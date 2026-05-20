@@ -108,11 +108,11 @@ Schema:
 {
   "source": "linear|github|slack|notion|posthog|things|docs",
   "summary": "<one-line headline, max 100 chars>",
-  "shipped": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
-  "in_progress": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
-  "launched": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
-  "discussions": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
-  "flags": [{"title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "shipped": [{"headline": "...", "title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "in_progress": [{"headline": "...", "title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "launched": [{"headline": "...", "title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "discussions": [{"headline": "...", "title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
+  "flags": [{"headline": "...", "title": "...", "url": "...", "description": "...", "context": "...", "timestamp": "..."}],
   "error": null
 }
 ```
