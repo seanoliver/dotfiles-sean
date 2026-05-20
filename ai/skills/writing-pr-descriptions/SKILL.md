@@ -96,9 +96,13 @@ Chosen strategy. **Collapse verbose implementation detail.** When multiple steps
 
 If the change touches a non-obvious mechanism (a flag eval pattern, a cache invalidation strategy, an SDK behavior), explain the mechanism briefly. Future-them needs the why, not just the what.
 
-### Experiment / rollout impact (when applicable)
+### Experiment / rollout impact (optional)
 
-Whether data integrity is affected, what gating logic protects (or fails to protect) the change, expected behavior differences. Skip if the PR isn't experiment- or rollout-adjacent.
+**Include when:** the PR touches an experiment, A/B test, feature flag, audience filter, exposure event, or staged rollout. Also include if the change could affect data integrity for an in-flight experiment.
+
+**Skip when:** the PR is a routine bug fix, refactor, dependency bump, docs change, or anything that doesn't interact with experiment infrastructure.
+
+When you do include it, cover: whether data integrity is affected, what gating logic protects (or fails to protect) the change, expected behavior differences.
 
 ### Testing
 
