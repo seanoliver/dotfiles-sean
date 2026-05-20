@@ -157,8 +157,8 @@ Font stack: `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`. Mono fal
 <section.report-section.launched>       h2 + ul, purple left border   ← top
 <section.report-section.shipped>        h2 + ul, green left border
 <section.report-section.in-progress>    h2 + ul, cyan left border
-<section.report-section.discussions>    h2 + ul, gray left border
 <section.report-section.flags>          h2 + ul, amber left border
+<section.report-section.discussions>    h2 + ul, gray left border    ← bottom
 <footer>                         link to yesterday's report (if file exists)
 ```
 
