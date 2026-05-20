@@ -18,7 +18,9 @@ The work splits into two skills that compose: **voice** (conversational, like a 
 - `.github/PULL_REQUEST_TEMPLATE/*.md` (directory of named templates)
 - `docs/PULL_REQUEST_TEMPLATE.md`
 
-If a template exists, **fill every section it asks for**, in the order it asks. The template is the team's house style and skipping it signals to reviewers that you didn't read the contributing docs.
+If a template exists, **fill every section it asks for**, in the order it asks. The template is the team's house style and skipping it signals to reviewers that you didn't read the contributing docs. The rest of this skill's structure guidance is subordinate to the repo template — apply the compression principles to whichever sections the template asks for, but don't bolt extra sections onto a template that doesn't ask for them.
+
+If no template exists, use the default structure in Step 4 as a starting point.
 
 ### Supabase/supabase repo template
 
