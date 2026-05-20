@@ -119,6 +119,8 @@ Schema:
 
 Not every source fills every array — that's fine; leave irrelevant ones empty.
 
+**Exclusivity rule:** an item MUST appear in at most ONE section per source payload. `flags` is reserved for problems, risks, and unfinished items only — never as a cross-reference to a launched/shipped success. If a thing both shipped and has a follow-up concern, put it in `shipped` and write a SEPARATE flag item describing the concern, not the same row duplicated. The Slack rate-limit and subagent-error cases are the only exception (those are by definition flag-only).
+
 ## Phase 3: Synthesize HTML
 
 Merge all seven payloads into a single HTML file using the styling below. The visual language mirrors Marc's weekly report so cross-report familiarity holds.
