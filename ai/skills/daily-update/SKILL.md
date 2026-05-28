@@ -87,6 +87,8 @@ find ~/supabase/docs/bugs ~/supabase/docs/investigations -type f -name "*.md" -n
 
 For each file, read the first `# ` heading (title) and the `Repo` line if present. Bug journal entries → `flags` (recurring issue signal). Investigation entries → `shipped` (knowledge artifact). Capture: `file_path`, `title`, `type` (bug/investigation), `mtime`.
 
+**Populate the `url` field** with `cursor://file<absolute_path>` (note: scheme is `cursor://file` followed directly by the absolute path starting with `/`, e.g. `cursor://file/Users/seanoliver/supabase/docs/investigations/foo.md`). This makes the ref-line clickable and opens the file in Cursor. Do NOT use `file://` — browsers download `.md` rather than preview, which defeats the affordance.
+
 ### Subagent Output Format
 
 Each subagent MUST return RAW JSON only. The FIRST character of the response must be `{`. No prose before, no prose after, no markdown code fences. Do not narrate your classification reasoning — apply rules silently and emit JSON.
