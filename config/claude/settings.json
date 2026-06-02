@@ -1,10 +1,4 @@
 {
-  "mcpServers": {
-    "day-one": {
-      "command": "/usr/local/bin/dayone",
-      "args": ["mcp"]
-    }
-  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
@@ -174,5 +168,6 @@
   "skipDangerousModePermissionPrompt": true,
   "verbose": true,
   "preferredNotifChannel": "ghostty",
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "model": "opus"
 }
