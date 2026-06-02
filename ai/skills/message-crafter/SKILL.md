@@ -89,6 +89,7 @@ Always bias toward shorter. If in doubt, cut.
 
 - **Don't produce messages with bullet points or structured formatting.** Real Slack messages between colleagues are paragraphs, not presentations.
 - **Don't use phrases like "I'd love to align on", "circle back", "loop in", "sync up on our respective".** These are corporate filler that makes messages sound generated.
+- **Don't use "X is real" as an assertion of significance.** "The concern is real", "the gap is real", "the problem is real" — LLM-generated filler. State the fact directly instead.
 - **Don't link-dump.** If referencing other conversations, mention them conversationally ("I saw the observability discussion") not as hyperlinks unless the user specifically wants links.
 - **Don't front-load expertise.** The temptation is to show the user is smart by listing everything they know about the topic. That's what the meeting is for, not the Slack message.
 - **Don't add emojis** unless the user explicitly uses them in their natural communication style.
