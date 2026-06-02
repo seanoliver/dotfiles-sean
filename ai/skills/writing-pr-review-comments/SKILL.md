@@ -64,6 +64,7 @@ Pick the comment shape from what kind of finding it is:
 
 - Open with the investigation ("Pre-PR... post-PR...", "Looking at line X...", "I traced through the lib and...").
 - Use **arguably**, **technically**, **semantics**, **regression**, **deliberate fall-through**, **worth thinking through**, **flagging explicitly** — unless no simpler word works.
+- Use **"X is real"** as an assertion of significance ("the concern is real", "the gap is real") — state the fact directly.
 - Stack caveats. "Not blocking, just wanted to flag, but worth noting that, though probably..." → pick one.
 - Re-explain code the author obviously wrote on purpose.
 - Reference local files, personal investigation docs, or anything outside the team's reach.
