@@ -152,6 +152,7 @@ These phrases add hedging and word count without adding signal. Replace with a d
 - "I'd argue that..."
 - "Arguably..."
 - "It could potentially..."
+- "X is real" (as in "the concern is real", "the gap is real") — state the fact directly instead
 
 ## Step 7 — Pre-PR checklist
 
