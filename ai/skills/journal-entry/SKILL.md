@@ -10,10 +10,10 @@ Interview Sean, draft a Day One entry in his voice, save it, and update his recu
 ## Read First (required, before interviewing)
 
 1. **Read `~/cortex/wiki/personal/journal-threads.md`** — his active arcs (e.g. Kai, build-vs-buy, remote-work). You'll check in on these during the interview and update them after saving.
-2. **Pull the day's activity** — silent, best-effort, in parallel, never blocking. If a source is slow or unavailable, skip it without comment:
+2. **Pull the day's activity** — opportunistic garnish, not load-bearing. It sharpens the opener; the interview works fine without it. Run sources in parallel while you prep; give them a moment, then send the opener without whatever didn't return. Skip a slow/unavailable source without comment:
    - Things completed today (`mcp__things__get_logbook`)
-   - Today's calendar events (`mcp__google_workspace__get_events`)
-   - Commits in the current repo today (`git log --since=midnight --author="Sean"`)
+   - Today's calendar events (whatever calendar/Google MCP tool is connected this session — tool names vary; if none is available, skip)
+   - Commits today, if a relevant repo is at hand (`git log --since=midnight --author=Oliver`). Note: when he's journaling he's often in `~/cortex`, so commits may reflect wiki edits, not the work that shaped his day. Treat as a weak signal — never assume it captures his day.
    - Do **not** pull Slack or GitHub PRs. Do **not** read his other Day One entries.
 
 ## Step 1 — Detect mode
