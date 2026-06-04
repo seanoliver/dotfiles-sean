@@ -35,7 +35,7 @@ Then **follow what he raises adaptively** — 1–3 rounds, probing only the thr
 
 Write the entry in **Sean's voice** — first person, dry, plain, honest. No hype words, no forced silver lining, no padding. A flat day gets a short entry. Use **bold mini-headers** to separate threads when there's more than one. Match this register directly; do **not** read past entries to calibrate.
 
-**Always show the draft in chat before saving.** Show the suggested tags alongside it.
+**Always show the draft in chat before saving.** Show the suggested tags alongside it. If he asks for edits, revise and re-show before saving — never save an unreviewed revision. A plain "save it" approves the tags too unless he calls them out. If he gave you almost nothing and the entry would be two thin lines, that's fine — just confirm he still wants it saved rather than padding it.
 
 ## Step 4 — Save (on his go-ahead)
 
