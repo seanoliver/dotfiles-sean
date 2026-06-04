@@ -20,6 +20,7 @@ Interview Sean, draft a Day One entry in his voice, save it, and update his recu
 
 - **Guided** — vague mood, "let's journal", or no specific subject → run the full reflective interview below.
 - **Freeform** — he hands you a specific topic or wants to vent ("write about the Anna text") → skip the structured battery and the activity pull. Follow the thing he raised, ask 1–2 light follow-ups, then draft.
+- **Mixed** — a mood *and* a named topic ("flat today, and the deploy is bugging me") → lead freeform on the named topic, and lightly touch the mood + one or two threads. Don't run the full battery.
 
 ## Step 2 — Interview (guided mode)
 
