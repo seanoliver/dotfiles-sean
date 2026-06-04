@@ -49,7 +49,7 @@ Return the `viewLink` so he can open it.
 
 ## Step 5 — Update threads (after saving)
 
-Surgically edit `~/cortex/wiki/personal/journal-threads.md`:
+Surgically edit `~/cortex/wiki/personal/journal-threads.md`, **matching the file's existing structure** (you already read it in the Read First step):
 - Bump `last-touched` on any thread that came up.
 - Adjust a thread's status/summary if it moved.
 - Add any new arc that surfaced.
