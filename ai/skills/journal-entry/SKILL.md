@@ -41,7 +41,7 @@ Write the entry in **Sean's voice** — first person, dry, plain, honest. No hyp
 
 Call `mcp__day-one__create_entry` with:
 - `journal_id`: `243478339` (the **Life** journal — the only MCP-accessible one)
-- `date`: today, ISO8601 (e.g. `2026-06-04T20:00:00Z`)
+- `date`: **omit it** — Day One stamps the current local date and time. Only pass `date` if he explicitly wants the entry backdated. (Don't hardcode a UTC time like `20:00:00Z`; for a Pacific user that lands at midday.)
 - `tags`: auto-suggested from content + thread names (e.g. `reflection,work,kai`) — he can veto before save
 - `text`: the approved markdown body
 
