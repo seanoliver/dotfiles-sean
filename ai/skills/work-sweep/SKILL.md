@@ -321,6 +321,44 @@ Example format:
 
 ---
 
+## Phase 3.5: Render & Serve the Interactive App (default output)
+
+The sweep ships as a self-contained interactive HTML app backed by a tiny local server, NOT an in-thread markdown dump. Two assets live in this skill directory and are the source of truth — adapt them, do not reinvent them:
+
+- `server.py` — Python 3 stdlib (no deps). Serves the report and bridges actions to disk. Use **verbatim**; never rewrite it inline.
+- `example-report.html` — a complete worked example. Its `<head>` (CSS theme tokens), the `<script>` block (state/dismiss/reorder/restore logic), and the `<li class="item">` card shape are **fixed** — copy them unchanged. You swap only: `SWEEP_DATE`, the header date/timestamp, the summary box, the velocity tiles, the section contents, and the `ITEMS` registry.
+
+### Steps (run in order)
+
+1. **Read `example-report.html` first.** Match its structure exactly — do not generate a generic page.
+2. **Write the report** to `~/Documents/work-sweeps/work-sweep-<TODAY>.html` (date as `YYYY-MM-DD`; create the dir with `mkdir -p`). Same-day reruns OVERWRITE — do not add a timestamp/counter to the filename.
+3. **Copy the server** if absent: `cp <skill-dir>/server.py ~/Documents/work-sweeps/server.py`.
+4. **(Re)start the server** robustly — the silent footgun is that `python3 server.py &` exits silently if the port is already held, leaving stale code running. Always kill the existing listener by PID first:
+   ```bash
+   PID=$(lsof -nP -iTCP:7777 -sTCP:LISTEN -t 2>/dev/null); [ -n "$PID" ] && kill -9 $PID; sleep 1
+   cd ~/Documents/work-sweeps && nohup python3 server.py > /tmp/ws-server.log 2>&1 &
+   sleep 1.2; lsof -nP -iTCP:7777 -sTCP:LISTEN -t   # confirm a NEW pid is listening
+   ```
+5. **Open** `http://localhost:7777/` (NOT the `file://` path — `file://` can't fully persist and shows an amber "offline" badge).
+6. **In the chat, print only a one-line summary** — e.g. `Swept. 2 active projects · 14 your-move · 2 PRs · 5 upcoming → http://localhost:7777/`. Do not paste the full report.
+
+### Item data model (required for interactions to work)
+
+- **`data-id` on every `<li class="item">`** = the item's sequential number. The SAME id appears on an item's Priority row AND its Your Move row — actions key off `data-id` and apply to all matching nodes, so "mark done" / "dismiss" propagate across both.
+- **`ITEMS` JS registry** maps `id → {label, url}` where `url` is the item's PRIMARY url by preference order: Linear > GitHub > Notion > Things > Gmail > Slack. This is the single source dismiss reads — keep it complete for every id, including ones that live in only one section.
+- **Project chips** — items belonging to an active project carry `<a class="proj-chip" href="#project-N">↳ Project Name</a>`. Project cards get `id="project-N"`.
+- **Next-step propagation** — each project's `Next:` action also appears as its own Priority + Your Move item, tagged `<span class="nextstep-tag">★ Next step · Project</span>`, and the project's `Next:` line links down to it (`Your Move #N`).
+- Items that are not actionable (e.g. an OOO block) get NO action toolbar — guard them by id in the toolbar-injection loop.
+
+### Dismiss persistence contract (the part that must not break)
+
+The app's dismiss is durable through THREE layers, all already implemented in `example-report.html` + `server.py`:
+1. **localStorage** (`ws-state-<date>`) — instant, survives reloads and server hiccups.
+2. **`POST /api/state`** — per-day view state (order, completed, dismissed) → `~/Documents/work-sweeps/state-<date>.json`.
+3. **`POST /api/dismiss`** — appends `- <date> | <url> | "<label>" | <reason>` to the canonical `work-sweep-dismissed.md` (idempotent on URL), and **`GET /api/dismissed`** is the authoritative hide list `restore()` consults so a canonically-dismissed item never reappears even if per-day state is lost.
+
+Because dismissals land in the same `work-sweep-dismissed.md` that Phase 2's "Filtering dismissed items" reads, **clicking dismiss in the app and saying "cut N" in chat are equivalent** — both feed the next sweep's filter.
+
 ## Phase 4: Post-Sweep Dismissals
 
 After presenting the report, tell the user:
