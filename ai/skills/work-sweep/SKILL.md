@@ -247,9 +247,11 @@ Before producing the report, read the dismissed items file at:
 
 For each candidate item in the report, check if any of its URLs match a URL in the dismissed list. If so, **silently drop it** — do not include it in the output or mention that it was filtered. At the end of the report (after the Priority Order section), add a single line noting how many items were filtered, e.g.: *"(3 previously dismissed items filtered out)"* — only if the count is > 0.
 
-## Phase 3: Output Format
+## Phase 3: Content Model
 
-Produce the report in this structure. **Every item must include at least one link** — GitHub URL, Linear URL, Slack permalink, Notion URL, Things deep link, or Gmail web URL. The report should be immediately actionable: the user reads it and clicks directly into the thing that needs attention.
+**The default deliverable is an interactive HTML app, not an in-thread report (see Phase 3.5).** This section defines the *content model* — the sections, numbering, and link rules the app renders. Do NOT print this full structure in the chat thread unless the user explicitly asks for "both" or "in-thread" output. Build the content mentally (or as a scratch outline), then render it as the app in Phase 3.5.
+
+Every item must carry at least one link — GitHub URL, Linear URL, Slack permalink, Notion URL, Things deep link, or Gmail web URL. Every item must be immediately actionable: a glance tells the user what to do and a click takes them to it.
 
 ### Item numbering
 
