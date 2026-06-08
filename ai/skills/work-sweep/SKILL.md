@@ -349,7 +349,7 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
 - **`ITEMS` JS registry** maps `id → {label, url}` where `url` is the item's PRIMARY url by preference order: Linear > GitHub > Notion > Things > Gmail > Slack. This is the single source dismiss reads — keep it complete for every id, including ones that live in only one section.
 - **Project chips** — items belonging to an active project carry `<a class="proj-chip" href="#project-N">↳ Project Name</a>`. Project cards get `id="project-N"`.
 - **Next-step propagation** — each project's `Next:` action also appears as its own Priority + Your Move item, tagged `<span class="nextstep-tag">★ Next step · Project</span>`, and the project's `Next:` line links down to it (`Your Move #N`).
-- Items that are not actionable (e.g. an OOO block) get NO action toolbar — guard them by id in the toolbar-injection loop.
+- Items that are not actionable (e.g. an OOO block) get NO action toolbar. In `example-report.html` the toolbar-injection loop opens `if (!id || id === "22") return;` — replace `"22"` with the actual id(s) of any non-actionable items in this sweep (comma-check or array `.includes`).
 
 ### Dismiss persistence contract (the part that must not break)
 
