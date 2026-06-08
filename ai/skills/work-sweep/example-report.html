@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Sweep · 2026-06-08</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #232734;
+    --border: #2a2e3a;
+    --accent: #6366f1;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --priority: #6366f1;
+    --projects: #a855f7;
+    --move: #10b981;
+    --prs: #f59e0b;
+    --upcoming: #06b6d4;
+    --background: #6b7280;
+    --slack: #e0529c;
+    --linear: #8b8ff5;
+    --github: #c9d1d9;
+    --notion: #d7c9b8;
+    --things: #5ac8fa;
+    --gmail: #ea6c5b;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; padding: 0 0 120px; -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: "SF Mono", Menlo, Consolas, monospace; }
+  a { color: inherit; }
+
+  .view-radio { position: absolute; opacity: 0; pointer-events: none; }
+
+  /* HEADER */
+  header { padding: 40px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
+  header h1 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--move); box-shadow: 0 0 12px var(--move); }
+  header .meta { margin-top: 8px; color: var(--text-muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  header .meta .mono { color: var(--text-dim); }
+  header .conn { font-size: 12px; margin-top: 10px; display: inline-flex; align-items: center; gap: 7px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  header .conn .led { width: 7px; height: 7px; border-radius: 50%; background: var(--text-dim); }
+  header .conn.online .led { background: var(--move); box-shadow: 0 0 8px var(--move); }
+  header .conn.online { color: var(--move); }
+  header .conn.offline { color: var(--prs); }
+  header .conn.offline .led { background: var(--prs); }
+
+  .toolbar-row { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .view-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .toggle-btn { padding: 6px 16px; font-size: 12.5px; font-weight: 600; cursor: pointer; color: var(--text-muted); background: var(--surface); user-select: none; transition: background .15s, color .15s; }
+  .toggle-btn:hover { background: var(--surface-hover); }
+  #view-all:checked ~ .container label[for="view-all"],
+  #view-focus:checked ~ .container label[for="view-focus"] { background: var(--accent); color: #fff; }
+  .btn-ghost { padding: 6px 13px; font-size: 12.5px; font-weight: 600; cursor: pointer; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .btn-ghost:hover { background: var(--surface-hover); color: var(--text); }
+
+  /* SUMMARY */
+  .summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 18px 22px; margin-bottom: 26px; }
+  .summary h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; font-weight: 700; }
+  .summary ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .summary li { position: relative; padding-left: 18px; font-size: 14px; }
+  .summary li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+  .summary li strong { color: #fff; }
+  .summary .ooo { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 13px; color: var(--prs); }
+  .summary .ooo strong { color: var(--prs); }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 32px; }
+  .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 14px; text-align: center; }
+  .tile .num { font-size: 30px; font-weight: 700; line-height: 1; }
+  .tile .cap { font-size: 11px; color: var(--text-muted); margin-top: 7px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tile.t-priority .num { color: var(--priority); }
+  .tile.t-projects .num { color: var(--projects); }
+  .tile.t-move .num { color: var(--move); }
+  .tile.t-prs .num { color: var(--prs); }
+  .tile.t-upcoming .num { color: var(--upcoming); }
+
+  /* SECTIONS */
+  section.report-section { margin-bottom: 30px; }
+  section.report-section > h2 { font-size: 17px; font-weight: 700; margin-bottom: 14px; padding-left: 12px; border-left: 3px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  section.report-section > h2 .count { font-size: 12px; font-weight: 600; color: var(--text-dim); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 1px 9px; }
+  section.report-section > h2 .hint { font-size: 11px; font-weight: 500; color: var(--text-dim); margin-left: auto; }
+  .s-priority > h2 { border-color: var(--priority); }
+  .s-projects > h2 { border-color: var(--projects); }
+  .s-move > h2 { border-color: var(--move); }
+  .s-prs > h2 { border-color: var(--prs); }
+  .s-upcoming > h2 { border-color: var(--upcoming); }
+  .s-background > h2 { border-color: var(--background); }
+
+  ul.items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  li.item { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px; transition: background .15s, border-color .15s, opacity .25s, transform .2s; }
+  li.item:hover { background: var(--surface-hover); border-color: #353a48; }
+  li.item.done { opacity: 0.5; }
+  li.item.done .item-title { text-decoration: line-through; text-decoration-color: var(--move); }
+  li.item.removing { opacity: 0; transform: translateX(24px); }
+  li.item.dragging { opacity: 0.4; border-style: dashed; border-color: var(--priority); }
+
+  .item-head { display: flex; align-items: flex-start; gap: 10px; }
+  .drag-handle { flex: none; cursor: grab; color: var(--text-dim); font-size: 15px; line-height: 22px; margin-top: 1px; user-select: none; }
+  .drag-handle:active { cursor: grabbing; }
+  .badge { flex: none; min-width: 26px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border-radius: 6px; background: #232734; color: var(--text-muted); border: 1px solid var(--border); margin-top: 1px; }
+  .s-priority .badge { color: var(--priority); border-color: var(--priority); }
+  .item-body { flex: 1; min-width: 0; }
+  .item-title { font-size: 14.5px; font-weight: 600; color: #fff; }
+  .item-title.has-rank { display: flex; gap: 8px; align-items: baseline; }
+  .rank-n { color: var(--priority); font-weight: 700; }
+
+  .pills { float: right; display: inline-flex; gap: 5px; margin: 1px 0 0 8px; align-items: center; }
+  .pill { font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; border: 1px solid currentColor; white-space: nowrap; }
+  .pill.slack { color: var(--slack); } .pill.linear { color: var(--linear); } .pill.github { color: var(--github); }
+  .pill.notion { color: var(--notion); } .pill.things { color: var(--things); } .pill.gmail { color: var(--gmail); }
+
+  /* project link chip */
+  .proj-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--projects); background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.35); border-radius: 5px; padding: 1px 7px; margin-top: 6px; text-decoration: none; cursor: pointer; }
+  .proj-chip:hover { background: rgba(168,85,247,0.2); }
+  /* next-step marker */
+  .nextstep-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--move); background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4); border-radius: 5px; padding: 1px 7px; margin-bottom: 6px; }
+
+  .item-desc { font-size: 13px; color: var(--text-muted); margin-top: 5px; }
+  .item-next { font-size: 13px; margin-top: 8px; padding: 7px 10px; background: rgba(16,185,129,0.08); border-radius: 6px; border-left: 2px solid var(--move); }
+  .item-next b { color: var(--move); font-weight: 700; }
+  .item-links { margin-top: 7px; font-size: 12px; }
+  .item-links a { color: var(--text-dim); text-decoration: none; border-bottom: 1px dotted var(--text-dim); }
+  .item-links a:hover { color: var(--accent); border-color: var(--accent); }
+  .item-links .sep { color: #3a3f4d; margin: 0 4px; }
+  .item-meta { font-size: 11.5px; color: var(--text-dim); margin-top: 6px; }
+  .item-meta .due { color: var(--prs); font-weight: 600; }
+  .item-meta .flag { color: var(--gmail); font-weight: 600; }
+
+  /* action toolbar */
+  .item-actions { position: absolute; top: 10px; right: 12px; display: flex; gap: 6px; opacity: 0; transition: opacity .12s; }
+  li.item:hover .item-actions { opacity: 1; }
+  .act { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-dim); font-size: 13px; cursor: pointer; }
+  .act:hover { color: var(--text); border-color: #404653; }
+  .act.act-done:hover { color: var(--move); border-color: var(--move); }
+  .act.act-dismiss:hover { color: var(--danger); border-color: var(--danger); }
+  li.item.done .act-done { color: var(--move); border-color: var(--move); }
+
+  /* inline dismiss reason */
+  .dismiss-box { margin-top: 10px; display: none; gap: 8px; align-items: center; }
+  li.item.dismissing .dismiss-box { display: flex; }
+  li.item.dismissing .item-actions { opacity: 0; pointer-events: none; }
+  .dismiss-box input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; color: var(--text); font-size: 12.5px; font-family: inherit; }
+  .dismiss-box input:focus { outline: none; border-color: var(--danger); }
+  .dismiss-box button { padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
+  .dismiss-box .confirm { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .dismiss-box .cancel { background: var(--surface); color: var(--text-muted); }
+
+  .s-priority li.item { padding: 11px 14px; }
+  .s-priority .item-desc { margin-top: 3px; font-size: 12.5px; }
+  .s-background li.item { padding: 9px 14px; }
+  .s-background .item-title { font-weight: 500; font-size: 13.5px; color: var(--text); }
+
+  .inbox-note { font-size: 12px; color: var(--text-dim); margin-top: 12px; font-style: italic; }
+  .filtered-note { font-size: 12px; color: var(--text-dim); text-align: center; margin: 24px 0 0; }
+  a.plain { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  a.plain:hover { color: var(--accent); border-color: var(--accent); }
+
+  #view-focus:checked ~ .container .s-upcoming,
+  #view-focus:checked ~ .container .s-background { display: none; }
+
+  /* toast */
+  #toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(40px); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-size: 13px; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 100; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  #toast .undo { color: var(--accent); font-weight: 700; cursor: pointer; }
+
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+  <input type="radio" id="view-all" name="view" class="view-radio" checked>
+  <input type="radio" id="view-focus" name="view" class="view-radio">
+
+  <div class="container">
+    <header>
+      <h1><span class="dot"></span>Work Sweep</h1>
+      <div class="meta">
+        <span>Monday, June 8, 2026</span>
+        <span class="mono">·</span>
+        <span>6 sources: Slack · Linear · Notion · GitHub · Things · Gmail</span>
+        <span class="mono">·</span>
+        <span class="mono">Generated 2026-06-08 09:07 PT</span>
+      </div>
+      <div class="toolbar-row">
+        <div class="view-toggle">
+          <label for="view-all" class="toggle-btn">Full board</label>
+          <label for="view-focus" class="toggle-btn">Focus</label>
+        </div>
+        <button class="btn-ghost" id="reset-order" title="Restore the original priority ranking">↺ Reset order</button>
+        <span class="conn offline" id="conn"><span class="led"></span><span id="conn-label">offline — start server.py</span></span>
+      </div>
+    </header>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+      <h2>The shape of today</h2>
+      <ul>
+        <li><strong>Two things dominate</strong>, both unblock-someone-else moves: the <strong>Scope purchase</strong> (Marc greenlit $27k/6mo, waiting on your yes/no) and the <strong>SFP default-grants rollout</strong> (flag's live, waiting on Inian/Johan's go).</li>
+        <li>Neither is heavy work — both a single reply or nudge — but both are <strong>gates other people are stuck behind</strong>.</li>
+        <li>One hard deadline tomorrow: <strong>Leon (PostHog) lunch</strong> RSVP wrangling has to start today.</li>
+        <li>Personal critical-path: <strong>consulate visa dropoff</strong> today + China-trip prep.</li>
+      </ul>
+      <div class="ooo">⏳ <strong>OOO June 19 – July 6.</strong> 8 working days. Both headline projects should land before then or they stall ~2.5 weeks.</div>
+    </section>
+
+    <!-- GRID -->
+    <section class="grid">
+      <div class="tile t-priority"><div class="num">2</div><div class="cap">Headline gates</div></div>
+      <div class="tile t-projects"><div class="num">2</div><div class="cap">Active projects</div></div>
+      <div class="tile t-move"><div class="num" id="tile-move">14</div><div class="cap">Your move</div></div>
+      <div class="tile t-prs"><div class="num">2</div><div class="cap">PRs to review</div></div>
+      <div class="tile t-upcoming"><div class="num">5</div><div class="cap">Upcoming</div></div>
+    </section>
+
+    <!-- PRIORITY ORDER -->
+    <section class="report-section s-priority">
+      <h2>Priority Order <span class="count">do these first</span><span class="hint">⠿ drag to reorder</span></h2>
+      <ul class="items" id="priority-list">
+        <li class="item" data-id="3" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">3</span>
+            <div class="item-body">
+              <span class="nextstep-tag">★ Next step · Scope</span>
+              <div class="item-title">Confirm Scope go-ahead to Marc</div>
+              <div class="item-desc">Lowest effort, highest leverage. Gates the entire ALG workstream; clear before OOO.</div>
+              <a class="proj-chip" href="#project-2">↳ Scope Purchase / ALG Evals</a>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="4" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">4</span>
+            <div class="item-body">
+              <span class="nextstep-tag">★ Next step · Default Grants</span>
+              <div class="item-title">SFP Phase 1 green light</div>
+              <div class="item-desc">Default grants is ready to fire. One nudge to Inian/Johan unblocks the rollout. OOO-sensitive.</div>
+              <a class="proj-chip" href="#project-1">↳ Default Grants Rollout</a>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="6" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">6</span>
+            <div class="item-body">
+              <div class="item-title">Leon lunch RSVP</div>
+              <div class="item-desc">Hard deadline tomorrow, external PostHog guest, can't slip.</div>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="7" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">7</span>
+            <div class="item-body">
+              <div class="item-title">Consulate visa dropoff</div>
+              <div class="item-desc">Today, time-boxed, China-trip critical path.</div>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="5" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">5</span>
+            <div class="item-body">
+              <div class="item-title">Reply to Pam (skills repo)</div>
+              <div class="item-desc">Landed today, quick, keeps the skills-sharing workflow moving.</div>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="8" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">8</span>
+            <div class="item-body">
+              <div class="item-title">Matt Rossman evals next step</div>
+              <div class="item-desc">Adjacent to Scope; decide consolidation direction while context is fresh.</div>
+              <a class="proj-chip" href="#project-2">↳ Scope Purchase / ALG Evals</a>
+            </div>
+          </div>
+        </li>
+        <li class="item" data-id="17" draggable="true">
+          <div class="item-head">
+            <span class="drag-handle">⠿</span><span class="badge">17</span>
+            <div class="item-body">
+              <div class="item-title">Review PR #46478 (security flag)</div>
+              <div class="item-desc">Don't let an injection risk sit on a first-timer's PR.</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ACTIVE PROJECTS -->
+    <section class="report-section s-projects">
+      <h2>Active Projects <span class="count">2</span></h2>
+      <ul class="items">
+        <li class="item" id="project-1" data-id="1">
+          <div class="item-head">
+            <span class="badge">1</span>
+            <div class="item-body">
+              <div class="pills"><span class="pill linear">Linear</span><span class="pill slack">Slack</span><span class="pill notion">Notion</span></div>
+              <div class="item-title">Default Grants Rollout · Secure by Default</div>
+              <div class="item-desc">Phase 0 (5% dashboard experiment) validated, flag live as multivariate. Phase 1 (Atlantix, Orchids, OptiDev) ready to fire — you said "just say when." Ball's in Inian/Johan's court. Hex report blocked on DATAENG-1483 backfill.</div>
+              <div class="item-next"><b>Next:</b> Nudge Inian/Johan in #project-default-secure for the go-ahead — confirm platform PR #33502 shipped first. <span style="color:var(--text-dim)">→ tracked as <a href="#" class="goto-move" data-target="4" style="color:var(--move)">Your Move #4</a></span></div>
+              <div class="item-links">
+                <a href="https://linear.app/supabase/issue/GROWTH-904">GROWTH-904 epic</a><span class="sep">·</span>
+                <a href="https://linear.app/supabase/issue/GROWTH-903">GROWTH-903 Phase 1</a><span class="sep">·</span>
+                <a href="https://www.notion.so/supabase/Revoke-Default-Grants-Rollout-Plan-36d5004b775f819db0f5ecbd7d630ca2">Notion plan</a><span class="sep">·</span>
+                <a href="https://grid-supabase.enterprise.slack.com/archives/C0A119DRQE8/p1780598730673479">Slack thread</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="item" id="project-2" data-id="2">
+          <div class="item-head">
+            <span class="badge">2</span>
+            <div class="item-body">
+              <div class="pills"><span class="pill linear">Linear</span><span class="pill slack">Slack</span><span class="pill notion">Notion</span><span class="pill github">GitHub</span></div>
+              <div class="item-title">Scope Purchase · Agent-Led Growth Evals</div>
+              <div class="item-desc">Build-vs-buy decision is the open gate for the ALG harness workstream. Prototype (GROWTH-874) done, Sapient evaluated, decision doc written. Marc greenlit terms — $27k/6mo, 3-month opt-out. Your own rule (≤$60k + raw export → buy) points yes: $27k/6mo ≈ $54k/yr.</div>
+              <div class="item-next"><b>Next:</b> Reply to Marc with a yes/no on proceeding at $27k/6mo. Highest-leverage unblock in the sweep — land it before OOO. <span style="color:var(--text-dim)">→ tracked as <a href="#" class="goto-move" data-target="3" style="color:var(--move)">Your Move #3</a></span></div>
+              <div class="item-links">
+                <a href="https://linear.app/supabase/issue/GROWTH-850">GROWTH-850 build-vs-buy</a><span class="sep">·</span>
+                <a href="https://linear.app/supabase/issue/GROWTH-874">GROWTH-874 prototype</a><span class="sep">·</span>
+                <a href="https://app.notion.com/p/36c5004b775f8176a1e0f5b6c31ad57f">Scope decision doc</a><span class="sep">·</span>
+                <a href="https://app.notion.com/p/3745004b775f81649a0dc4c8837479a1">Getting Picked by Coding Agents</a><span class="sep">·</span>
+                <a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780683300202689?thread_ts=1780593110.060429&cid=C07P3AU3J2D">Marc thread</a><span class="sep">·</span>
+                <a href="https://github.com/supabase/agent-eval/pull/32">agent-eval PR #32</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- YOUR MOVE -->
+    <section class="report-section s-move">
+      <h2>Your Move <span class="count" id="count-move">14</span></h2>
+      <ul class="items" id="move-list">
+        <li class="item" data-id="3">
+          <div class="item-head"><span class="badge">3</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <span class="nextstep-tag">★ Next step · Scope</span>
+            <div class="item-title">Confirm Scope go-ahead to Marc</div>
+            <div class="item-desc">He greenlit $27k/6mo and is waiting on your yes/no.</div>
+            <a class="proj-chip" href="#project-2">↳ Scope Purchase / ALG Evals</a>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780683300202689?thread_ts=1780593110.060429&cid=C07P3AU3J2D">thread</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="4">
+          <div class="item-head"><span class="badge">4</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <span class="nextstep-tag">★ Next step · Default Grants</span>
+            <div class="item-title">Green-light check on SFP Phase 1</div>
+            <div class="item-desc">Nudge Inian/Johan for the go on Atlantix/Orchids/OptiDev.</div>
+            <a class="proj-chip" href="#project-1">↳ Default Grants Rollout</a>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C0A119DRQE8/p1780598730673479">thread</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="5">
+          <div class="item-head"><span class="badge">5</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Reply to Pam re: skills repo PR #16</div>
+            <div class="item-desc">DM came in today; she's pulling your skills into her list and wants to align on the sharing workflow.</div>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/D0946LQJ4GP/p1780917107679759">DM</a></div>
+            <div class="item-meta"><span class="flag">new today</span></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="6">
+          <div class="item-head"><span class="badge">6</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Pick lunch spot for Leon (PostHog), Wed Jun 10</div>
+            <div class="item-desc">Post in #sf to gauge RSVPs, lock party size, book. PostHog renewal relationship.</div>
+            <div class="item-links"><a href="things:///show?id=7XfmpaM5Px4VdehnnS6XPJ">Things task</a></div>
+            <div class="item-meta"><span class="due">due tomorrow · Jun 9</span></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="7">
+          <div class="item-head"><span class="badge">7</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Consulate visa dropoff</div>
+            <div class="item-desc">China trip prep. Get it on your physical calendar with timing.</div>
+            <div class="item-links"><a href="things:///show?id=HtqMvcnD62MZUYfiH3nHvJ">Things task</a></div>
+            <div class="item-meta"><span class="due">today</span></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="8">
+          <div class="item-head"><span class="badge">8</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Matt Rossman evals consolidation — next step</div>
+            <div class="item-desc">Call was Jun 4; decide whether to fold agent-eval into supabase/evals and the Georgian-team sequencing.</div>
+            <a class="proj-chip" href="#project-2">↳ Scope Purchase / ALG Evals</a>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/D0B8EGMRT5X/p1780597445284659">DM</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="9">
+          <div class="item-head"><span class="badge">9</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Aleksi: check your Claude Code fork re: URL allowlists</div>
+            <div class="item-desc">You said "I'll look back at my fork"; Pam flagged a separate call. Confirm it happened or circle back.</div>
+            <a class="proj-chip" href="#project-2">↳ Scope Purchase / ALG Evals</a>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780503297042519?thread_ts=1780498095.862399&cid=C07P3AU3J2D">thread</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="10">
+          <div class="item-head"><span class="badge">10</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span><span class="pill linear">Linear</span></div>
+            <div class="item-title">GROWTH-891: Switch CLI identity stitch to in-memory attribution</div>
+            <div class="item-desc">Things Today, half-day, lands after GROWTH-890.</div>
+            <div class="item-links"><a href="things:///show?id=PTfarU7PT9Sf8yx7k9mHV">Things task</a><span class="sep">·</span><a href="https://linear.app/supabase/issue/GROWTH-891">GROWTH-891</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="11">
+          <div class="item-head"><span class="badge">11</span><div class="item-body">
+            <div class="pills"><span class="pill notion">Notion</span><span class="pill linear">Linear</span></div>
+            <div class="item-title">Tell Patrick Crane Growth Eng will pick up GROWTH-844</div>
+            <div class="item-desc">CIO email events → HubSpot. Open action item from the May 13 sync.</div>
+            <div class="item-links"><a href="https://linear.app/supabase/issue/GROWTH-844">GROWTH-844</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="12">
+          <div class="item-head"><span class="badge">12</span><div class="item-body">
+            <div class="pills"><span class="pill linear">Linear</span></div>
+            <div class="item-title">GROWTH-855: triage decision</div>
+            <div class="item-desc">Sitting in Triage since May 15, no priority/state.</div>
+            <div class="item-links"><a href="https://linear.app/supabase/issue/GROWTH-855">issue</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="13">
+          <div class="item-head"><span class="badge">13</span><div class="item-body">
+            <div class="pills"><span class="pill linear">Linear</span></div>
+            <div class="item-title">GROWTH-846: action or de-prioritize</div>
+            <div class="item-desc">In Progress since May 12, zero updates.</div>
+            <div class="item-links"><a href="https://linear.app/supabase/issue/GROWTH-846">issue</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="14">
+          <div class="item-head"><span class="badge">14</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">DATINT-125: paid conversion decline (25% drop, company-email users)</div>
+            <div class="item-desc">Tim/Marc investigation, active. Check if anything's outstanding from you.</div>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780406890038509?thread_ts=1780394591.702989&cid=C07P3AU3J2D">thread</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="15">
+          <div class="item-head"><span class="badge">15</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Ping Ben &amp; Chelsea for check-in before China</div>
+            <div class="item-desc">Personal, carry-over from Jun 2.</div>
+            <div class="item-links"><a href="things:///show?id=SZM86EqmuXqZMJzuL1tmcu">Things task</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="16">
+          <div class="item-head"><span class="badge">16</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">China trip logistics</div>
+            <div class="item-desc">Hold mail + offload insta360 footage.</div>
+            <div class="item-links"><a href="things:///show?id=G6HjTUdkqqtSUheBaE8vtB">hold mail</a><span class="sep">·</span><a href="things:///show?id=6D3fUTdo62nHYQ9MdUYRA5">insta360</a></div>
+          </div></div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PRS -->
+    <section class="report-section s-prs">
+      <h2>PRs Awaiting Your Review <span class="count">2</span></h2>
+      <ul class="items">
+        <li class="item" data-id="17">
+          <div class="item-head"><span class="badge">17</span><div class="item-body">
+            <div class="pills"><span class="pill github">GitHub</span></div>
+            <div class="item-title"><a class="plain" href="https://github.com/supabase/supabase/pull/46478">#46478 · docs: contextual AI sidebar</a></div>
+            <div class="item-desc">First-time contributor. CodeRabbit flagged an unsanitized <span class="mono">source.url</span> rendered in an <span class="mono">href</span> (injection risk). Touches telemetry-constants + ui-patterns.</div>
+            <div class="item-meta"><span class="flag">security flag</span> · 11 days · supabase/supabase</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="18">
+          <div class="item-head"><span class="badge">18</span><div class="item-body">
+            <div class="pills"><span class="pill github">GitHub</span></div>
+            <div class="item-title"><a class="plain" href="https://github.com/supabase/supabase/pull/44499">#44499 · studio nav v2</a></div>
+            <div class="item-desc">Large refactor, no human review, likely CODEOWNERS blanket. Check if still active/superseded before investing time.</div>
+            <div class="item-meta"><span class="flag">stale 67 days</span> · supabase/supabase</div>
+          </div></div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- UPCOMING -->
+    <section class="report-section s-upcoming">
+      <h2>Upcoming <span class="count">5</span></h2>
+      <ul class="items">
+        <li class="item" data-id="19">
+          <div class="item-head"><span class="badge">19</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Leon (PostHog) lunch — Wed Jun 10</div>
+            <div class="item-desc">RSVP wrangling needs to start today (see #6).</div>
+            <div class="item-meta"><span class="due">Jun 10</span></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="20">
+          <div class="item-head"><span class="badge">20</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Cancel Typefully — Jun 15</div>
+            <div class="item-meta">Jun 15 · personal</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="21">
+          <div class="item-head"><span class="badge">21</span><div class="item-body">
+            <div class="pills"><span class="pill linear">Linear</span></div>
+            <div class="item-title">PG14 deprecation emails — Jun 17 &amp; Jul 1</div>
+            <div class="item-desc">Sends #3 and #4 of 4. #3 lands while you're around, #4 during OOO.</div>
+            <div class="item-links"><a href="https://linear.app/supabase/project/pg14-deprecation">project</a></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="22">
+          <div class="item-head"><span class="badge">22</span><div class="item-body">
+            <div class="item-title">OOO June 19 – July 6</div>
+            <div class="item-desc">Coverage handoffs in progress (flagged to Greg). Projects 1 &amp; 2 ideally resolve before this.</div>
+            <div class="item-meta"><span class="due">Jun 19</span></div>
+          </div></div>
+        </li>
+        <li class="item" data-id="23">
+          <div class="item-head"><span class="badge">23</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Hex report update (default grants)</div>
+            <div class="item-desc">Blocked on DATAENG-1483 backfill; you committed to adding activation/recovery + RLS-enabled cut once it lands.</div>
+            <a class="proj-chip" href="#project-1">↳ Default Grants Rollout</a>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C0A119DRQE8/p1780448448964289?thread_ts=1780338870.091939&cid=C0A119DRQE8">thread</a></div>
+          </div></div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- BACKGROUND -->
+    <section class="report-section s-background">
+      <h2>Background Reminders <span class="count">7</span></h2>
+      <ul class="items">
+        <li class="item" data-id="24">
+          <div class="item-head"><span class="badge">24</span><div class="item-body">
+            <div class="pills"><span class="pill gmail">Gmail</span></div>
+            <div class="item-title">Recruiter follow-up — General Medicine (Sr Full Stack, $175–215k)</div>
+            <div class="item-links"><a href="https://mail.google.com/mail/u/0/#all/19e314b6e33b18c1">email</a> · starred, May 16, reply or ignore</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="25">
+          <div class="item-head"><span class="badge">25</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Stale bookmark: Filipe — Realtime presence abuse campaign (~6 wk)</div>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1777101913560889?thread_ts=1777101913.560889&cid=C07P3AU3J2D">slack</a> · likely handled — confirm or dismiss</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="26">
+          <div class="item-head"><span class="badge">26</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Stale bookmark: Kevin Brolly — SFP security-article email (~6 wk)</div>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C02JSB9KP8R/p1777031708770369?thread_ts=1777025867.966699&cid=C02JSB9KP8R">slack</a> · Jason Farber coordinating — check status</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="27">
+          <div class="item-head"><span class="badge">27</span><div class="item-body">
+            <div class="pills"><span class="pill slack">Slack</span></div>
+            <div class="item-title">Confirm Mert completed PITR campaign build (GROWTH-878)</div>
+            <div class="item-links"><a href="https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1779481367839559?thread_ts=1778542103.415819&cid=C07P3AU3J2D">slack</a> · he took it over — just verify</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="28">
+          <div class="item-head"><span class="badge">28</span><div class="item-body">
+            <div class="pills"><span class="pill gmail">Gmail</span></div>
+            <div class="item-title">Crypto distribution checks (Voyager + Celsius)</div>
+            <div class="item-links"><a href="https://mail.google.com/mail/u/0/#all/192725ac8e4a35cd">Voyager</a><span class="sep">·</span><a href="https://mail.google.com/mail/u/0/#all/1922f1d753a587e7">Celsius</a> · both windows likely closed — check if recoverable</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="29">
+          <div class="item-head"><span class="badge">29</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">Things Inbox triage</div>
+            <div class="item-links">Buy sheets, schedule physical, Levels.io terminus, Outta Sight pizza, + 6 X-link read-laters</div>
+          </div></div>
+        </li>
+        <li class="item" data-id="30">
+          <div class="item-head"><span class="badge">30</span><div class="item-body">
+            <div class="pills"><span class="pill things">Things</span></div>
+            <div class="item-title">chrome-newtab open-source launch (~60% done)</div>
+            <div class="item-links"><a href="things:///show?id=QPR7Ti1uoHy4Tn9UvFTx7H">Things task</a> · manifest hygiene, store listing, submit, launch thread</div>
+          </div></div>
+        </li>
+      </ul>
+      <p class="inbox-note">Inbox volume: personal Gmail is clean — only ~3 unread automated messages.</p>
+    </section>
+
+    <p class="filtered-note">4 previously dismissed items filtered out.</p>
+    <footer>Work Sweep · generated by Cortex · 2026-06-08 09:07 PT · 6 sources · actions sync to work-sweep-dismissed.md via server.py</footer>
+  </div>
+
+  <div id="toast"><span id="toast-msg"></span><span class="undo" id="toast-undo">Undo</span></div>
+
+<script>
+const SWEEP_DATE = "2026-06-08";
+const ONLINE = location.protocol === "http:" || location.protocol === "https:";
+const API = ONLINE ? location.origin : "http://localhost:7777";
+const LS_KEY = "ws-state-" + SWEEP_DATE;
+
+// Canonical dismiss metadata (primary URL per skill preference: Linear>GitHub>Notion>Things>Gmail>Slack)
+const ITEMS = {
+  1:{label:"Default Grants Rollout",url:"https://linear.app/supabase/issue/GROWTH-904"},
+  2:{label:"Scope Purchase / ALG Evals",url:"https://linear.app/supabase/issue/GROWTH-850"},
+  3:{label:"Confirm Scope go-ahead to Marc",url:"https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780683300202689?thread_ts=1780593110.060429&cid=C07P3AU3J2D"},
+  4:{label:"SFP Phase 1 green light",url:"https://grid-supabase.enterprise.slack.com/archives/C0A119DRQE8/p1780598730673479"},
+  5:{label:"Reply to Pam re: skills repo PR #16",url:"https://grid-supabase.enterprise.slack.com/archives/D0946LQJ4GP/p1780917107679759"},
+  6:{label:"Pick lunch spot for Leon (PostHog)",url:"things:///show?id=7XfmpaM5Px4VdehnnS6XPJ"},
+  7:{label:"Consulate visa dropoff",url:"things:///show?id=HtqMvcnD62MZUYfiH3nHvJ"},
+  8:{label:"Matt Rossman evals consolidation",url:"https://grid-supabase.enterprise.slack.com/archives/D0B8EGMRT5X/p1780597445284659"},
+  9:{label:"Aleksi: check Claude Code fork re URL allowlists",url:"https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780503297042519?thread_ts=1780498095.862399&cid=C07P3AU3J2D"},
+  10:{label:"GROWTH-891 CLI identity stitch to in-memory attribution",url:"https://linear.app/supabase/issue/GROWTH-891"},
+  11:{label:"Tell Patrick Crane GE picks up GROWTH-844",url:"https://linear.app/supabase/issue/GROWTH-844"},
+  12:{label:"GROWTH-855 triage decision",url:"https://linear.app/supabase/issue/GROWTH-855"},
+  13:{label:"GROWTH-846 action or de-prioritize",url:"https://linear.app/supabase/issue/GROWTH-846"},
+  14:{label:"DATINT-125 paid conversion decline",url:"https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1780406890038509?thread_ts=1780394591.702989&cid=C07P3AU3J2D"},
+  15:{label:"Ping Ben & Chelsea before China",url:"things:///show?id=SZM86EqmuXqZMJzuL1tmcu"},
+  16:{label:"China trip logistics (hold mail / insta360)",url:"things:///show?id=G6HjTUdkqqtSUheBaE8vtB"},
+  17:{label:"Review PR #46478 docs AI sidebar",url:"https://github.com/supabase/supabase/pull/46478"},
+  18:{label:"Review PR #44499 studio nav v2",url:"https://github.com/supabase/supabase/pull/44499"},
+  19:{label:"Leon (PostHog) lunch Jun 10",url:"things:///show?id=7XfmpaM5Px4VdehnnS6XPJ"},
+  20:{label:"Cancel Typefully Jun 15",url:"things:///show?id=B7vbs15EtKUTfabizd1r7g"},
+  21:{label:"PG14 deprecation emails Jun 17 & Jul 1",url:"https://linear.app/supabase/project/pg14-deprecation"},
+  22:{label:"OOO June 19 - July 6",url:"-"},
+  23:{label:"Hex report update (default grants)",url:"https://grid-supabase.enterprise.slack.com/archives/C0A119DRQE8/p1780448448964289?thread_ts=1780338870.091939&cid=C0A119DRQE8"},
+  24:{label:"Recruiter follow-up General Medicine",url:"https://mail.google.com/mail/u/0/#all/19e314b6e33b18c1"},
+  25:{label:"Filipe Realtime presence abuse campaign",url:"https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1777101913560889?thread_ts=1777101913.560889&cid=C07P3AU3J2D"},
+  26:{label:"Kevin Brolly SFP security-article email",url:"https://grid-supabase.enterprise.slack.com/archives/C02JSB9KP8R/p1777031708770369?thread_ts=1777025867.966699&cid=C02JSB9KP8R"},
+  27:{label:"Confirm Mert completed PITR build GROWTH-878",url:"https://grid-supabase.enterprise.slack.com/archives/C07P3AU3J2D/p1779481367839559?thread_ts=1778542103.415819&cid=C07P3AU3J2D"},
+  28:{label:"Crypto distribution checks (Voyager+Celsius)",url:"https://mail.google.com/mail/u/0/#all/192725ac8e4a35cd"},
+  29:{label:"Things Inbox triage",url:"-"},
+  30:{label:"chrome-newtab open-source launch",url:"things:///show?id=QPR7Ti1uoHy4Tn9UvFTx7H"},
+};
+
+const ORIGINAL_ORDER = ["3","4","6","7","5","8","17"];
+const priorityList = document.getElementById("priority-list");
+
+// reverse map: primary URL -> item id, for honoring the canonical dismissed-file
+const URL2ID = {};
+Object.entries(ITEMS).forEach(([id, m]) => { if(m.url && m.url !== "-") URL2ID[m.url] = id; });
+
+// ---------- action buttons injection ----------
+document.querySelectorAll("li.item").forEach(li => {
+  const id = li.dataset.id;
+  if (!id || id === "22") return; // OOO not actionable
+  const actions = document.createElement("div");
+  actions.className = "item-actions";
+  actions.innerHTML =
+    '<span class="act act-done" title="Mark done">✓</span>' +
+    '<span class="act act-dismiss" title="Dismiss (records a reason)">✕</span>';
+  li.appendChild(actions);
+  const box = document.createElement("div");
+  box.className = "dismiss-box";
+  box.innerHTML =
+    '<input type="text" placeholder="reason (optional) — why is this off your plate?">' +
+    '<button class="confirm">Cut</button><button class="cancel">Keep</button>';
+  li.querySelector(".item-body").appendChild(box);
+
+  actions.querySelector(".act-done").onclick = () => toggleDone(id);
+  actions.querySelector(".act-dismiss").onclick = () => li.classList.add("dismissing");
+  box.querySelector(".cancel").onclick = () => li.classList.remove("dismissing");
+  box.querySelector(".confirm").onclick = () => doDismiss(id, box.querySelector("input").value);
+  box.querySelector("input").addEventListener("keydown", e => {
+    if (e.key === "Enter") doDismiss(id, e.target.value);
+    if (e.key === "Escape") li.classList.remove("dismissing");
+  });
+});
+
+// ---------- state ----------
+function nodesFor(id){ return [...document.querySelectorAll(`li.item[data-id="${id}"]`)]; }
+
+function collectState(){
+  const order = [...priorityList.querySelectorAll("li.item")].map(li => li.dataset.id);
+  const completed = [...document.querySelectorAll("li.item.done")].map(li => li.dataset.id)
+    .filter((v,i,a)=>a.indexOf(v)===i);
+  const dismissed = [...document.querySelectorAll("li.item.dismissed")].map(li => li.dataset.id)
+    .filter((v,i,a)=>a.indexOf(v)===i);
+  return { order, completed, dismissed };
+}
+
+function saveLocal(state){
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e){}
+}
+function loadLocal(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || null; } catch(e){ return null; }
+}
+
+async function pushState(){
+  const state = collectState();
+  saveLocal(state);            // always persist locally first — survives server hiccups & file://
+  recomputeCounts();
+  try {
+    await fetch(API + "/api/state", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ date: SWEEP_DATE, state })
+    });
+    setConn(true);
+  } catch(e){ setConn(false); }
+}
+
+function toggleDone(id){
+  const on = !nodesFor(id)[0].classList.contains("done");
+  nodesFor(id).forEach(li => li.classList.toggle("done", on));
+  pushState();
+}
+
+async function doDismiss(id, reason){
+  const meta = ITEMS[id] || {label:"", url:"-"};
+  nodesFor(id).forEach(li => { li.classList.remove("dismissing"); li.classList.add("removing","dismissed"); });
+  setTimeout(()=>{ nodesFor(id).forEach(li => li.style.display="none"); recomputeCounts(); }, 250);
+  pushState();   // records the dismissed class locally + to /api/state immediately
+  try{
+    await fetch(API + "/api/dismiss", { method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ date:SWEEP_DATE, id:String(id), label:meta.label, url:meta.url, reason }) });
+    setConn(true);
+    showToast(`Dismissed #${id} — recorded in work-sweep-dismissed.md`, ()=>undismiss(id));
+  }catch(e){
+    setConn(false);
+    showToast(`Dismissed #${id} locally — NOT synced (server down)`, ()=>undismiss(id));
+  }
+}
+
+async function undismiss(id){
+  const meta = ITEMS[id] || {url:"-"};
+  nodesFor(id).forEach(li => { li.style.display=""; li.classList.remove("removing","dismissed"); });
+  recomputeCounts();
+  pushState();
+  try{ await fetch(API + "/api/undismiss", { method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ date:SWEEP_DATE, id:String(id), url:meta.url }) }); }catch(e){}
+}
+
+function recomputeCounts(){
+  const moveItems = [...document.querySelectorAll('#move-list li.item')]
+    .filter(li => li.style.display !== "none" && !li.classList.contains("done"));
+  document.getElementById("count-move").textContent = moveItems.length;
+  document.getElementById("tile-move").textContent = moveItems.length;
+}
+
+// ---------- drag reorder ----------
+let dragEl = null;
+priorityList.addEventListener("dragstart", e => {
+  dragEl = e.target.closest("li.item");
+  if(dragEl) dragEl.classList.add("dragging");
+});
+priorityList.addEventListener("dragend", () => {
+  if(dragEl) dragEl.classList.remove("dragging");
+  dragEl = null;
+  renumberPriority();
+  pushState();
+});
+priorityList.addEventListener("dragover", e => {
+  e.preventDefault();
+  if(!dragEl) return;
+  const after = afterElement(e.clientY);
+  if(after == null) priorityList.appendChild(dragEl);
+  else priorityList.insertBefore(dragEl, after);
+});
+function afterElement(y){
+  const els = [...priorityList.querySelectorAll("li.item:not(.dragging)")];
+  return els.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height/2;
+    if(offset < 0 && offset > closest.offset) return {offset, element: child};
+    return closest;
+  }, {offset: -Infinity, element: null}).element;
+}
+function renumberPriority(){
+  [...priorityList.querySelectorAll("li.item")].forEach((li,i) => {
+    const t = li.querySelector(".item-title");
+    // priority rows don't carry rank-n spans anymore; nothing to renumber visually
+  });
+}
+document.getElementById("reset-order").onclick = () => {
+  ORIGINAL_ORDER.forEach(id => {
+    const li = priorityList.querySelector(`li.item[data-id="${id}"]`);
+    if(li) priorityList.appendChild(li);
+  });
+  pushState();
+  showToast("Priority order reset", null);
+};
+
+// ---------- project chip / goto smooth highlight ----------
+document.querySelectorAll(".proj-chip, .goto-move").forEach(el => {
+  el.addEventListener("click", e => {
+    const sel = el.classList.contains("goto-move")
+      ? `#move-list li.item[data-id="${el.dataset.target}"]`
+      : el.getAttribute("href");
+    const target = document.querySelector(sel);
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:"smooth", block:"center"});
+      target.animate([{boxShadow:"0 0 0 2px var(--accent)"},{boxShadow:"0 0 0 0 transparent"}],{duration:1400});
+    }
+  });
+});
+
+// ---------- toast ----------
+let toastTimer;
+function showToast(msg, undoFn){
+  const t = document.getElementById("toast");
+  document.getElementById("toast-msg").textContent = msg;
+  const u = document.getElementById("toast-undo");
+  u.style.display = undoFn ? "inline" : "none";
+  u.onclick = () => { if(undoFn) undoFn(); t.classList.remove("show"); };
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove("show"), 5000);
+}
+
+// ---------- connection + restore ----------
+function setConn(online){
+  const c = document.getElementById("conn");
+  c.className = "conn " + (online ? "online" : "offline");
+  document.getElementById("conn-label").textContent = online
+    ? "synced to disk"
+    : (location.protocol === "file:"
+        ? "viewing file:// — open localhost:7777 for full sync"
+        : "offline — start server.py (saved locally only)");
+}
+
+function applyState(st){
+  if(!st) return;
+  (st.order||[]).forEach(id => {
+    const li = priorityList.querySelector(`li.item[data-id="${id}"]`);
+    if(li) priorityList.appendChild(li);
+  });
+  (st.completed||[]).map(String).forEach(id => nodesFor(id).forEach(li => li.classList.add("done")));
+  (st.dismissed||[]).map(String).forEach(id => nodesFor(id).forEach(li => { li.style.display="none"; li.classList.add("dismissed"); }));
+}
+
+async function restore(){
+  // 1) instant: apply whatever localStorage has — survives server hiccups & file://
+  const local = loadLocal();
+  applyState(local);
+  recomputeCounts();
+  // 2) authoritative: merge server state on top (union dismissed/completed, prefer server order)
+  try{
+    const res = await fetch(API + `/api/state?date=${SWEEP_DATE}`);
+    const srv = await res.json();
+    setConn(true);
+    const merged = {
+      order: (srv.order && srv.order.length) ? srv.order : (local ? local.order : []),
+      completed: [...new Set([...(local?.completed||[]), ...(srv.completed||[])].map(String))],
+      dismissed: [...new Set([...(local?.dismissed||[]), ...(srv.dismissed||[])].map(String))],
+    };
+    // reset then re-apply merged so nothing lingers wrongly
+    document.querySelectorAll("li.item.dismissed").forEach(li => { li.style.display=""; li.classList.remove("dismissed"); });
+    document.querySelectorAll("li.item.done").forEach(li => li.classList.remove("done"));
+    applyState(merged);
+    saveLocal(merged);
+  }catch(e){ setConn(false); }
+  // 3) authoritative hide: anything in the canonical dismissed-file (durable across state resets)
+  try{
+    const dres = await fetch(API + "/api/dismissed");
+    const urls = await dres.json();
+    urls.forEach(u => { const id = URL2ID[u]; if(id) nodesFor(id).forEach(li => { li.style.display="none"; li.classList.add("dismissed"); }); });
+  }catch(e){}
+  recomputeCounts();
+}
+restore();
+</script>
+</body>
+</html>
