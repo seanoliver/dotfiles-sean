@@ -339,7 +339,8 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
    cd ~/Documents/work-sweeps && nohup python3 server.py > /tmp/ws-server.log 2>&1 &
    sleep 1.2; lsof -nP -iTCP:7777 -sTCP:LISTEN -t   # confirm a NEW pid is listening
    ```
-5. **Open** `http://localhost:7777/` (NOT the `file://` path — `file://` can't fully persist and shows an amber "offline" badge).
+   If that prints no pid, the server failed to start — `cat /tmp/ws-server.log` for the error (usually a stale port holder). The server serves today's file by default; append `?date=YYYY-MM-DD` to view a past report.
+5. **Open** `http://localhost:7777/` (NOT the `file://` path — `file://` can't fully persist and shows an amber "offline" badge). The page reads its server from `location.origin`, so if you ever change the port, the page follows automatically — just open the matching URL.
 6. **In the chat, print only a one-line summary** — e.g. `Swept. 2 active projects · 14 your-move · 2 PRs · 5 upcoming → http://localhost:7777/`. Do not paste the full report.
 
 ### Item data model (required for interactions to work)
