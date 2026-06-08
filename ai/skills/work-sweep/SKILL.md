@@ -331,15 +331,15 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
 ### Steps (run in order)
 
 1. **Read `example-report.html` first.** Match its structure exactly — do not generate a generic page.
-2. **Write the report** to `~/Documents/work-sweeps/work-sweep-<TODAY>.html` (date as `YYYY-MM-DD`; create the dir with `mkdir -p`). Same-day reruns OVERWRITE — do not add a timestamp/counter to the filename. **Set the `SWEEP_DATE` JS constant in the `<script>` block to that same `<TODAY>` string** — it keys localStorage and every `/api/*` call, so a mismatch silently breaks persistence.
-3. **Copy the server** if absent: `cp <skill-dir>/server.py ~/Documents/work-sweeps/server.py`.
-4. **(Re)start the server** robustly — the silent footgun is that `python3 server.py &` exits silently if the port is already held, leaving stale code running. Always kill the existing listener by PID first:
+2. **Write the report** to `~/work-sweeps/work-sweep-<TODAY>.html` (date as `YYYY-MM-DD`; create the dir with `mkdir -p`). Same-day reruns OVERWRITE — do not add a timestamp/counter to the filename. **Set the `SWEEP_DATE` JS constant in the `<script>` block to that same `<TODAY>` string** — it keys localStorage and every `/api/*` call, so a mismatch silently breaks persistence.
+3. **Check if the server is already running.** A launchd agent (`com.seanoliver.work-sweep-server`) normally keeps it up — run `~/work-sweeps/wsctl status`. If it reports "healthy," **you are done with the server — just writing the HTML in step 2 is enough; it's served immediately.** Do NOT kill/restart it (you'd fight KeepAlive). Only do step 4 if nothing is listening on 7777.
+4. **Only if the server is down:** copy it if absent (`cp <skill-dir>/server.py ~/work-sweeps/server.py`), then either `~/work-sweeps/wsctl on` (preferred — uses the launchd agent) or start it manually. The manual start has a silent footgun: `python3 server.py &` exits silently if the port is already held, leaving stale code running. Kill the existing listener by PID first:
    ```bash
    PID=$(lsof -nP -iTCP:7777 -sTCP:LISTEN -t 2>/dev/null); [ -n "$PID" ] && kill -9 $PID; sleep 1
-   cd ~/Documents/work-sweeps && nohup python3 server.py > /tmp/ws-server.log 2>&1 &
+   cd ~/work-sweeps && nohup python3 server.py > ~/work-sweeps/server.log 2>&1 &
    sleep 1.2; lsof -nP -iTCP:7777 -sTCP:LISTEN -t   # confirm a NEW pid is listening
    ```
-   If that prints no pid, the server failed to start — `cat /tmp/ws-server.log` for the error (usually a stale port holder). The server serves today's file by default; append `?date=YYYY-MM-DD` to view a past report.
+   If that prints no pid, the server failed to start — `cat ~/work-sweeps/server.log` for the error. **Never run the server (or write its files) from `~/Documents` — that folder is TCC-protected and launchd gets "Operation not permitted."** The server serves today's file by default; append `?date=YYYY-MM-DD` to view a past report.
 5. **Open** `http://localhost:7777/` (NOT the `file://` path — `file://` can't fully persist and shows an amber "offline" badge). The page reads its server from `location.origin`, so if you ever change the port, the page follows automatically — just open the matching URL.
 6. **In the chat, print only a one-line summary** — e.g. `Swept. 2 active projects · 14 your-move · 2 PRs · 5 upcoming → http://localhost:7777/`. Do not paste the full report.
 
@@ -355,7 +355,7 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
 
 The app's dismiss is durable through THREE layers, all already implemented in `example-report.html` + `server.py`:
 1. **localStorage** (`ws-state-<date>`) — instant, survives reloads and server hiccups.
-2. **`POST /api/state`** — per-day view state (order, completed, dismissed) → `~/Documents/work-sweeps/state-<date>.json`.
+2. **`POST /api/state`** — per-day view state (order, completed, dismissed) → `~/work-sweeps/state-<date>.json`.
 3. **`POST /api/dismiss`** — appends `- <date> | <url> | "<label>" | <reason>` to the canonical `work-sweep-dismissed.md` (idempotent on URL), and **`GET /api/dismissed`** is the authoritative hide list `restore()` consults so a canonically-dismissed item never reappears even if per-day state is lost.
 
 Because dismissals land in the same `work-sweep-dismissed.md` that Phase 2's "Filtering dismissed items" reads, **clicking dismiss in the app and saying "cut N" in chat are equivalent** — both feed the next sweep's filter.
