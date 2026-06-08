@@ -361,11 +361,11 @@ Because dismissals land in the same `work-sweep-dismissed.md` that Phase 2's "Fi
 
 ## Phase 4: Post-Sweep Dismissals
 
-After presenting the report, tell the user:
+Primary path: the user **dismisses items directly in the app** (hover → ✕ → reason → Cut), which writes to `work-sweep-dismissed.md` via the server — no chat round-trip needed. Tell the user once:
 
-> You can dismiss items by saying **"cut 1, 3, 5"** (with optional reasons like "cut 3 — shipped last week"). Dismissed items won't appear in future sweeps. When you're done pruning, say **"lock it in"** and I'll capture brain-dump items and reconcile your Things Today list.
+> Dismiss items in the app (✕ on hover, add a reason) — they're recorded straight to disk and filtered next sweep. Or say **"cut 1, 3, 5"** here. When you're done pruning, say **"lock it in"** and I'll capture brain-dump items and reconcile your Things Today list.
 
-When the user dismisses items:
+Chat-based fallback — when the user says "cut N" in the thread instead of using the app:
 
 1. Look up the numbered items they referenced.
 2. For each item, extract the **primary URL** (the most stable identifier). Preference order:
