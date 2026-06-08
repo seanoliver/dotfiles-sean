@@ -331,7 +331,7 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
 ### Steps (run in order)
 
 1. **Read `example-report.html` first.** Match its structure exactly — do not generate a generic page.
-2. **Write the report** to `~/Documents/work-sweeps/work-sweep-<TODAY>.html` (date as `YYYY-MM-DD`; create the dir with `mkdir -p`). Same-day reruns OVERWRITE — do not add a timestamp/counter to the filename.
+2. **Write the report** to `~/Documents/work-sweeps/work-sweep-<TODAY>.html` (date as `YYYY-MM-DD`; create the dir with `mkdir -p`). Same-day reruns OVERWRITE — do not add a timestamp/counter to the filename. **Set the `SWEEP_DATE` JS constant in the `<script>` block to that same `<TODAY>` string** — it keys localStorage and every `/api/*` call, so a mismatch silently breaks persistence.
 3. **Copy the server** if absent: `cp <skill-dir>/server.py ~/Documents/work-sweeps/server.py`.
 4. **(Re)start the server** robustly — the silent footgun is that `python3 server.py &` exits silently if the port is already held, leaving stale code running. Always kill the existing listener by PID first:
    ```bash
