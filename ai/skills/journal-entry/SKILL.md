@@ -38,8 +38,12 @@ Then **follow what he raises adaptively** — 1–3 rounds, probing only the thr
 
 This mode trades momentum for depth — it's the opposite of the quick batched interview, and he's asked for it explicitly, so don't rush to draft. **Ask one question at a time** and genuinely follow his answers. The goal is to surface the thing under the thing.
 
+**Two entry points:**
+- *Enriching a same-session entry* — he already journaled the events; skip the logistics entirely and go straight at how it's sitting with him.
+- *Fresh deep session* — still do Read First (threads + activity pull). Open with one light "what happened / what's on you" question to get the events on the table, then immediately pivot to the feeling. Don't run the full batched battery.
+
 How to probe:
-- Skip the logistics — he already knows what happened. Go at how it's *sitting* with him: the feeling, the meaning, what it stirs up.
+- Go at how it's *sitting* with him: the feeling, the meaning, what it stirs up — not the logistics, which he already knows.
 - **Reflect before you ask.** Briefly mirror back what you heard, then ask the next question. He should feel followed, not interrogated.
 - **Challenge gently** (this is his stated preference — push, don't capitulate): separate a projection from a grounded fear ("has she actually said that, or are you predicting it?"), separate fused feelings ("that's two different things — today's helplessness vs. the earlier lapse that was yours"), name the pattern under the moment.
 - Follow the emotional charge — go where his answers get shorter, sharper, or more honest, not where the tidy narrative is.
