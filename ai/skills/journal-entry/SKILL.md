@@ -47,7 +47,8 @@ How to probe:
 - **Reflect before you ask.** Briefly mirror back what you heard, then ask the next question. He should feel followed, not interrogated.
 - **Challenge gently** (this is his stated preference — push, don't capitulate): separate a projection from a grounded fear ("has she actually said that, or are you predicting it?"), separate fused feelings ("that's two different things — today's helplessness vs. the earlier lapse that was yours"), name the pattern under the moment.
 - Follow the emotional charge — go where his answers get shorter, sharper, or more honest, not where the tidy narrative is.
-- Keep going one question at a time until the reflection lands (he reaches an insight, or his answers turn flat/conclusive like "I suppose it would"). Then move to Step 3 and draft an enriched entry that *includes a reflective section* in his voice — not just the events.
+- Distinguish two kinds of short answer: **short-and-sharp with new content** (he's getting closer to something real — keep probing that vein) vs. **flat-and-conclusive** (he's just agreeing with your reframe or repeating himself, e.g. "I suppose it would" — the reflection has landed, stop). When in doubt, offer one more question and let him close it.
+- When it lands, move to Step 3 and draft an entry that *includes a reflective section* in his voice — not just the events.
 
 No counting rounds here. Depth is the point; let it run as long as he's still uncovering something.
 
