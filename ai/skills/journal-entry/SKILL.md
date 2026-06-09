@@ -21,6 +21,7 @@ Interview Sean, draft a Day One entry in his voice, save it, and update his recu
 - **Guided** — vague mood, "let's journal", or no specific subject → run the full reflective interview below.
 - **Freeform** — he hands you a specific topic or wants to vent ("write about the Anna text") → skip the structured battery and the activity pull. Follow the thing he raised, ask 1–2 light follow-ups, then draft.
 - **Mixed** — a mood *and* a named topic ("flat today, and the deploy is bugging me") → lead freeform on the named topic, and lightly touch the mood + one or two threads. Don't run the full battery.
+- **Deep** — he asks to go deeper, wants a real reflective conversation, or asks you to "ask me more" ("let's go deep", "draw more out of me", "this feels like just a quick update"). → run **Step 2-Deep** instead of the batched interview. Can be entered fresh, or mid-session to deepen an entry already drafted/saved today (then enrich it — see Step 4).
 
 ## Step 2 — Interview (guided mode)
 
