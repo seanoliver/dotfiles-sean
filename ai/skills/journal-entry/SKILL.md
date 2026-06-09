@@ -61,6 +61,8 @@ Call `mcp__day-one__create_entry` with:
 
 Return the `viewLink` so he can open it.
 
+**Enriching an entry already saved this session.** If deep mode is deepening an entry you already created earlier in *this* conversation, don't create a second entry — update the existing one with `mcp__day-one__update_entry` (pass its `entry_id` and `journal_id`; `tags` *replaces* the existing set, so re-send the full list). Always show the enriched draft first. This is the only sanctioned edit of an existing entry — see Out of Scope.
+
 ## Step 5 — Update threads (after saving)
 
 Surgically edit `~/cortex/wiki/personal/journal-threads.md`, **matching the file's existing structure** (you already read it in the Read First step):
