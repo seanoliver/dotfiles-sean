@@ -66,9 +66,9 @@ Call `mcp__day-one__create_entry` with:
 - `tags`: auto-suggested from content + thread names (e.g. `reflection,work,kai`) — he can veto before save
 - `text`: the approved markdown body
 
-Return the `viewLink` so he can open it.
+Return the `viewLink` so he can open it. **Keep the returned `entry_id`** — if he later asks to go deeper this session, you'll need it to enrich the entry rather than duplicate it.
 
-**Enriching an entry already saved this session.** If deep mode is deepening an entry you already created earlier in *this* conversation, don't create a second entry — update the existing one with `mcp__day-one__update_entry` (pass its `entry_id` and `journal_id`; `tags` *replaces* the existing set, so re-send the full list). Always show the enriched draft first. This is the only sanctioned edit of an existing entry — see Out of Scope.
+**Enriching an entry already saved this session.** If deep mode is deepening an entry you created earlier in *this* conversation, don't create a second entry — update the existing one with `mcp__day-one__update_entry`, passing its `entry_id` and `journal_id`. **Tag warning:** `update_entry` *replaces* the tag set, so re-send the union of the original tags plus any new ones — never just the additions, or you'll drop the originals. Always show the enriched draft first. This is the only sanctioned edit of an existing entry (see Out of Scope). If you no longer have the `entry_id` (e.g. it scrolled out of a long session), create a new entry instead rather than guessing or reading past entries to find it.
 
 ## Step 5 — Update threads (after saving)
 
