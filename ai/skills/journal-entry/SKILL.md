@@ -1,6 +1,6 @@
 ---
 name: journal-entry
-description: Use when Sean wants to write a Day One journal entry — triggers include "let's journal", "write a journal entry", "help me reflect", a bare mood ("feeling flat today"), or a specific thing he wants to write/vent about. Conducts the interview, drafts in his voice, saves to Day One, and keeps his recurring threads current.
+description: Use when Sean wants to write a Day One journal entry — triggers include "let's journal", "write a journal entry", "help me reflect", a bare mood ("feeling flat today"), a specific thing he wants to write/vent about, or a request to go deeper / be asked more reflective questions ("let's go deep", "ask me more about this"). Conducts the interview, drafts in his voice, saves to Day One, and keeps his recurring threads current.
 ---
 
 # Journal Entry
