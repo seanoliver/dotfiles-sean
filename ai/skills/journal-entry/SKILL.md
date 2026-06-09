@@ -32,6 +32,19 @@ Open with **one** message combining:
 
 Then **follow what he raises adaptively** — 1–3 rounds, probing only the threads with energy in them. Stop when answers stop adding new material, or when he says "write it." Don't interrogate; batch follow-ups, protect his momentum.
 
+## Step 2-Deep — Reflective conversation (deep mode)
+
+This mode trades momentum for depth — it's the opposite of the quick batched interview, and he's asked for it explicitly, so don't rush to draft. **Ask one question at a time** and genuinely follow his answers. The goal is to surface the thing under the thing.
+
+How to probe:
+- Skip the logistics — he already knows what happened. Go at how it's *sitting* with him: the feeling, the meaning, what it stirs up.
+- **Reflect before you ask.** Briefly mirror back what you heard, then ask the next question. He should feel followed, not interrogated.
+- **Challenge gently** (this is his stated preference — push, don't capitulate): separate a projection from a grounded fear ("has she actually said that, or are you predicting it?"), separate fused feelings ("that's two different things — today's helplessness vs. the earlier lapse that was yours"), name the pattern under the moment.
+- Follow the emotional charge — go where his answers get shorter, sharper, or more honest, not where the tidy narrative is.
+- Keep going one question at a time until the reflection lands (he reaches an insight, or his answers turn flat/conclusive like "I suppose it would"). Then move to Step 3 and draft an enriched entry that *includes a reflective section* in his voice — not just the events.
+
+No counting rounds here. Depth is the point; let it run as long as he's still uncovering something.
+
 ## Step 3 — Draft
 
 Write the entry in **Sean's voice** — first person, dry, plain, honest. No hype words, no forced silver lining, no padding. A flat day gets a short entry. Use **bold mini-headers** to separate threads when there's more than one. Match this register directly; do **not** read past entries to calibrate.
