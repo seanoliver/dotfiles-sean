@@ -95,6 +95,6 @@ The saved entry is markdown:
 
 - Scheduling future or post-dated entries (always today).
 - Routing to any journal other than Life.
-- Reading or editing past Day One entries.
+- Reading past Day One entries, or editing any entry except one created earlier in the same session (deep-mode enrichment — see Step 4).
 - Media/photo attachments.
 - Slack or GitHub-PR activity scanning.
