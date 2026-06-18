@@ -19,3 +19,10 @@ ai/evals/.venv/
 
 # MCP server secrets (local to each machine)
 config/claude/mcp.env
+
+# Work skills — symlinks into ~/supabase/growth-eng (owned/backed up by the work repo,
+# not personal dotfiles). Local convenience symlinks only; don't track.
+ai/skills/growth-browser
+ai/skills/growth-pr-review
+ai/skills/posthog-architecture
+ai/skills/share-pr-for-review
