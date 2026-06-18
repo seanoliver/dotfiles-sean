@@ -65,7 +65,7 @@ enforce_minimum_contrast = "always"
 line_height_ratio = 1.399999976158142
 ligature_rendering_enabled = true
 font_size = 14.0
-font_name = "Berkeley Mono"
+font_name = "JetBrainsMono Nerd Font Mono"
 
 [appearance.window]
 open_windows_at_custom_size = false

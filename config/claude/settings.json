@@ -40,6 +40,7 @@
     "deny": [],
     "defaultMode": "default"
   },
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -168,6 +169,5 @@
   "skipDangerousModePermissionPrompt": true,
   "verbose": true,
   "preferredNotifChannel": "ghostty",
-  "voiceEnabled": true,
-  "model": "opus"
+  "voiceEnabled": true
 }

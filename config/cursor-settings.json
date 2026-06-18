@@ -55,5 +55,6 @@
   "security.workspace.trust.enabled": false,
   "telemetry.telemetryLevel": "off",
   "mise.binPath": "/opt/homebrew/bin/mise",
-  "window.autoDetectColorScheme": false
+  "window.autoDetectColorScheme": false,
+  "security.promptForLocalFileProtocolHandling": false
 }

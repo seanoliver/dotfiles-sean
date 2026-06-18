@@ -150,3 +150,10 @@ export PATH=/Users/seanoliver/.opencode/bin:$PATH
 # See ~/cortex/automation/bin/zshrc-trigger-consumer.sh for the full mechanism.
 [ -f "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh" ] && \
   source "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh"
+
+# bun completions
+[ -s "/Users/seanoliver/.bun/_bun" ] && source "/Users/seanoliver/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
