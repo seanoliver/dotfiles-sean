@@ -99,13 +99,16 @@ alias sync-ide='~/dotfiles/scripts/sync-ide-settings.sh'
 
 # Claude multi-account switching (both default to dangerously-skip-permissions)
 claude-work() {
-  unset CLAUDE_CODE_OAUTH_TOKEN
+  unset CLAUDE_CODE_OAUTH_TOKEN CLAUDE_CONFIG_DIR
   export CLAUDE_ACCOUNT="work"
   command claude --dangerously-skip-permissions "$@"
 }
 
+# Personal account uses its own config dir with a full-scope interactive login
+# (setup-token/CLAUDE_CODE_OAUTH_TOKEN is inference-only and breaks Remote Control)
 claude-personal() {
-  export CLAUDE_CODE_OAUTH_TOKEN="$(security find-generic-password -a "$USER" -s CLAUDE_PERSONAL_TOKEN -w)"
+  unset CLAUDE_CODE_OAUTH_TOKEN
+  export CLAUDE_CONFIG_DIR="$HOME/.claude-personal"
   export CLAUDE_ACCOUNT="personal"
   command claude --dangerously-skip-permissions "$@"
 }
