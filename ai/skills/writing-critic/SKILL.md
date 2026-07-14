@@ -52,6 +52,12 @@ echo "-- enthusiasm words (must be 0) --"
 # Excludes hyphenated identifiers and backticked names, so writing-great-skills does not hit.
 grep -inE "(^|[^-\`[:alnum:]])(great|awesome|amazing|exciting|let's)([^-\`[:alnum:]]|$)" "$D" || echo "  clean"
 
+echo "-- hedges that soften a claim or an ask (must be 0) --"
+grep -inE "i think|my (initial )?read is|would love to|it seems|i feel like|kind of|sort of|a bit of a|probably worth|might be worth|should be to|we should probably|if that makes sense" "$D" || echo "  clean"
+
+echo "-- corporate vocabulary (must be 0) --"
+grep -inE "actionable|leverage (this|that|our)|circle back|touch base|align on|synerg|deep dive into|at the end of the day|move the needle|low-hanging" "$D" || echo "  clean"
+
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'
 import re, sys
