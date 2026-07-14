@@ -28,7 +28,7 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] **Delete every sentence describing something you ran, observed, traced, or confirmed.** Search for: *I found, I traced, in one run, we saw, confirmed, first command was, it said, logs show*. Delete the whole sentence, not part of it. Ship what remains.
 - [ ] Search for quotation marks around anything a tool or agent said. Delete those sentences too.
 - [ ] Sentence one contains the ask, the finding, or the decision.
-- [ ] Every header is one or two words. If a header contains a verb, rewrite it as a noun.
+- [ ] **Search your headers for the words: What, Why, How, When, Who.** Count must be zero. A header containing any of them is a sentence, not a title. Rewrite it as the noun it is about: `Measurement`, `Rationale`, `Background`, `Vendor tracks`, `Open questions`, `Success criteria`.
 - [ ] Search for: *turns out, worth noting, worth flagging, Context:, it's worth calling out*. Count must be zero.
 - [ ] Search for: *Thanks!, Happy to help, let me know if you need anything*. Count must be zero.
 - [ ] Anything listable is a bullet.
