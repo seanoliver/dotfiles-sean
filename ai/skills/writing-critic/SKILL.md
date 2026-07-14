@@ -79,15 +79,23 @@ PY
 echo "-- prose sentences under 5 words: each is a RULE 8 violation unless it has a subject AND a verb --"
 python3 - "$D" <<'PY'
 import re, sys
-txt = re.sub(r'```.*?```', '', open(sys.argv[1]).read(), flags=re.S)
+txt = re.sub(r'```.*?```', '', open(sys.argv[1]).read(), flags=re.S)  # drop code blocks
 hits = 0
 for line in txt.splitlines():
     s = line.strip()
-    if not s or s[0] in '#-*>|':
+    if not s:
+        continue
+    if s[0] in '#-*>|':                       # headers, bullets, quotes, tables
+        continue
+    if re.match(r'^\d+[.)]', s):              # numbered list items
+        continue
+    if re.match(r'^[A-Za-z][\w /-]{0,20}:\s', s):  # metadata lines (Date:, Repo:, Trigger:)
+        continue
+    if re.match(r'^\|', s) or s.startswith('!['):
         continue
     for sent in re.split(r'(?<=[.!?])\s+', s):
         sent = sent.strip()
-        if sent and len(sent.split()) <= 4:
+        if sent and len(sent.split()) <= 4 and not sent.endswith(':'):
             print(f"  {sent!r}")
             hits += 1
 print("  clean" if not hits else "")
