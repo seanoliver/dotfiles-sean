@@ -51,6 +51,20 @@ State the conclusion; don't re-derive it. Compress a list to its concept — "fi
 
 Certainty tracks evidence. "Probably fine, but—" is right when you mean it. Stacked hedges are not.
 
+### Context you were given is not content you owe
+
+The raw material handed to you — traces, quotes, metrics, the investigation that produced the finding — exists so **you** understand the problem. It is not a checklist to work through in the output.
+
+Ask of every piece of evidence: *does the reader need this to act correctly?* An admin creating a GitHub org needs to know agents read repo metadata. They do not need the trace, the tool call, or how it was discovered.
+
+| Given to you | Owed to the reader |
+|---|---|
+| The full `git log` trace, the agent's verbatim reasoning, the vendor's leaked ticket number | "Agents read repo metadata and reason from it." |
+| Three weeks of investigation, five ruled-out hypotheses | The one that was right. |
+| Every metric in the query result | The one that changes the decision. |
+
+Evidence earns a place only when the reader would act differently without it. Otherwise it goes in a comment or a linked doc — or nowhere.
+
 ## Register
 
 Dry and declarative. No enthusiasm words (*great, awesome, amazing, exciting, let's*) — they read as someone else's voice. No emoji unless the surface's format skill calls for it.
