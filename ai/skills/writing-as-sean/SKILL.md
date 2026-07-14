@@ -98,6 +98,7 @@ You are drifting when you catch yourself:
 - Adding "worth noting" / "worth flagging" / "it's worth calling out"
 - Ending with "Thanks!" or "Happy to jump on a call if useful"
 - Putting the ask in the last paragraph
+- Reaching for bullets when three sentences of prose would carry it
 
 ## Out of scope
 
