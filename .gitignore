@@ -26,3 +26,29 @@ ai/skills/growth-browser
 ai/skills/growth-pr-review
 ai/skills/posthog-architecture
 ai/skills/share-pr-for-review
+
+# Matt Pocock skills — symlinks into ~/.agents/skills, installed via skills.sh.
+# Externally owned; not versioned here. Re-install with the skills CLI, then
+# re-link absolute (npx skills add writes relative symlinks that dangle).
+ai/skills/ask-matt
+ai/skills/code-review
+ai/skills/codebase-design
+ai/skills/diagnosing-bugs
+ai/skills/domain-modeling
+ai/skills/grill-me
+ai/skills/grill-with-docs
+ai/skills/grilling
+ai/skills/handoff
+ai/skills/implement
+ai/skills/improve-codebase-architecture
+ai/skills/prototype
+ai/skills/research
+ai/skills/resolving-merge-conflicts
+ai/skills/setup-matt-pocock-skills
+ai/skills/tdd
+ai/skills/teach
+ai/skills/to-spec
+ai/skills/to-tickets
+ai/skills/triage
+ai/skills/wayfinder
+ai/skills/writing-great-skills
