@@ -33,6 +33,7 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Search for: *turns out, worth noting, worth flagging, Context:, it's worth calling out*. Count must be zero.
 - [ ] Search for: *Thanks!, Happy to help, let me know if you need anything*. Count must be zero.
 - [ ] Anything listable is a bullet.
+- [ ] For each header, ask: could a reader tell from this title alone whether a given bullet belongs under it? If not, retitle it after what the list is for.
 
 The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
 
