@@ -9,12 +9,14 @@ description: Use when writing any prose Sean will send, post, or publish. Slack 
 
 Sean's register: a senior engineer's Slack note. Terse, plain, declarative. Confident enough not to argue for itself.
 
+These rules apply to everything he sends. There is no separate voice for Slack, Linear, GitHub, or email. One set, everywhere.
+
 ## Hard rules
 
-1. **No em-dashes. Ever.** They are the single clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences.
-2. **Prefer bullets to prose.** Bullets are scannable and force one idea per line. Reach for prose only when the ideas genuinely connect into an argument.
-3. **When you do write prose:** short paragraphs, short sentences. No scene-setting, no build-up, no drama.
-4. **Open every paragraph with its fact.** Write "Agents read repo metadata." Never open with a discovery frame: *turns out, it turns out, so, after we deployed, we found that, what happened was.* The fact is the first thing in the sentence, not the payoff at the end of one.
+1. **No em-dashes. Ever.** They are the clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences.
+2. **Bullets over prose.** Bullets are scannable and force one idea per line. Use prose only when ideas genuinely connect into an argument.
+3. **Prose, when you use it:** short paragraphs, short sentences. No scene-setting, no build-up, no drama.
+4. **Open every paragraph with its fact.** Write "Agents read repo metadata." Never open with a discovery frame: *turns out, it turns out, so, after we deployed, we found that, what happened was.* The fact goes first in the sentence, not last as a payoff.
 5. **State findings, not investigations.** Name what is true. Do not narrate the trace, the tool call, the query, or the steps that produced it. If the reader would act identically without a piece of evidence, it does not go in.
 
 ## The default you are fighting
@@ -30,10 +32,11 @@ Left alone, you write to *earn* the point before making it: context, evidence, "
 ## Steps
 
 1. **Write the point as sentence one.** The ask, the finding, the decision. If the reader stopped there, they would still have what they need.
-2. **Keep only what changes what the reader does.** Evidence earns its place when it changes a decision.
-3. **State each requirement once, plainly.** Fold the implication into the claim.
-4. **Read it back as the recipient.** Would they reply "yes, I know"? Cut it. Would they hunt for the ask? Move it up.
-5. **Search for em-dashes and remove every one.**
+2. **Put everything listable in bullets.** One idea per bullet.
+3. **Keep only what changes what the reader does.** Evidence earns its place when it changes a decision.
+4. **State each requirement once, plainly.** Fold the implication into the claim.
+5. **Read it back as the recipient.** Would they reply "yes, I know"? Cut it. Would they hunt for the ask? Move it up.
+6. **Search for em-dashes and remove every one.**
 
 Done when every sentence either carries the point or gives the reader something they need to act on. No sentence exists to set up another.
 
@@ -86,22 +89,6 @@ Short signals *I am not anxious about this*. Long signals *I need you to see how
 
 Cut by removing whole ideas, not by crushing sentences into fragments. A dropped detail the reader did not need costs nothing. A telegram costs clarity. If they have to reread, brevity bought nothing.
 
-## Per-surface format
-
-Voice above is invariant. Format is not. Defer to the surface's skill for structure and apply this voice inside it.
-
-| Surface | Shape | Format skill |
-|---|---|---|
-| Slack / async message | One ask. Bullets for anything listable. | `message-crafter` |
-| PR description | Named sections, ~300-500 words | `writing-pr-descriptions` |
-| PR review comment | 2-5 sentences, one point | `writing-pr-review-comments` |
-| Weekly update | Bullets, `**[Sean]:**` prefix, lowercase | `weekly-update-formatter` |
-| Slack PR share | Lowercase bullets, no trailing periods | `share-pr-for-review` |
-| Linear ticket | The ask and the requirements. Rationale goes in a comment. | none |
-| Journal | First person, short prose, honest | `journal-entry` |
-
-Where a format skill says "prose, not bullets", this skill wins. Bullets are the default.
-
 ## Red flags
 
 You are drifting when you catch yourself:
@@ -118,7 +105,7 @@ You are drifting when you catch yourself:
 
 ## Out of scope
 
-- **Per-surface structure.** This skill owns voice. Layout, bullet conventions, name prefixes, and templates live in the format skills above.
 - **Deciding what to say.** This governs how it reads once the content is known. For finding the core ask, use `message-crafter`.
+- **Repo PR templates.** If a repo has a PR template, fill its sections. Apply this voice inside them.
 - **Sean's conversation with Claude.** This is for prose he sends to others.
 - **Code comments and commit messages.** Different audiences, different conventions.
