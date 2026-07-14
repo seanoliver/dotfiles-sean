@@ -72,6 +72,19 @@ Short signals *I am not anxious about this*. Long signals *I need you to see how
 
 Cut by removing whole ideas, not by crushing sentences into fragments. If the reader has to reread, brevity bought nothing.
 
+## Critic loop
+
+Your self-check catches the obvious. It does not catch what you cannot see, because you wrote it. Every draft that leaves this skill goes through a critic in a **fresh context**.
+
+1. Draft, and run the self-check above.
+2. **Dispatch `writing-critic` as a subagent** (Agent tool, `general-purpose`). Give it the rules path and the full draft verbatim. A subagent is required: a critic sharing your context inherits your rationalizations and returns `CLEAN` on your worst habits.
+3. It returns `CLEAN`, or numbered findings with the offending text quoted.
+4. If findings: apply them. Do not argue with a grep hit. For a judgment finding, apply it unless you can say what the reader would do differently without the sentence.
+5. Dispatch the critic again on the revised draft.
+6. Repeat until `CLEAN`, or three rounds. Three is the cap. A draft that survives three rounds is either clean or the critic is relitigating taste.
+
+Report to Sean what the critic caught. He is calibrating these rules, and a finding you fixed silently is a finding he never sees.
+
 ## Examples
 
 Before-and-after rewrites for each rule: see `REFERENCE.md` in this skill folder. Read it when a rule is unclear or a draft keeps failing the self-check.
