@@ -35,6 +35,7 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Search for: *Thanks!, Happy to help, let me know if you need anything*. Count must be zero.
 - [ ] Anything listable is a bullet.
 - [ ] For each header, ask: could a reader tell from this title alone whether a given bullet belongs under it? If not, retitle it after what the list is for.
+- [ ] Read every paragraph sentence by sentence. Each one needs a subject and a verb. A fragment in prose is a rewrite, not a style.
 
 The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
 
