@@ -40,7 +40,6 @@
     "deny": [],
     "defaultMode": "default"
   },
-  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -166,8 +165,11 @@
     }
   },
   "effortLevel": "medium",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "verbose": true,
   "preferredNotifChannel": "ghostty",
+  "agentPushNotifEnabled": true,
   "voiceEnabled": true
 }
