@@ -13,7 +13,7 @@ One set of rules for everything he sends. No separate voice for Slack, Linear, G
 
 ## Hard rules
 
-1. **No em-dashes.** Anywhere, including bullet glosses. Write `**Scope**: contracted vendor`, never `**Scope** — contracted vendor`. Use a period, comma, colon, or parentheses.
+1. **No em-dashes.** Not in sentences, not in bullet glosses. Gloss a bullet with a colon: `**Scope**: contracted vendor`. Elsewhere use a period, comma, colon, or parentheses. If a sentence seems to need one, it is two sentences.
 2. **Bullets over prose.** Prose only when ideas connect into an argument. Then: short paragraphs, short sentences, no scene-setting.
 3. **The point is sentence one.** The ask, the finding, the decision. Never a `Context:` label, never a discovery frame (*turns out, so, after we deployed, we found that*).
 4. **The why gets one sentence.** The reader does not need convincing, they need to know what to do. State what is true, once, and stop. No trace, no log quote, no tool call, no account of how you found it.
