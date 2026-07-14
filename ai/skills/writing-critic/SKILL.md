@@ -54,7 +54,7 @@ grep -inE "\b(great|awesome|amazing|exciting|let's)\b" "$D" || echo "  clean"
 echo "-- all headers, for the sort test --"
 grep -nE '^#+ ' "$D"
 
-echo "-- short sentences in prose (candidate fragments; check each for a verb) --"
+echo "-- prose sentences under 5 words: each is a RULE 8 violation unless it has a subject AND a verb --"
 python3 - "$D" <<'PY'
 import re, sys
 txt = re.sub(r'```.*?```', '', open(sys.argv[1]).read(), flags=re.S)
