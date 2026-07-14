@@ -34,4 +34,32 @@ for target in "${TARGETS[@]}"; do
   echo "[OK] $target -> $CANONICAL_SKILLS_DIR"
 done
 
+# `npx skills add` writes RELATIVE symlinks (../../.agents/skills/<name>). They
+# resolve against $CANONICAL_SKILLS_DIR, i.e. $DOTFILES_DIR/.agents/..., which
+# does not exist. Every externally-installed skill silently dangles. Rewrite any
+# link pointing into .agents as an absolute path so it resolves from anywhere.
+relinked=0
+dangling=0
+for skill in "$CANONICAL_SKILLS_DIR"/*; do
+  [[ -L "$skill" ]] || continue
+  link_target="$(readlink "$skill")"
+
+  if [[ "$link_target" == *"/.agents/skills/"* && "$link_target" != /* ]]; then
+    ln -sfn "$HOME/.agents/skills/$(basename "$link_target")" "$skill"
+    relinked=$((relinked + 1))
+  fi
+
+  if [[ ! -e "$skill" ]]; then
+    echo "[WARN] dangling: $(basename "$skill") -> $(readlink "$skill")"
+    dangling=$((dangling + 1))
+  fi
+done
+
+if (( relinked > 0 )); then
+  echo "[OK] Re-linked $relinked relative .agents symlink(s) to absolute paths."
+fi
+if (( dangling > 0 )); then
+  echo "[WARN] $dangling skill symlink(s) still dangle. Re-run the skills CLI install."
+fi
+
 echo "[DONE] AI skills symlinks refreshed."
