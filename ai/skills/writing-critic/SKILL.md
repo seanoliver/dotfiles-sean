@@ -51,8 +51,25 @@ grep -inE "i found|i traced|we ran|we saw|in one run|confirmed (this|that|it)|fi
 echo "── enthusiasm words (must be 0) ──"
 grep -inE "\b(great|awesome|amazing|exciting|let's)\b" "$D" || echo "  clean"
 
-echo "── all headers, for the sort test ──"
+echo "-- all headers, for the sort test --"
 grep -nE '^#+ ' "$D"
+
+echo "-- short sentences in prose (candidate fragments; check each for a verb) --"
+python3 - "$D" <<'PY'
+import re, sys
+txt = re.sub(r'```.*?```', '', open(sys.argv[1]).read(), flags=re.S)
+hits = 0
+for line in txt.splitlines():
+    s = line.strip()
+    if not s or s[0] in '#-*>|':
+        continue
+    for sent in re.split(r'(?<=[.!?])\s+', s):
+        sent = sent.strip()
+        if sent and len(sent.split()) <= 4:
+            print(f"  {sent!r}")
+            hits += 1
+print("  clean" if not hits else "")
+PY
 
 rm -f "$D"
 ```
