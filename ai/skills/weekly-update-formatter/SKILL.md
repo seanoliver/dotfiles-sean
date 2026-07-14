@@ -45,27 +45,26 @@ Sub-bullets under a top-level item do NOT get the name prefix.
 
 ## Output Style
 
-**Tone**: Casual, direct, first-person implied (no "I" needed). Reads like a smart teammate talking, not a status report.
+**Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, the em-dash ban, evidence discipline, and phrasing. This skill owns only the weekly-update format below.
 
 **Bullet length**: Changelog items are one line. Notes items can be longer with sub-bullets for supporting details, links, or context.
 
-**Language patterns**:
+**Weekly-update conventions**:
 - lowercase everything except proper nouns, product names, acronyms
-- em-dash or colon to introduce sub-topics within a bullet
-- parenthetical asides for brief context: `(h/t Marc for the data)`, `(just needs marketing signoff)`
-- numbers and percentages included when meaningful: `+3.5pp`, `~25.3%`, `~37k users`
+- use a colon to introduce a sub-topic within a bullet
+- parenthetical asides for brief context: `(just needs marketing signoff)`
+- numbers and percentages when meaningful: `+3.5pp`, `~25.3%`, `~37k users`
 - present progressive for ongoing work: "looking into", "monitoring", "aiming to ship"
 - past tense for completed work: "shipped", "wrapped up", "confirmed"
-- hedged language where appropriate: "looks like", "still unclear", "recommending we"
 
-**What to preserve**:
-- all raw URLs exactly as provided — never remove a link, never wrap in markdown `[title](url)` format, just introduce it naturally and paste the raw URL
+**Preserve**:
+- all raw URLs exactly as provided. Never remove a link, never wrap in markdown `[title](url)` format. Introduce it naturally and paste the raw URL.
 - specific stats, metrics, and numbers
 
-**What to cut**:
+**Cut**:
 - filler phrases ("I was working on", "spent time on", "made progress on")
 - redundant context that's obvious from the bullet topic
-- internal monologue or uncertainty that doesn't add value to teammates
+- internal monologue that doesn't help a teammate
 
 ## Sorting items into sections
 
