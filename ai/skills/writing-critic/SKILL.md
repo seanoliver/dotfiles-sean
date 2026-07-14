@@ -89,6 +89,7 @@ These need a mind. Work through the draft sentence by sentence.
 - **Buried ask.** Is the ask, finding, or decision in sentence one? If the reader has to hunt, it fails.
 - **Header sort test.** For each header: could a reader tell from the title alone whether a given bullet belongs under it? `Notes`, `Details`, `Context`, `Considerations`, `Ground rules`, `Misc` all fail. They are nouns that name nothing.
 - **Defenses.** Does a sentence argue for a claim rather than state it? "This is not a cosmetic detail", "this matters more than it sounds", "to be clear". Cut.
+- **Abstractions.** Does a sentence sound like a reason without giving the reader anything to do? "The exact wording is the instrument." "This is the foundation of everything downstream." "Precision matters here." They read as weighty and carry nothing. Replace with the concrete consequence, or cut.
 
 ## The one test that resolves every judgment call
 
