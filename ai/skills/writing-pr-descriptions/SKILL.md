@@ -36,17 +36,12 @@ Re-read this template before writing; it may have evolved. If you find a section
 
 ## Step 2 — Voice and tone
 
-From Sean's CLAUDE.md PR Description Guidelines, plus tone calibration:
+**Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, phrasing, the em-dash ban, bullets-over-prose, and section-title style. Do not restate its rules here.
 
-- **Conversational.** "Back in October we changed X" not "On October 17, 2025, the implementation was modified to X."
-- **Calm and technically precise.** Senior engineer in a busy production environment, not performative.
-- **Confident.** Not hedge-heavy ("should probably maybe") and not over-asserted either ("definitely will solve all").
-- **Plain narrative.** Skip background the team already knows.
-- **Use "we/our"** instead of passive voice when natural.
-- **Specific about technical details** but don't over-explain the obvious.
-- **Minor imperfections and casual phrasing** are fine and signal a human wrote it.
+PR-specific additions only:
+
 - **For testing**, describe what you actually tested, not formal test cases.
-- **No emojis. No excessive formatting. No marketing copy.** No "Resolves #123" footers (just reference the issue inline or at the end).
+- No "Resolves #123" footers. Reference the issue inline or at the end.
 
 ## Step 3 — Lead with cause, not chronology
 
