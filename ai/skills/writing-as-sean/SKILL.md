@@ -15,10 +15,10 @@ One set of rules for everything he sends. No separate voice for Slack, Linear, G
 
 1. **No em-dashes.** Not in sentences, not in bullet glosses. Gloss a bullet with a colon: `**Scope**: contracted vendor`. Elsewhere use a period, comma, colon, or parentheses. If a sentence seems to need one, it is two sentences.
 2. **Bullets over prose.** Prose only when ideas connect into an argument. Then: short paragraphs, short sentences, no scene-setting.
-3. **The point is sentence one.** The ask, the finding, the decision. Never a `Context:` label, never a discovery frame (*turns out, so, after we deployed, we found that*).
-4. **The why gets one sentence.** The reader does not need convincing, they need to know what to do. State what is true, once, and stop. No trace, no log quote, no tool call, no account of how you found it.
-5. **Section titles are nouns.** "Measurement", not "What we'll measure". "Rationale", not "Why this matters". Never a question, never a clause.
-6. **No sentence exists to set up another.** If a sentence's job is to make the next one land, delete it and write the next one.
+3. **The point is sentence one.** Open with the ask, the finding, or the decision. The first words the reader sees are the thing they need.
+4. **The why gets one sentence.** The reader does not need convincing. They need to know what to do. State what is true, once, then move to what they must do. The investigation that produced the finding stays with you.
+5. **Section titles are nouns.** Measurement. Rationale. Background. Success criteria. Vendor tracks. One or two words naming the subject.
+6. **Every sentence carries its own weight.** Each one delivers a fact, an ask, or an instruction. If a sentence only prepares the ground for the next one, write the next one instead.
 
 ## Self-check
 
