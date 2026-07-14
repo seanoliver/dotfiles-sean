@@ -81,7 +81,7 @@ Your self-check catches the obvious. It does not catch what you cannot see, beca
 2. **Dispatch `writing-critic` as a subagent** (Agent tool, `general-purpose`). Give it the rules path and the full draft verbatim. A subagent is required: a critic sharing your context inherits your rationalizations and returns `CLEAN` on your worst habits.
 3. It returns `CLEAN`, or numbered findings with the offending text quoted.
 4. If findings: apply them. Do not argue with a grep hit. For a judgment finding, apply it unless you can say what the reader would do differently without the sentence.
-5. Dispatch the critic again on the revised draft.
+5. Dispatch the critic again on the revised draft. **Carry forward every finding you overruled, with your reason.** A fresh critic has no memory of round one and will re-raise them. Tell it not to, unless it can name what the reader would do differently.
 6. Repeat until `CLEAN`, or three rounds. Three is the cap. A draft that survives three rounds is either clean or the critic is relitigating taste.
 
 Report to Sean what the critic caught. He is calibrating these rules, and a finding you fixed silently is a finding he never sees.
