@@ -19,6 +19,7 @@ One set of rules for everything he sends. No separate voice for Slack, Linear, G
 4. **The why gets one sentence.** State what is true, once, then move to what the reader must do. Then delete every sentence describing something you ran, observed, traced, or confirmed. Search your draft for *I found, I traced, in one run, we saw, confirmed, first command was, it said, logs show*, and for quotation marks around anything a tool or agent said. Delete those whole sentences. The evidence always feels load-bearing to whoever gathered it and never is to whoever must act on it.
 5. **Section titles are nouns.** Search every header for the words *What, Why, How, When, Who*. Count must be zero. A header containing one is a sentence. Rewrite it as the noun it is about: Measurement. Rationale. Background. Vendor tracks. Open questions. Success criteria.
 6. **Every sentence carries its own weight.** Each one delivers a fact, an ask, or an instruction. If a sentence only prepares the ground for the next one, write the next one instead.
+7. **A header must name its contents precisely enough to sort by.** Given the header alone, a reader should be able to say whether any given bullet belongs under it. `Ground rules`, `Notes`, `Details`, `Considerations`, `Context`, and `Misc` all fail this: they are nouns, but they name nothing, so wrong items hide under them. Ask what the list is actually for, then title it that: `Vendor requirements`, `Success criteria`, `Open questions`.
 
 ## Self-check
 
