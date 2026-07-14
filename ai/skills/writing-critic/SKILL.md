@@ -25,11 +25,16 @@ cat > "$D" <<'DRAFT'
 <the full draft, verbatim>
 DRAFT
 
+# U+2014 em-dash and U+2013 en-dash, built at runtime so the characters
+# never appear literally in this file. A banned character sitting in a skill
+# gets reproduced by the agent reading it.
+EM=$(printf '—'); EN=$(printf '–')
+
 echo "-- em-dashes (must be 0) --"
-grep -n "$(printf '—')" "$D" || echo "  clean"
+grep -n "$EM" "$D" || echo "  clean"
 
 echo "-- en-dashes (must be 0) --"
-grep -n "$(printf '–')" "$D" || echo "  clean"
+grep -n "$EN" "$D" || echo "  clean"
 
 echo "── discovery frames and hedges (must be 0) ──"
 grep -inE "turns out|it turns out|worth noting|worth flagging|worth calling out|^context:|as a heads up|interestingly|arguably|i'd argue" "$D" || echo "  clean"
