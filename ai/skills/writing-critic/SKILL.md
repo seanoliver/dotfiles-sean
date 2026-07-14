@@ -110,7 +110,7 @@ Otherwise, numbered, most severe first:
 
 ```
 1. RULE 1 (em-dash)
-   > "...how eval sandboxes get credentials — it's blocking the next wave."
+   > "...how eval sandboxes get credentials [EM-DASH] it's blocking the next wave."
    Fix: "...get credentials. It's blocking the next wave."
 
 2. RULE 4 (narrated evidence)
