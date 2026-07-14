@@ -50,6 +50,10 @@ Pick the comment shape from what kind of finding it is:
 
 ## Voice Rules
 
+**Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, the em-dash ban, bullets-over-prose, evidence discipline, and section-title style.
+
+Review-comment specifics below.
+
 **Do:**
 
 - Lead with the actual finding, not the path you took to find it.
