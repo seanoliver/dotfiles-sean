@@ -57,7 +57,11 @@ The second item is the one you will want to skip. Do not skip it. The evidence a
 
 Trust the reader. They are senior and know the project. State the conclusion, do not re-derive it.
 
-Certainty tracks evidence. "Probably fine, but..." is right when you mean it. Stacked hedges are not.
+**State the claim, do not soften it.** "I think we use this period to run both" is the same recommendation as "We run both", minus the confidence. Cut *I think, my initial read is, it seems, kind of, sort of, we should probably*. Certainty tracks evidence, so "probably fine, but..." is right when you actually mean probably. A hedge you did not mean is just a smaller claim.
+
+**Ask plainly.** "Would love to know if the team has made progress" is "Has the team made progress?" wearing a coat. A direct question is not rude; a softened one is just longer.
+
+**No corporate vocabulary.** *Actionable, leverage, circle back, align on, deep dive, move the needle, low-hanging fruit.* They read as someone else's voice.
 
 Dry and declarative. Enthusiasm words (*great, awesome, amazing, exciting, let's*) read as someone else's voice. Contractions are fine.
 
