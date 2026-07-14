@@ -61,7 +61,9 @@ Write a message that is **3-5 sentences max**. Apply these principles:
 
 **Respect ownership.** If the other person owns the system/project/decision, the message should defer to their architecture and timeline. Use language like "figure out together" rather than "we'll implement X."
 
-**Sound human.** No bullet points in the message body. No corporate transitions ("I'd like to align on..."). No emojis unless the user naturally uses them. Write like a thoughtful Slack message to a teammate, not a formal proposal.
+**Sound human.** No corporate transitions ("I'd like to align on..."). No emojis unless the user naturally uses them. Write like a thoughtful Slack message to a teammate, not a formal proposal.
+
+**Voice is owned by `writing-as-sean`.** That skill is the source of truth for tone, phrasing, and the em-dash ban. Read it before drafting. This skill owns the *process* (find the core ask, one ask per message) and the *shape* (short, one point). It does not own voice.
 
 **Flexible on format, not on substance.** "Happy to chat async or hop on a call, whatever works" is better than proposing three meeting times. It signals flexibility without neediness.
 
