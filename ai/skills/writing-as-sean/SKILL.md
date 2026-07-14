@@ -20,6 +20,7 @@ One set of rules for everything he sends. No separate voice for Slack, Linear, G
 5. **Section titles are nouns.** Search every header for the words *What, Why, How, When, Who*. Count must be zero. A header containing one is a sentence. Rewrite it as the noun it is about: Measurement. Rationale. Background. Vendor tracks. Open questions. Success criteria.
 6. **Every sentence carries its own weight.** Each one delivers a fact, an ask, or an instruction. If a sentence only prepares the ground for the next one, write the next one instead.
 7. **A header must name its contents precisely enough to sort by.** Given the header alone, a reader should be able to say whether any given bullet belongs under it. `Ground rules`, `Notes`, `Details`, `Considerations`, `Context`, and `Misc` all fail this: they are nouns, but they name nothing, so wrong items hide under them. Ask what the list is actually for, then title it that: `Vendor requirements`, `Success criteria`, `Open questions`.
+8. **Prose is complete sentences. Bullets and labels can be fragments.** Every sentence in a paragraph needs a subject and a verb. Terse means few sentences, not broken ones. A label alone is fine (`**Prompt set.**`). A label followed by a full sentence is fine (`**Prompt set.** Here are the six prompts for the next wave.`). A label followed by fragments doing the explaining is not (`**Prompt set.** Six prompts. Four where the agent picks its own stack, two that name Supabase.`). If a fragment is carrying meaning, fold it into the sentence before it or write it out.
 
 ## Self-check
 
