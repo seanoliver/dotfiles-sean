@@ -47,6 +47,8 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Read every paragraph sentence by sentence. Each one needs a subject and a verb. A fragment in prose is a rewrite, not a style.
 - [ ] Find every question mark. If the next sentence answers the question, delete it.
 - [ ] Find every list, quote, or block. If the sentence before it describes what is in it, delete that description.
+- [ ] Find any list of options you considered and rejected. Delete it. State the choice.
+- [ ] For every sentence that survived a cut: would the reader act differently without it? If not, cut it now.
 
 The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
 
