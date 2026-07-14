@@ -106,7 +106,21 @@ If nothing survives the audit:
 CLEAN
 ```
 
-Otherwise, numbered, most severe first:
+Otherwise, **two blocks**. The author applies the first without arguing and adjudicates the second.
+
+### MECHANICAL
+
+Every grep and search hit. These are facts, not opinions. The author applies them without discussion.
+
+### JUDGMENT
+
+Candidates only. For each one, state what the reader would do differently without the sentence. If you cannot say, the finding is weak and you must mark it `WEAK`.
+
+You will be wrong here sometimes. You cut reasoning that makes a reader *comply* as if it were reasoning that *defends the author*. Those look identical and are opposite. "Don't rename the org" is a guardrail. "Here are the three names I rejected" is a defense. When a clause exists to make an instruction obviously worth following, it stays.
+
+Give the author enough to overrule you in one glance.
+
+### Findings format
 
 ```
 1. RULE 1 (em-dash)
