@@ -48,8 +48,9 @@ grep -nE '^#+ .*\b([Ww]hat|[Ww]hy|[Hh]ow|[Ww]hen|[Ww]ho)\b' "$D" || echo "  clea
 echo "── narrated evidence (must be 0) ──"
 grep -inE "i found|i traced|we ran|we saw|in one run|confirmed (this|that|it)|first command was|logs show|it said" "$D" || echo "  clean"
 
-echo "── enthusiasm words (must be 0) ──"
-grep -inE "\b(great|awesome|amazing|exciting|let's)\b" "$D" || echo "  clean"
+echo "-- enthusiasm words (must be 0) --"
+# Excludes hyphenated identifiers and backticked names, so writing-great-skills does not hit.
+grep -inE "(^|[^-\`[:alnum:]])(great|awesome|amazing|exciting|let's)([^-\`[:alnum:]]|$)" "$D" || echo "  clean"
 
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'
