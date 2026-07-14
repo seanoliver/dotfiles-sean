@@ -51,8 +51,29 @@ grep -inE "i found|i traced|we ran|we saw|in one run|confirmed (this|that|it)|fi
 echo "── enthusiasm words (must be 0) ──"
 grep -inE "\b(great|awesome|amazing|exciting|let's)\b" "$D" || echo "  clean"
 
-echo "-- all headers, for the sort test --"
-grep -nE '^#+ ' "$D"
+echo "-- headers: any that is a sentence rather than a noun label --"
+python3 - "$D" <<'PY'
+import re, sys
+VERBISH = r"\b(we|our|us|i|you|it|they|is|are|was|were|be|been|has|have|had|do|does|did|don't|isn't|ran|runs|run|will|can|should|must|know|knowing|hiding|worth|matters|means|need|needs)\b"
+hits = 0
+for i, line in enumerate(open(sys.argv[1]), 1):
+    if not line.startswith('#'):
+        continue
+    title = line.lstrip('#').strip()
+    words = title.split()
+    bad = []
+    if re.search(VERBISH, title, re.I):
+        bad.append("contains a verb or pronoun")
+    if len(words) > 4:
+        bad.append(f"{len(words)} words (a label is 1-3)")
+    if bad:
+        print(f"  line {i}: {title!r} -> {'; '.join(bad)}")
+        hits += 1
+if not hits:
+    print("  clean")
+print("  All headers must also pass the sort test: could a reader tell from the")
+print("  title alone whether a given bullet belongs under it?")
+PY
 
 echo "-- prose sentences under 5 words: each is a RULE 8 violation unless it has a subject AND a verb --"
 python3 - "$D" <<'PY'
