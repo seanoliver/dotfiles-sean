@@ -25,11 +25,11 @@ cat > "$D" <<'DRAFT'
 <the full draft, verbatim>
 DRAFT
 
-echo "── em-dashes (must be 0) ──"
-grep -n '—' "$D" || echo "  clean"
+echo "-- em-dashes (must be 0) --"
+grep -n "$(printf '—')" "$D" || echo "  clean"
 
-echo "── en-dashes (must be 0) ──"
-grep -n '–' "$D" || echo "  clean"
+echo "-- en-dashes (must be 0) --"
+grep -n "$(printf '–')" "$D" || echo "  clean"
 
 echo "── discovery frames and hedges (must be 0) ──"
 grep -inE "turns out|it turns out|worth noting|worth flagging|worth calling out|^context:|as a heads up|interestingly|arguably|i'd argue" "$D" || echo "  clean"
