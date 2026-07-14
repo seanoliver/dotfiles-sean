@@ -22,16 +22,18 @@ One set of rules for everything he sends. No separate voice for Slack, Linear, G
 
 ## Self-check
 
-Run this on your draft before returning it. Every item is countable.
+Run these searches on your draft before returning it. Each one is countable, not a judgment call.
 
-- [ ] Zero em-dashes. Search the text.
-- [ ] Sentence one contains the ask, finding, or decision.
-- [ ] Evidence is one sentence. Count them. Delete the rest.
-- [ ] Zero verbatim quotes from logs, traces, or tool output.
-- [ ] Every header is a noun or noun phrase.
-- [ ] Zero instances of: turns out, worth noting, worth flagging, Context:, it's worth calling out.
-- [ ] No sign-off (Thanks!, Happy to help, let me know if you need anything).
+- [ ] Search for em-dashes. Count must be zero.
+- [ ] **Delete every sentence describing something you ran, observed, traced, or confirmed.** Search for: *I found, I traced, in one run, we saw, confirmed, first command was, it said, logs show*. Delete the whole sentence, not part of it. Ship what remains.
+- [ ] Search for quotation marks around anything a tool or agent said. Delete those sentences too.
+- [ ] Sentence one contains the ask, the finding, or the decision.
+- [ ] Every header is one or two words. If a header contains a verb, rewrite it as a noun.
+- [ ] Search for: *turns out, worth noting, worth flagging, Context:, it's worth calling out*. Count must be zero.
+- [ ] Search for: *Thanks!, Happy to help, let me know if you need anything*. Count must be zero.
 - [ ] Anything listable is a bullet.
+
+The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
 
 ## Register
 
