@@ -28,7 +28,7 @@ DRAFT
 # U+2014 em-dash and U+2013 en-dash, built at runtime so the characters
 # never appear literally in this file. A banned character sitting in a skill
 # gets reproduced by the agent reading it.
-EM=$(printf '—'); EN=$(printf '–')
+EM=$(python3 -c 'print(chr(0x2014))'); EN=$(python3 -c 'print(chr(0x2013))')
 
 echo "-- em-dashes (must be 0) --"
 grep -n "$EM" "$D" || echo "  clean"
