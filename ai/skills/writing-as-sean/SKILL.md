@@ -63,7 +63,9 @@ Dry and declarative. Enthusiasm words (*great, awesome, amazing, exciting, let's
 
 A light opener is normal: "Hey team". End on the last piece of substance.
 
-**Names:** never put a teammate on a task, decision, or role in team-visible writing unless they have agreed to it. Use "we", passive voice, or "TBD".
+**Names:** do not *assign* a teammate a task, decision, or role in team-visible writing unless they have agreed to it. Use "we", passive voice, or "TBD".
+
+Sean addressing people directly is fine and expected. @-mentioning someone, asking them a question, or requesting something from them is normal. The banned move is committing someone in print on their behalf: "@x is driving this", "@y needs to approve", "z isn't engaged". Asking is how agreement is obtained. Asserting it is the problem.
 
 **Links:** only what the reader can open. Never local paths like `~/supabase/docs/...`.
 
