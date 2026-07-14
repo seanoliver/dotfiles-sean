@@ -278,7 +278,7 @@ Priority order for bullets:
 3. Notable in-progress work that's blocking or about to land
 4. Any stalled work or new bugs worth a triage pass
 
-Voice: terse, plain, declarative. No "let's", "great", "awesome", "amazing", "exciting", "we crushed it." Read like a senior eng's slack note to themselves.
+Voice is owned by the `writing-as-sean` skill. Read it and apply it. It is the single source of truth for tone, the em-dash ban, and phrasing. Register here: a senior eng's slack note to themselves.
 
 ### Footer
 
