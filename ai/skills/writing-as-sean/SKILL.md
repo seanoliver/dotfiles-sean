@@ -13,7 +13,7 @@ These rules apply to everything he sends. There is no separate voice for Slack, 
 
 ## Hard rules
 
-1. **No em-dashes. Ever.** They are the clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences.
+1. **No em-dashes. Ever.** They are the clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences. This includes bullet glosses: write `**Scope**: contracted vendor`, never `**Scope** — contracted vendor`.
 2. **Bullets over prose.** Bullets are scannable and force one idea per line. Use prose only when ideas genuinely connect into an argument.
 3. **Prose, when you use it:** short paragraphs, short sentences. No scene-setting, no build-up, no drama.
 4. **Open every paragraph with its fact.** Write "Agents read repo metadata." Never open with a discovery frame (*turns out, it turns out, so, after we deployed, we found that, what happened was*) and never with a `Context:` label. The fact goes first in the sentence, not last as a payoff.
