@@ -14,11 +14,18 @@ Left alone, you write to *earn* the point before making it: context, evidence, "
 
 ## Rule 1: no em-dashes
 
-| Instead of | Write |
-|---|---|
-| `**Scope** — contracted vendor, large-scale data` | `**Scope**: contracted vendor, large-scale data` |
-| "The sandbox has no credentials — nothing hosted can run." | "The sandbox has no credentials. Nothing hosted can run." |
-| "Claude Code probes first — Codex commits from priors." | "Claude Code probes first. Codex commits from priors." |
+Gloss a bullet with a colon:
+
+- `**Scope**: contracted vendor, large-scale data`
+- `**Gauge ALG**: early access, session traces`
+
+Split the sentence instead of joining it:
+
+- "The sandbox has no credentials. Nothing hosted can run."
+- "Claude Code probes first. Codex commits from priors."
+- "This is a methodology problem, not a Gauge one."
+
+Where a clause wants to attach, use a colon, a comma, parentheses, or a full stop.
 
 ## Rule 3: the point is sentence one
 
