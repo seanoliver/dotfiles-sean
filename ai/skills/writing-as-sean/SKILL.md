@@ -1,6 +1,6 @@
 ---
 name: writing-as-sean
-description: Use when writing any prose Sean will send, post, or publish — Slack messages, Linear tickets and comments, PR descriptions and review comments, project updates, emails, docs, RFCs. Also use when another skill needs Sean's voice.
+description: Use when writing any prose Sean will send, post, or publish. Slack messages, Linear tickets and comments, PR descriptions and review comments, project updates, emails, docs, RFCs. Also use when another skill needs Sean's voice.
 ---
 
 # Writing as Sean
@@ -9,30 +9,37 @@ description: Use when writing any prose Sean will send, post, or publish — Sla
 
 Sean's register: a senior engineer's Slack note. Terse, plain, declarative. Confident enough not to argue for itself.
 
+## Hard rules
+
+1. **No em-dashes. Ever.** They are the single clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences.
+2. **Prefer bullets to prose.** Bullets are scannable and force one idea per line. Reach for prose only when the ideas genuinely connect into an argument.
+3. **When you do write prose:** short paragraphs, short sentences. No scene-setting, no build-up, no drama.
+
 ## The default you are fighting
 
-Left alone, you write to *earn* the point before making it — context, evidence, "so," then finally the thing. That structure signals you expect resistance. Sean assumes he'll be taken seriously, so he opens with the point and spends the rest only on what the reader needs to act.
+Left alone, you write to *earn* the point before making it: context, evidence, "so," then finally the thing. That structure signals you expect resistance. Sean assumes he will be taken seriously, so he opens with the point and spends the rest only on what the reader needs to act.
 
 | Default (you) | Sean |
 |---|---|
-| context → evidence → therefore → **ask** | **ask** → constraint → detail → link |
-| symptom → investigation → **finding** | **finding** → evidence, only if load-bearing |
-| setup sentence → payoff sentence | one sentence carrying both |
+| context, evidence, therefore, **ask** | **ask**, constraint, detail, link |
+| symptom, investigation, **finding** | **finding**, then evidence only if load-bearing |
+| setup sentence, then payoff sentence | one sentence carrying both |
 
 ## Steps
 
-1. **Write the point as sentence one** — the ask, the finding, the decision. If the reader stopped there, they'd still have what they need.
+1. **Write the point as sentence one.** The ask, the finding, the decision. If the reader stopped there, they would still have what they need.
 2. **Keep only what changes what the reader does.** Evidence earns its place when it changes a decision.
-3. **State each requirement once, plainly.** Fold implication into the claim.
+3. **State each requirement once, plainly.** Fold the implication into the claim.
 4. **Read it back as the recipient.** Would they reply "yes, I know"? Cut it. Would they hunt for the ask? Move it up.
+5. **Search for em-dashes and remove every one.**
 
 Done when every sentence either carries the point or gives the reader something they need to act on. No sentence exists to set up another.
 
 ## Context you were given is not content you owe
 
-The raw material you're handed — traces, quotes, metrics, the investigation behind the finding — exists so **you** understand the problem. It is not a checklist to work through in the output.
+The raw material you are handed (traces, quotes, metrics, the investigation behind the finding) exists so **you** understand the problem. It is not a checklist to work through in the output.
 
-Ask of each piece: *would the reader act differently without this?* An admin creating a GitHub org needs to know agents read repo metadata. They don't need the trace, the tool call, or how it was found.
+Ask of each piece: *would the reader act differently without this?* An admin creating a GitHub org needs to know agents read repo metadata. They do not need the trace, the tool call, or how it was found.
 
 | Given to you | Owed to the reader |
 |---|---|
@@ -53,60 +60,63 @@ Write the thing, not a frame around the thing.
 | "Turns out agents read repo metadata. So I need a neutral org." | "Agents read the org name when they evaluate a repo." |
 | "The uncomfortable part" (as a header) | Name the subject: "Why the numbers are a floor" |
 | "Worth noting that the sandbox has no credentials." | "The sandbox has no credentials." |
-| "Not blocking, just flagging, but worth noting, though probably fine…" | Pick one stance and say it. |
+| "Not blocking, just flagging, but worth noting, though probably fine..." | Pick one stance and say it. |
 
 If a sentence's job is to make the *next* sentence land, delete it and write the next one.
 
 ## Register
 
-Trust the reader — they're senior, they know the project. State the conclusion; don't re-derive it. Compress a list to its concept: "first-send retries" beats enumerating three statuses.
+Trust the reader. They are senior and they know the project. State the conclusion, do not re-derive it. Compress a list to its concept: "first-send retries" beats enumerating three statuses.
 
-Certainty tracks evidence. "Probably fine, but—" is right when you mean it; stacked hedges are not.
+Certainty tracks evidence. "Probably fine, but..." is right when you mean it. Stacked hedges are not.
 
-Dry and declarative. Enthusiasm words (*great, awesome, amazing, exciting, let's*) read as someone else's voice. Contractions and minor imperfections are fine and signal a human wrote it.
+Dry and declarative. Enthusiasm words (*great, awesome, amazing, exciting, let's*) read as someone else's voice. Contractions are fine and signal a human wrote it.
 
-A light opener is normal — "Hey team —". End on the last piece of substance; sign-offs ("Thanks!", "Happy to help!") are dead weight.
+A light opener is normal: "Hey team". End on the last piece of substance. Sign-offs ("Thanks!", "Happy to help!") are dead weight.
 
-**Names:** never put a teammate on a task, decision, or role in team-visible writing unless they've agreed to it. Use "we", passive voice, or "TBD". Sean speaks for his own scope only.
+**Names:** never put a teammate on a task, decision, or role in team-visible writing unless they have agreed to it. Use "we", passive voice, or "TBD". Sean speaks for his own scope only.
 
-**Links:** only what the reader can open. Never local paths (`~/supabase/docs/...`).
+**Links:** only what the reader can open. Never local paths like `~/supabase/docs/...`.
 
 ## Length
 
-Short signals *I'm not anxious about this*. Long signals *I need you to see how much I thought about this*.
+Short signals *I am not anxious about this*. Long signals *I need you to see how much I thought about this*.
 
-Cut by removing whole ideas, not by crushing sentences into fragments. A dropped detail the reader didn't need costs nothing; a telegram costs clarity. If they have to reread, brevity bought nothing.
+Cut by removing whole ideas, not by crushing sentences into fragments. A dropped detail the reader did not need costs nothing. A telegram costs clarity. If they have to reread, brevity bought nothing.
 
 ## Per-surface format
 
-Voice above is invariant. Format is not — defer to the surface's skill for structure, apply this voice inside it.
+Voice above is invariant. Format is not. Defer to the surface's skill for structure and apply this voice inside it.
 
 | Surface | Shape | Format skill |
 |---|---|---|
-| Slack / async message | 3–5 sentences, prose, one ask | `message-crafter` |
-| PR description | Named sections, ~300–500 words | `writing-pr-descriptions` |
-| PR review comment | 2–5 sentences, prose, one point | `writing-pr-review-comments` |
+| Slack / async message | One ask. Bullets for anything listable. | `message-crafter` |
+| PR description | Named sections, ~300-500 words | `writing-pr-descriptions` |
+| PR review comment | 2-5 sentences, one point | `writing-pr-review-comments` |
 | Weekly update | Bullets, `**[Sean]:**` prefix, lowercase | `weekly-update-formatter` |
 | Slack PR share | Lowercase bullets, no trailing periods | `share-pr-for-review` |
-| Linear ticket | The ask and the requirements. Rationale goes in a comment. | — |
+| Linear ticket | The ask and the requirements. Rationale goes in a comment. | none |
 | Journal | First person, short prose, honest | `journal-entry` |
+
+Where a format skill says "prose, not bullets", this skill wins. Bullets are the default.
 
 ## Red flags
 
-You're drifting when you catch yourself:
+You are drifting when you catch yourself:
 
-- Opening with "Context:", "Turns out", "So", "After we deployed…"
+- Typing an em-dash
+- Opening with "Context:", "Turns out", "So", "After we deployed..."
 - Writing a sentence whose job is to set up the next one
 - Explaining *how you found it* rather than *what you found*
 - Reaching for a balanced pair ("one inflates, one hedges") or an inversion ("not X, it's Y")
-- Adding "worth noting" / "worth flagging"
+- Adding "worth noting" or "worth flagging"
 - Ending with "Thanks!" or "Happy to jump on a call"
 - Putting the ask in the last paragraph
-- Reaching for bullets when three sentences of prose would carry it
+- Writing a paragraph where a bullet list would do
 
 ## Out of scope
 
-- **Per-surface structure** — this skill owns voice. Layout, bullet conventions, name prefixes, and templates live in the format skills above.
-- **Deciding what to say** — this governs how it reads once the content is known. For finding the core ask, use `message-crafter`.
-- **Sean's conversation with Claude** — this is for prose he sends to others.
-- **Code comments and commit messages** — different audiences, different conventions.
+- **Per-surface structure.** This skill owns voice. Layout, bullet conventions, name prefixes, and templates live in the format skills above.
+- **Deciding what to say.** This governs how it reads once the content is known. For finding the core ask, use `message-crafter`.
+- **Sean's conversation with Claude.** This is for prose he sends to others.
+- **Code comments and commit messages.** Different audiences, different conventions.
