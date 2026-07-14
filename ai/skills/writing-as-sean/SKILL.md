@@ -14,6 +14,8 @@ Sean's register: a senior engineer's Slack note. Terse, plain, declarative. Conf
 1. **No em-dashes. Ever.** They are the single clearest tell that AI wrote the text. Use a period, a comma, a colon, or parentheses. If a sentence needs an em-dash, it is two sentences.
 2. **Prefer bullets to prose.** Bullets are scannable and force one idea per line. Reach for prose only when the ideas genuinely connect into an argument.
 3. **When you do write prose:** short paragraphs, short sentences. No scene-setting, no build-up, no drama.
+4. **Open every paragraph with its fact.** Write "Agents read repo metadata." Never open with a discovery frame: *turns out, it turns out, so, after we deployed, we found that, what happened was.* The fact is the first thing in the sentence, not the payoff at the end of one.
+5. **State findings, not investigations.** Name what is true. Do not narrate the trace, the tool call, the query, or the steps that produced it. If the reader would act identically without a piece of evidence, it does not go in.
 
 ## The default you are fighting
 
