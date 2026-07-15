@@ -58,6 +58,13 @@ grep -inE "i think|my (initial )?read is|would love to|it seems|i feel like|kind
 echo "-- corporate vocabulary (must be 0) --"
 grep -inE "actionable|leverage (this|that|our)|circle back|touch base|align on|synerg|deep dive into|at the end of the day|move the needle|low-hanging" "$D" || echo "  clean"
 
+echo "-- redundant intensifiers (each is a JUDGMENT candidate, not an auto-cut) --"
+# These words assert emphasis without adding a fact. Usually the surrounding
+# words already carry the meaning ("a neutral, unlinked identity ON PURPOSE").
+# A hit is a candidate: for each, check whether the rest of the sentence
+# already implies it. If it does, cut the word.
+grep -inE "\b(on purpose|deliberately|intentionally|by design|needless to say|obviously|of course|clearly|it goes without saying|to be clear|actually|really|literally)\b" "$D" || echo "  clean"
+
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'
 import re, sys
