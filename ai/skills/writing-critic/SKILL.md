@@ -117,7 +117,7 @@ PY
 rm -f "$D"
 ```
 
-Report every hit. A grep hit is a violation, not a candidate for one.
+Report every hit. A grep hit is a violation, not a candidate for one. The one exception is the redundant-intensifier search: those hits are JUDGMENT candidates. For each, check whether the rest of the sentence already carries the word's meaning, and report it under JUDGMENT with that reasoning, not under MECHANICAL.
 
 ## Step 3: judge what grep cannot
 
