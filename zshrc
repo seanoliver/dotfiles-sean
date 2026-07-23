@@ -148,12 +148,6 @@ export PATH=/Users/seanoliver/.opencode/bin:$PATH
 # Machine-specific shell additions live outside shared dotfiles.
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
-# Cortex automation trigger consumer — runs commands from launchd-scheduled
-# wrappers (e.g. morning-routine) in a fresh interactive shell.
-# See ~/cortex/automation/bin/zshrc-trigger-consumer.sh for the full mechanism.
-[ -f "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh" ] && \
-  source "$HOME/cortex/automation/bin/zshrc-trigger-consumer.sh"
-
 # bun completions
 [ -s "/Users/seanoliver/.bun/_bun" ] && source "/Users/seanoliver/.bun/_bun"
 
