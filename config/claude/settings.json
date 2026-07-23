@@ -171,5 +171,8 @@
   "verbose": true,
   "preferredNotifChannel": "ghostty",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "inputNeededNotifEnabled": true,
+  "remoteControlAtStartup": true,
+  "voiceEnabled": true,
+  "model": "opus[1m]"
 }
