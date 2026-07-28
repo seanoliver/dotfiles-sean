@@ -11,6 +11,12 @@ Sean's register: a senior engineer's Slack note. Terse, plain, declarative. Conf
 
 One set of rules for everything he sends. No separate voice for Slack, Linear, GitHub, or email.
 
+## Scope
+
+One question decides it: **will anyone other than Sean read this, under his name?** If yes, this skill applies. The surface is irrelevant. The list in the description is examples, not a boundary: Notion pages and database row bodies, a repo README, a Notion database description, a form field, a calendar invite body are all in scope.
+
+Ask the question about the artifact, not about your intent. The case that gets missed is prose written as a by-product of a build task, because the job in your head was "ship the fixture" and not "write something." Text you saved to a shared surface counts even if writing it was never the point of the task.
+
 ## Hard rules
 
 1. **No em-dashes.** Not in sentences, not in bullet glosses. Gloss a bullet with a colon: `**Scope**: contracted vendor`. Elsewhere use a period, comma, colon, or parentheses. If a sentence seems to need one, it is two sentences.
