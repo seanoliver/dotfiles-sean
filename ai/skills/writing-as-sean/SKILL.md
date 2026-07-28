@@ -1,6 +1,6 @@
 ---
 name: writing-as-sean
-description: Use when writing any prose Sean will send, post, or publish. Slack messages, Linear tickets and comments, PR descriptions and review comments, project updates, emails, docs, RFCs. Also use when another skill needs Sean's voice.
+description: Use when writing any prose that will appear under Sean's name. Slack messages, Linear tickets and comments, PR descriptions and review comments, Notion pages and database row bodies, project updates, emails, docs, RFCs. The listed surfaces are examples, not a boundary: if anyone other than Sean will read it and it is attributed to him, this applies. Also use when another skill needs Sean's voice.
 ---
 
 # Writing as Sean
