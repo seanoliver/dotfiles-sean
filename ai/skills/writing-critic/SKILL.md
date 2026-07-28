@@ -1,6 +1,6 @@
 ---
 name: writing-critic
-description: Use to audit a draft against Sean's writing rules before it is sent. Invoked automatically at the end of writing-as-sean, and usable standalone to review any existing Slack message, Linear ticket, PR description, doc, or project update.
+description: Use to audit a draft against Sean's writing rules before it is sent. Invoked automatically at the end of writing-as-sean, and usable standalone to review anything already written that appears under his name: a Slack message, Linear ticket, PR description, Notion page or database row body, doc, or project update. The listed surfaces are examples, not a boundary.
 ---
 
 # Writing critic
