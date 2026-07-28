@@ -170,9 +170,10 @@
   "theme": "dark",
   "verbose": true,
   "preferredNotifChannel": "ghostty",
-  "agentPushNotifEnabled": true,
-  "inputNeededNotifEnabled": true,
   "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
   "voiceEnabled": true,
-  "model": "opus[1m]"
+  "model": "opus[1m]",
+  "axScreenReader": true
 }
