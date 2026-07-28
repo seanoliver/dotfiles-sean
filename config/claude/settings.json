@@ -40,6 +40,7 @@
     "deny": [],
     "defaultMode": "default"
   },
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -165,7 +166,7 @@
     }
   },
   "effortLevel": "medium",
-  "tui": "fullscreen",
+  "tui": "default",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "verbose": true,
@@ -174,6 +175,5 @@
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "voiceEnabled": true,
-  "model": "opus[1m]",
   "axScreenReader": false
 }
