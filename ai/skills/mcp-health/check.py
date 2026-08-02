@@ -141,28 +141,77 @@ def report_drift(sync_plan):
         print(f"  {DIM}Re-run with --sync-plan to get the commands that close this gap.{OFF}")
 
 
-def emit_sync_plan(only_work, only_personal):
-    print(f"\n{BOLD}  Sync plan{OFF}  {DIM}(review before pasting - these carry secrets in env/headers){OFF}")
+def add_command(name, cfg):
+    """Build the `claude mcp add` argv for one server. Argv, not a shell string, so
+    credentials and args with spaces cannot be mangled by quoting."""
+    argv = ["claude", "mcp", "add", "--scope", "user"]
+    if cfg.get("type") == "http":
+        argv += ["--transport", "http"]
+        for k, v in (cfg.get("headers") or {}).items():
+            argv += ["--header", f"{k}: {v}"]
+        argv += [name, cfg["url"]]
+    else:
+        for k, v in (cfg.get("env") or {}).items():
+            argv += ["--env", f"{k}={v}"]
+        argv += [name, "--", cfg["command"], *cfg.get("args", [])]
+    return argv
+
+
+def env_for(dst):
+    """`claude mcp add` targets whichever account CLAUDE_CONFIG_DIR names. Writing to
+    the work (default) account requires the var to be ABSENT, not merely different."""
+    env = {k: v for k, v in os.environ.items()
+           if k not in ("CLAUDECODE", "CLAUDE_CODE_SESSION_ID", "CLAUDE_CODE_CHILD_SESSION",
+                        "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_OAUTH_TOKEN")}
+    if dst == "work":
+        env.pop("CLAUDE_CONFIG_DIR", None)
+    else:
+        env["CLAUDE_CONFIG_DIR"] = ACCOUNTS["personal"]
+    return env
+
+
+def redact(argv):
+    """Never echo secrets. Mask --env values and --header values."""
+    out, mask = [], False
+    for a in argv:
+        if mask:
+            k, sep, _ = a.partition("=" if "=" in a and not a.startswith("Auth") else ": ")
+            out.append(f"{k}{sep}<redacted>" if sep else "<redacted>")
+            mask = False
+        else:
+            mask = a in ("--env", "--header")
+            out.append(a)
+    return " ".join(out)
+
+
+def sync_drift(only_work, only_personal, execute):
+    verb = "Syncing" if execute else "Sync plan"
+    print(f"\n{BOLD}  {verb}{OFF}")
+    failures = []
     for missing, src in ((only_work, "work"), (only_personal, "personal")):
         if not missing:
             continue
         d = load(ACCOUNTS[src]) or {}
         dst = "personal" if src == "work" else "work"
-        # Writing to the work account requires CLAUDE_CONFIG_DIR to be absent, not just different.
-        env_prefix = (f'CLAUDE_CONFIG_DIR={ACCOUNTS["personal"]} ' if dst == "personal"
-                      else 'env -u CLAUDE_CONFIG_DIR ')
-        print(f"\n  {DIM}# copy {src} -> {dst}{OFF}")
+        print(f"\n  {DIM}# {src} -> {dst}{OFF}")
         for n in missing:
-            cfg = d["mcpServers"][n]
-            if cfg.get("type") == "http":
-                hdrs = " ".join(f'--header "{k}: {v}"' for k, v in (cfg.get("headers") or {}).items())
-                cmd = f'{env_prefix}claude mcp add --scope user --transport http {n} "{cfg["url"]}" {hdrs}'
+            argv = add_command(n, d["mcpServers"][n])
+            if not execute:
+                print(f"  {redact(argv)}   {DIM}[--> {dst}]{OFF}")
+                continue
+            p = subprocess.run(argv, capture_output=True, text=True,
+                               timeout=120, env=env_for(dst), cwd=HOME)
+            if p.returncode == 0:
+                print(f"  {GREEN}added{OFF}   {n} -> {dst}")
             else:
-                envs = " ".join(f'--env {k}="{v}"' for k, v in (cfg.get("env") or {}).items())
-                args = " ".join(f'"{a}"' for a in cfg.get("args", []))
-                cmd = f'{env_prefix}claude mcp add --scope user {envs} {n} -- "{cfg["command"]}" {args}'
-            print("  " + " ".join(cmd.split()))
-    print(f"\n  {DIM}HTTP servers needing OAuth must be authorized once per account via /mcp.{OFF}")
+                msg = (p.stderr or p.stdout).strip().splitlines()
+                print(f"  {RED}FAILED{OFF}  {n} -> {dst}: {msg[-1][:120] if msg else 'unknown'}")
+                failures.append(n)
+    if execute:
+        if failures:
+            problems.append(f"sync failed for: {', '.join(failures)}")
+        print(f"\n  {DIM}Restart Claude Code for newly added servers to load.{OFF}")
+    print(f"  {DIM}HTTP servers needing OAuth must be authorized once per account via /mcp.{OFF}")
 
 
 # ------------------------------------------------------------ live health
