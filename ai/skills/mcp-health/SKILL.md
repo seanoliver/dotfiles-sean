@@ -22,15 +22,26 @@ the cause of nearly every "my MCP server disappeared" report.
 
 ## Run the check
 
+**Step 1 — run this immediately. Do not investigate by hand first; the script already
+does every check, and hand-investigation reproduces the traps listed below.**
+
 ```bash
-~/.claude/skills/mcp-health/check.py                      # active account
-~/.claude/skills/mcp-health/check.py --expect personal    # assert billing account
-~/.claude/skills/mcp-health/check.py --sync-plan          # emit commands to close drift
-~/.claude/skills/mcp-health/check.py --both               # also probe the other account (~2 min)
+~/.claude/skills/mcp-health/check.py
 ```
 
-Exits non-zero if anything is wrong. It reports three things: account/billing identity,
-registration drift between the two accounts, and live per-server status.
+**Step 2 — add flags only when the situation calls for it:**
+
+| Flag | Use when |
+|---|---|
+| `--sync-plan` | Step 1 reported drift and Sean wants the fix commands |
+| `--expect personal` / `--expect work` | Sean is asking which account is billing |
+| `--both` | A server is reportedly missing from *both* accounts (~2 min) |
+
+**Step 3 — report using the Output format section below.**
+
+Exits non-zero if anything is wrong. It covers account/billing identity, registration
+drift between accounts, and live per-server status. If the script itself errors, fix the
+script — do not fall back to manual probing.
 
 ## Interpreting results
 
