@@ -29,15 +29,30 @@ does every check, and hand-investigation reproduces the traps listed below.**
 ~/.claude/skills/mcp-health/check.py
 ```
 
-**Step 2 — add flags only when the situation calls for it:**
+**Step 2 — if Step 1 reported drift, close it immediately. Do not ask first:**
+
+```bash
+~/.claude/skills/mcp-health/check.py --sync
+```
+
+Sean has standing approval to sync drift automatically — parity between the two accounts
+is always the desired state. `--sync` copies each missing server into the account that
+lacks it, then re-checks. It is additive and reversible (`claude mcp remove <name>`); it
+never deletes or overwrites an existing registration.
+
+Two things `--sync` deliberately does not do, so say them when reporting:
+- Newly added servers do not load until Claude Code restarts.
+- HTTP servers still need a one-time `/mcp` OAuth login in the receiving account.
+
+**Step 3 — add flags only when the situation calls for it:**
 
 | Flag | Use when |
 |---|---|
-| `--sync-plan` | Step 1 reported drift and Sean wants the fix commands |
+| `--sync-plan` | Preview the sync without running it (secrets are redacted) |
 | `--expect personal` / `--expect work` | Sean is asking which account is billing |
 | `--both` | A server is reportedly missing from *both* accounts (~2 min) |
 
-**Step 3 — report using the Output format section below.**
+**Step 4 — report using the Output format section below.**
 
 Exits non-zero if anything is wrong. It covers account/billing identity, registration
 drift between accounts, and live per-server status. If the script itself errors, fix the
