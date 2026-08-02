@@ -13,7 +13,7 @@ Usage:
 import argparse
 import json
 import os
-import re
+
 import subprocess
 import sys
 
@@ -156,11 +156,12 @@ def emit_sync_plan(only_work, only_personal):
             cfg = d["mcpServers"][n]
             if cfg.get("type") == "http":
                 hdrs = " ".join(f'--header "{k}: {v}"' for k, v in (cfg.get("headers") or {}).items())
-                print(f'  {env_prefix}claude mcp add --scope user --transport http {n} "{cfg["url"]}" {hdrs}'.rstrip())
+                cmd = f'{env_prefix}claude mcp add --scope user --transport http {n} "{cfg["url"]}" {hdrs}'
             else:
                 envs = " ".join(f'--env {k}="{v}"' for k, v in (cfg.get("env") or {}).items())
                 args = " ".join(f'"{a}"' for a in cfg.get("args", []))
-                print(f'  {env_prefix}claude mcp add --scope user {envs} {n} -- "{cfg["command"]}" {args}'.strip())
+                cmd = f'{env_prefix}claude mcp add --scope user {envs} {n} -- "{cfg["command"]}" {args}'
+            print("  " + " ".join(cmd.split()))
     print(f"\n  {DIM}HTTP servers needing OAuth must be authorized once per account via /mcp.{OFF}")
 
 
