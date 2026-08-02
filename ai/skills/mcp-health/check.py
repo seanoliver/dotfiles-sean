@@ -128,10 +128,13 @@ def report_drift(sync_plan, do_sync):
     if not only_work and not only_personal:
         print(f"  {GREEN}no drift - both accounts register the same servers{OFF}")
         return
+    # Drift counts as a problem only if we are NOT about to fix it; sync_drift reports
+    # its own failures. Otherwise a successful --sync would still exit non-zero.
+    note = flag if not do_sync else (lambda m: f"{YELLOW}{m}{OFF}")
     if only_work:
-        print("  " + flag(f"missing from personal ({len(only_work)}): {', '.join(only_work)}"))
+        print("  " + note(f"missing from personal ({len(only_work)}): {', '.join(only_work)}"))
     if only_personal:
-        print("  " + flag(f"missing from work ({len(only_personal)}): {', '.join(only_personal)}"))
+        print("  " + note(f"missing from work ({len(only_personal)}): {', '.join(only_personal)}"))
     print(f"\n  {DIM}Cause: MCP servers are registered in <config-dir>/.claude.json, which is the one"
           f"\n  file NOT shared between accounts. `claude mcp add` only writes to the account that"
           f"\n  was active at the time.{OFF}")
