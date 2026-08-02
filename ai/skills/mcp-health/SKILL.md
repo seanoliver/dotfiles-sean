@@ -111,8 +111,11 @@ into chat unless Sean asks for them — point at `--sync-plan` instead.
 
 ## Out of Scope
 
-- Does not run `claude mcp add`, edit any config, or grant OAuth. It reports and emits
-  a plan; Sean executes.
+- Syncs registration drift (`--sync`), but does **not** grant OAuth, remove servers, or
+  reconcile anything other than the global `mcpServers` map.
+- Does not sync in the work → personal direction only; it syncs both ways to parity. If
+  a server should exist in exactly one account, `--sync` is the wrong tool — it will
+  keep re-adding it. Remove it from both, or stop using `--sync` for that case.
 - Does not diagnose bugs *inside* a working MCP server (wrong tool results, bad data).
   That is a normal debugging task.
 - Does not manage project-scoped `.mcp.json` files or plugin marketplaces.
