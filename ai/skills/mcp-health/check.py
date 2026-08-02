@@ -200,10 +200,10 @@ def live_health(config_dir, label):
 
     ok, auth, fail = [], [], []
     for line in p.stdout.splitlines():
-        m = STATUS_RE.match(line.strip())
-        if not m:
+        parsed = parse_status_line(line.strip())
+        if not parsed:
             continue
-        n, s = m["name"], m["status"]
+        n, s = parsed
         (ok if "✔" in s else auth if "!" in s else fail).append(n)
 
     print(f"  {label}: {GREEN}{len(ok)} connected{OFF}, "
