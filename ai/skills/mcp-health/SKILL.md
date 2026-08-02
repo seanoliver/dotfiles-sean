@@ -79,8 +79,14 @@ script — do not fall back to manual probing.
 4. **Never diagnose from the tool list alone.** A server absent from the session's tools
    means it is not registered *for this account* — not that it is broken or unreachable.
 5. **Diff both accounts before concluding anything is broken.** Most reports are drift.
-6. Fix registration drift by running `claude mcp add` under the target account. Do not
-   hand-edit `.claude.json` — Claude Code rewrites it and edits are lost.
+6. **Fix drift with `--sync`, never by hand.** Do not hand-edit `.claude.json` — Claude
+   Code rewrites it and edits are lost. Do not hand-write `claude mcp add` commands
+   either: `-e/--env` and `-H/--header` are *variadic* and swallow every following
+   token, so options placed before the server name silently consume it. The script
+   already orders the argv correctly.
+7. **Never paste a sync command containing credentials into chat.** Use `--sync` (which
+   executes directly) or `--sync-plan` (which redacts). Several servers carry live API
+   keys and bearer tokens in `env`/`headers`.
 
 ## Why not curl the MCP URL
 
