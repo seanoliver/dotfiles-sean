@@ -142,18 +142,18 @@ def report_drift(sync_plan):
 
 
 def emit_sync_plan(only_work, only_personal):
-    print(f"\n{BOLD}  Sync plan{OFF}  {DIM}(review, then paste; add -s user to scope globally){OFF}")
-    for missing, src, dst_dir in ((only_work, "work", ACCOUNTS["personal"]),
-                                  (only_personal, "personal", ACCOUNTS["work"])):
+    print(f"\n{BOLD}  Sync plan{OFF}  {DIM}(review before pasting - these carry secrets in env/headers){OFF}")
+    for missing, src in ((only_work, "work"), (only_personal, "personal")):
         if not missing:
             continue
-        src_dir = ACCOUNTS[src]
-        d = load(src_dir) or {}
+        d = load(ACCOUNTS[src]) or {}
         dst = "personal" if src == "work" else "work"
+        # Writing to the work account requires CLAUDE_CONFIG_DIR to be absent, not just different.
+        env_prefix = (f'CLAUDE_CONFIG_DIR={ACCOUNTS["personal"]} ' if dst == "personal"
+                      else 'env -u CLAUDE_CONFIG_DIR ')
         print(f"\n  {DIM}# copy {src} -> {dst}{OFF}")
         for n in missing:
             cfg = d["mcpServers"][n]
-            env_prefix = (f'CLAUDE_CONFIG_DIR={dst_dir} ' if dst == "personal" else '')
             if cfg.get("type") == "http":
                 hdrs = " ".join(f'--header "{k}: {v}"' for k, v in (cfg.get("headers") or {}).items())
                 print(f'  {env_prefix}claude mcp add --scope user --transport http {n} "{cfg["url"]}" {hdrs}'.rstrip())
