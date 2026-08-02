@@ -37,6 +37,10 @@ def flag(msg):
 
 
 def config_path(config_dir):
+    """The default (work) account keeps its config at ~/.claude.json, NOT inside
+    ~/.claude/. Only an explicit CLAUDE_CONFIG_DIR nests it as <dir>/.claude.json."""
+    if os.path.realpath(config_dir) == os.path.realpath(os.path.join(HOME, ".claude")):
+        return os.path.join(HOME, ".claude.json")
     return os.path.join(config_dir, ".claude.json")
 
 
