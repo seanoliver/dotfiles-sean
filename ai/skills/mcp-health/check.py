@@ -114,7 +114,7 @@ def globals_of(config_dir):
     return set((d or {}).get("mcpServers", {}).keys())
 
 
-def report_drift(sync_plan):
+def report_drift(sync_plan, do_sync):
     hdr("2. MCP registration drift between accounts")
     work, personal = globals_of(ACCOUNTS["work"]), globals_of(ACCOUNTS["personal"])
     both = work & personal
