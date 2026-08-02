@@ -166,7 +166,17 @@ def emit_sync_plan(only_work, only_personal):
 
 # ------------------------------------------------------------ live health
 
-STATUS_RE = re.compile(r"^(?P<name>[^:]+):\s+(?P<target>.*?)\s+-\s+(?P<status>[✔✗!].*)$")
+def parse_status_line(line):
+    """`claude mcp list` emits `<name>: <target> - <status>`. Names may themselves
+    contain colons (plugin:github:github), so split on the first ': ' (colon+space)
+    and take the status after the LAST ' - '."""
+    if ": " not in line or " - " not in line:
+        return None
+    name, rest = line.split(": ", 1)
+    _, status = rest.rsplit(" - ", 1)
+    if not status[:1] in "✔✗!":
+        return None
+    return name, status
 
 
 def live_health(config_dir, label):
