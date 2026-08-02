@@ -182,7 +182,7 @@ def redact(argv):
             out.append(f"{k}{sep}<redacted>" if sep else "<redacted>")
             mask = False
         else:
-            mask = a in ("--env", "--header")
+            mask = a in ("-e", "--env", "-H", "--header")
             out.append(a)
     return " ".join(out)
 
