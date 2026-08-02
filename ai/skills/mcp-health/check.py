@@ -268,12 +268,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--both", action="store_true", help="also health-check the other account (slow)")
     ap.add_argument("--expect", choices=["personal", "work"], help="assert which account should be billing")
-    ap.add_argument("--sync-plan", action="store_true", help="print commands to close registration drift")
+    ap.add_argument("--sync-plan", action="store_true", help="preview commands to close registration drift")
+    ap.add_argument("--sync", action="store_true", help="actually close registration drift (runs claude mcp add)")
     a = ap.parse_args()
 
     print(f"{BOLD}MCP + account health{OFF}  {DIM}cwd={os.getcwd()}{OFF}")
     active = report_identity(a.expect)
-    report_drift(a.sync_plan)
+    report_drift(a.sync_plan, a.sync)
 
     hdr("3. Live server health  (authoritative: `claude mcp list`)")
     targets = [(active, active_config_dir())] if active else []
