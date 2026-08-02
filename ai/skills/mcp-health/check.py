@@ -135,10 +135,10 @@ def report_drift(sync_plan, do_sync):
     print(f"\n  {DIM}Cause: MCP servers are registered in <config-dir>/.claude.json, which is the one"
           f"\n  file NOT shared between accounts. `claude mcp add` only writes to the account that"
           f"\n  was active at the time.{OFF}")
-    if sync_plan:
-        emit_sync_plan(only_work, only_personal)
+    if do_sync or sync_plan:
+        sync_drift(only_work, only_personal, execute=do_sync)
     else:
-        print(f"  {DIM}Re-run with --sync-plan to get the commands that close this gap.{OFF}")
+        print(f"  {DIM}Re-run with --sync to close this gap, or --sync-plan to preview it.{OFF}")
 
 
 def add_command(name, cfg):
