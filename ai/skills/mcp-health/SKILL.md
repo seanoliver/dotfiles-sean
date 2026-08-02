@@ -62,7 +62,7 @@ script — do not fall back to manual probing.
 
 | Symptom | Meaning | Fix |
 |---|---|---|
-| Server missing from one account only | Registration drift | `--sync-plan`, then run the emitted `claude mcp add` commands |
+| Server missing from one account only | Registration drift | Run `--sync` right away; report what was added |
 | `! Needs authentication` | Registered, OAuth not granted **for that account** | `/mcp` in a session on that account; OAuth is per-account and never carries over |
 | `✗ Failed to connect` | Server actually broken | Check the command/URL; for local HTTP servers confirm the host is reachable |
 | `CLAUDE_ACCOUNT` disagrees with config dir | Cosmetic env var drifted | Ignore the var — `CLAUDE_CONFIG_DIR` alone determines billing |
