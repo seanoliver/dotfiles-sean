@@ -144,16 +144,19 @@ def report_drift(sync_plan, do_sync):
 def add_command(name, cfg):
     """Build the `claude mcp add` argv for one server. Argv, not a shell string, so
     credentials and args with spaces cannot be mangled by quoting."""
+    # `-e/--env` and `-H/--header` are VARIADIC: they consume every following token
+    # until a flag or `--`. So both must come AFTER the positional name/commandOrUrl,
+    # never before, or the server name gets swallowed as an env var.
     argv = ["claude", "mcp", "add", "--scope", "user"]
     if cfg.get("type") == "http":
-        argv += ["--transport", "http"]
+        argv += ["--transport", "http", name, cfg["url"]]
         for k, v in (cfg.get("headers") or {}).items():
             argv += ["--header", f"{k}: {v}"]
-        argv += [name, cfg["url"]]
     else:
+        argv += [name]
         for k, v in (cfg.get("env") or {}).items():
-            argv += ["--env", f"{k}={v}"]
-        argv += [name, "--", cfg["command"], *cfg.get("args", [])]
+            argv += ["-e", f"{k}={v}"]
+        argv += ["--", cfg["command"], *cfg.get("args", [])]  # `--` ends the variadic
     return argv
 
 
