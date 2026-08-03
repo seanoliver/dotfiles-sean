@@ -62,6 +62,7 @@ script — do not fall back to manual probing.
 
 | Symptom | Meaning | Fix |
 |---|---|---|
+| `/mcp` panel says **"0 servers"**, or is missing its User MCPs / Built-in MCPs sections | **The panel has not finished loading.** Nothing is wrong. | Tell Sean to reopen `/mcp` and wait 5–10 seconds without pressing Esc. See "Why the panel shows 0 servers" below. |
 | Server missing from one account only | Registration drift | Run `--sync` right away; report what was added |
 | `! Needs authentication` | Registered, OAuth not granted **for that account** | `/mcp` in a session on that account; OAuth is per-account and never carries over |
 | `✗ Failed to connect` | Server actually broken | Check the command/URL; for local HTTP servers confirm the host is reachable |
