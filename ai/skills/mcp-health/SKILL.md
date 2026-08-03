@@ -76,9 +76,15 @@ script — do not fall back to manual probing.
 2. **The work config file is `~/.claude.json`, not `~/.claude/.claude.json`.** The
    default account stores config beside the directory, not inside it.
 3. **`claude mcp list` is the only authority on connection status.** Do not curl or
-   probe MCP URLs directly to judge health.
+   probe MCP URLs directly to judge health. The CLI blocks until every probe finishes;
+   the `/mcp` panel paints immediately and backfills, so the two disagree mid-load.
 4. **Never diagnose from the tool list alone.** A server absent from the session's tools
    means it is not registered *for this account* — not that it is broken or unreachable.
+5. **Never explain a transient UI state with a static config value.** If the report is
+   about what the `/mcp` panel *displayed*, establish that the panel finished loading
+   before you look for a cause. A config field that merely *exists* is not evidence it
+   caused anything — you must show the mechanism. Both recorded failures of this skill
+   (see below) named a real config value and invented a plausible mechanism for it.
 5. **Diff both accounts before concluding anything is broken.** Most reports are drift.
 6. **Fix drift with `--sync`, never by hand.** Do not hand-edit `.claude.json` — Claude
    Code rewrites it and edits are lost. Do not hand-write `claude mcp add` commands
