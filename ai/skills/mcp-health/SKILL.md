@@ -85,15 +85,50 @@ script — do not fall back to manual probing.
    before you look for a cause. A config field that merely *exists* is not evidence it
    caused anything — you must show the mechanism. Both recorded failures of this skill
    (see below) named a real config value and invented a plausible mechanism for it.
-5. **Diff both accounts before concluding anything is broken.** Most reports are drift.
-6. **Fix drift with `--sync`, never by hand.** Do not hand-edit `.claude.json` — Claude
+6. **Diff both accounts before concluding anything is broken.** Most reports are drift.
+7. **Fix drift with `--sync`, never by hand.** Do not hand-edit `.claude.json` — Claude
    Code rewrites it and edits are lost. Do not hand-write `claude mcp add` commands
    either: `-e/--env` and `-H/--header` are *variadic* and swallow every following
    token, so options placed before the server name silently consume it. The script
    already orders the argv correctly.
-7. **Never paste a sync command containing credentials into chat.** Use `--sync` (which
+8. **Never paste a sync command containing credentials into chat.** Use `--sync` (which
    executes directly) or `--sync-plan` (which redacts). Several servers carry live API
    keys and bearer tokens in `env`/`headers`.
+
+## Why the panel shows 0 servers
+
+The `/mcp` panel populates **asynchronously**: it paints a skeleton immediately, then
+health-checks every registered server and backfills the list. `0 servers` is the
+loading state, not a count. Sections (`User MCPs`, `Built-in MCPs`) appear only once
+populated.
+
+On the **work** account this takes a measured **5–10 seconds** — 41 servers, 16 of them
+unauthenticated remote HTTP endpoints whose probes each run to a near-timeout auth
+failure. The **personal** account settles almost instantly (26 servers, 4 such
+stragglers). That account asymmetry is entirely probe latency. It is not policy, not
+drift, not trust, not a bug.
+
+**Before diagnosing any panel-appearance report, ask Sean whether he waited for it to
+settle.** Do not investigate a panel that may still have been loading.
+
+Two agents have failed this exact scenario, each landing on a different confident wrong
+answer within minutes:
+
+| Wrong diagnosis | Evidence it leaned on | Why it was wrong |
+|---|---|---|
+| "Enterprise managed policy blocks MCP" | `oauthAccount.organizationRole: "managed"` | Real field; blocks nothing. No `managed-settings.json` existed. The org pushes only `remote-settings.json` (telemetry + `model: sonnet`) and `policy-limits.json` (3 restrictions, none MCP). |
+| "Workspace trust not accepted" | `hasTrustDialogAccepted: false` on a Conductor worktree entry | Real field; wrong directory (not Sean's cwd), and folder trust does not gate MCP server display. Mechanism was invented. |
+
+Both were decisive, mechanistic, and wrong. Neither asked whether the panel had
+finished loading. If you catch yourself reaching for a config field to explain what a
+panel displayed, stop — you are about to become the third.
+
+Also ruled out during that investigation, so do not re-walk them: feature gates
+(`tengu_claudeai_mcp_connectors`, `tengu_mcp_claudeai_eligibility_gate` — both `true` in
+both accounts), `disableClaudeAiConnectors` (absent), and orphan project-scoped
+registrations (removed; no effect). And note `~/.claude/settings.json` is
+dotfiles-symlinked into **both** accounts, so it can never explain a one-account
+difference — check that before building any theory on it.
 
 ## Why not curl the MCP URL
 
