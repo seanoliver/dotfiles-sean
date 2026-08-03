@@ -1,6 +1,6 @@
 ---
 name: mcp-health
-description: Use when an MCP server is missing, disconnected, or "not detected" in /mcp; when tools that worked in one Claude Code session are absent in another; when a server appears in one account but not the other; or when confirming which account (work vs personal) is billing the current session.
+description: Use when an MCP server is missing, disconnected, or "not detected" in /mcp; when the /mcp panel reports "0 servers" or is missing its User MCPs or Built-in MCPs sections; when tools that worked in one Claude Code session are absent in another; when a server appears in one account but not the other; or when confirming which account (work vs personal) is billing the current session.
 ---
 
 # MCP + Account Health
