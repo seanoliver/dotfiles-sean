@@ -7,14 +7,32 @@ allowed-tools: mcp__things__add_todo, mcp__things__get_tags, mcp__things__get_pr
 
 # Add a Things 3 Task
 
-Capture tasks into Things 3 with rich context, correct routing, and **no encoding bugs**. This skill exists to prevent recurring failure modes: `+`-encoded spaces in titles, wrong-area placement, and crowded Today views from unscoped defaults.
+Capture tasks into Things 3 with rich context, correct routing, and **no encoding bugs**. This skill exists to prevent recurring failure modes: `+`-encoded spaces in titles, wrong-area placement, non-tasks polluting the list, and crowded Today views from unscoped defaults.
+
+**Today is a commitment, not an inbox.** Sean completes a median of 2 substantive tasks per day. Anything this skill puts on Today displaces something he actually planned to do. Capture is cheap; Today is scarce.
 
 ## Hard rules (do not skip)
 
-1. **Always discover the user's current areas/projects/tags before creating.** They evolve; never hard-code names.
-2. **Never use `quote_plus` or `urlencode`** when building Things URLs. Use `urllib.parse.quote(value, safe='')` per parameter so spaces become `%20`, not `+`. Things treats `+` literally and you get titles like `Submit+PR+review+on+Pam`.
-3. **Open the URL from a shell variable**, not by passing it inline to `open`. Some characters (`#`, `&`) trip zsh globbing.
-4. **Verify the task landed** before reporting success. Query Things via AppleScript and confirm title + area match what you intended.
+1. **Never schedule to Today unless the user explicitly committed to today.** Default is `anytime`. See Scheduling below. This rule has no "seems urgent" exception — urgency goes in the `deadline` field, not the start date.
+2. **A bare link is not a task.** Route it to Readwise Reader instead. See Link routing below.
+3. **Every task gets a container** — a project or an area. Never leave a task in Inbox as the final state unless the user is genuinely ambiguous about what it belongs to.
+4. **Always discover the user's current areas/projects/tags before creating.** They evolve; never hard-code names.
+5. **Never use `quote_plus` or `urlencode`** when building Things URLs. Use `urllib.parse.quote(value, safe='')` per parameter so spaces become `%20`, not `+`. Things treats `+` literally and you get titles like `Submit+PR+review+on+Pam`.
+6. **Open the URL from a shell variable**, not by passing it inline to `open`. Some characters (`#`, `&`) trip zsh globbing.
+7. **Verify the task landed** before reporting success. Query Things via AppleScript and confirm title + container match what you intended.
+
+## Link routing — is this a task or a thing to read?
+
+Run this check **before** anything else. Getting it wrong is how 28 unread links accumulated in Things over nine months.
+
+| Input | Destination |
+|---|---|
+| Bare URL, no verb ("check this out", "cool", or nothing) | **Readwise Reader** via `reader_create_document` |
+| URL + an action on the content ("read X and summarize for the team") | Things, with the URL in notes |
+| URL + an action on a system ("fix the bug in this PR") | Things, with the URL in notes |
+| Article, video, blog post, tweet the user wants to consume later | **Readwise Reader** |
+
+When routing to Reader, say so in one line: `→ Reader (not Things — it's a read, not an action).` Do not create a Things task as well.
 
 ## Step 1 — Discover current Things 3 structure
 
