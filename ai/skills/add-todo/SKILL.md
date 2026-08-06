@@ -137,9 +137,8 @@ Never force the template. If a section would be empty, omit it.
 mcp__things__add_todo(
     title="Submit PR review on growth-eng#9 (Pam)",
     notes="...",
-    when="today",
-    list_title="❇️ Supabase",
-    tags=["🟢 Laptop"],
+    when="anytime",              # default — NOT today
+    list_title="❇️ Supabase",    # required: project preferred, area acceptable
 )
 ```
 
