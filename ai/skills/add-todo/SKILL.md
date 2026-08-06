@@ -80,6 +80,18 @@ Escalate to `today` **only** on an explicit same-day commitment from the user:
 
 A **deadline** is not a start date. "This is due Friday" sets `deadline: <Friday>` and leaves `when: "anytime"` — the task surfaces in review with its deadline visible, and gets a start date when there's actually room for it.
 
+**Resolve relative dates to real ones.** Things needs `YYYY-MM-DD`; never drop timing information just because the user was informal. Run `date +%Y-%m-%d` to anchor, then convert:
+
+| User says | Becomes |
+|---|---|
+| "due Friday" / "by Friday" | `deadline` = that coming Friday's date |
+| "this week" | `deadline` = this coming Friday |
+| "end of month" | `deadline` = last day of the current month |
+| "in two weeks" | `deadline` = today + 14 days |
+| "soon" / "at some point" / no date at all | no deadline — genuinely absent, don't invent one |
+
+If the relative phrase is truly unresolvable ("after the migration lands"), put it in the notes as a `## Blocked on` line and set no deadline.
+
 **Rationalizations that mean you are about to break rule 1:**
 
 | Thought | Reality |
