@@ -48,17 +48,19 @@ Areas and tags include emoji — preserve them exactly when passing back to Thin
 
 ## Step 2 — Decide routing
 
-### Area assignment
+### Container assignment (required — rule 3)
 
-**Work signals** (any of: Supabase, Growth Eng, a github.com/supabase URL, a Linear ticket ID, Customer.io, PostHog, work-Slack thread URL, named teammates Marc/Pam/Pedro/etc., Hex thread, anything from `~/supabase/`) → land in the **Supabase** area.
+**Always prefer a project over a bare area.** Projects are what make the weekly review tractable; area-only tasks are the ones that go stale unnoticed. Check the discovered project list for a match before falling back to an area.
 
-If the task references an active *project* (e.g. PostHog renewal, MCP activation push, a named experiment), try to find a matching open project and use that instead. Currently no Supabase-area projects exist in Things — area-only is the practical default.
+**Work signals** (any of: Supabase, Growth Eng, a github.com/supabase URL, a Linear ticket ID, Customer.io, PostHog, work-Slack thread URL, named teammates, Hex thread, anything from `~/supabase/`) → a Supabase-area project if one matches (`🤖 Agent-Led Growth`, `📈 Instrumentation`, `🔐 Default Grants`, `🇨🇦 Banff Supafest`), else the **Supabase** area.
 
-**Personal signals** (home, errand, family, personal finance, mom, Tina, side projects) → try matching an open project first (`💰 Finance`, `🏡 41 Westwood`, `❤️ Mom`, `🧠 TheraGPT`, `🎿 Skiing`, etc.), then fall back to the **Personal** area, then to Inbox if nothing fits.
+**Personal signals** (home, errand, family, personal finance, mom, Tina) → match an open project first (`💰 Finance`, `🏡 41 Westwood`, `❤️ Mom`, `🎿 Skiing`, `🇩🇪 Germany`, `🇨🇳 China`, `🌍 Travel Ideas`, `🔄 Rituals`), else the **Personal** area.
 
-**Indie / side-project signals** (own product names, code in `~/indie/` or similar, "my side project") → **Indie Hacking** area, or its matching project if one exists.
+**Indie / side-project signals** (own product names, `~/indie/`, "my side project") → a matching project (`☀️ Solstice`, `🧠 TheraGPT`, `💡 Project Ideas`), else the **Indie Hacking** area.
 
-**Ambiguous** → Inbox. Don't force a guess.
+**Genuinely ambiguous** → Inbox, and say so explicitly in the report so it gets triaged rather than silently lost. "I couldn't tell which area this belongs to" is a valid outcome; guessing wrong is not.
+
+**Never create a new project to hold a single task.** Use the area.
 
 ### Scheduling
 
