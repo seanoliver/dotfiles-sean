@@ -1,6 +1,6 @@
 ---
 name: add-todo
-description: Add a new task to Things 3 with correct area/project routing, tag inference, and URL-safe encoding. Use when the user says "add a task", "remind me to...", "create a todo", "put this in Things", "things 3 task", or similar Things-capture intent.
+description: Use when the user says "add a task", "remind me to...", "create a todo", "put this in Things", "things 3 task", or similar Things-capture intent. Also use when the user pastes a bare link or article to save for later, since routing that away from Things is part of this skill's job.
 argument-hint: <task description>
 allowed-tools: mcp__things__add_todo, mcp__things__get_tags, mcp__things__get_projects, mcp__things__get_areas, mcp__things__get_todos, Bash
 ---
