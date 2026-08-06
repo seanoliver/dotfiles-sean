@@ -62,16 +62,31 @@ If the task references an active *project* (e.g. PostHog renewal, MCP activation
 
 ### Scheduling
 
-Default `when: "today"`. Override only when the user explicitly says otherwise:
+**Default `when: "anytime"`.** The task lands in its project, visible in Anytime, and gets scheduled later by `/shape` or `/things-review`. This is the correct outcome for the large majority of captures.
+
+Escalate to `today` **only** on an explicit same-day commitment from the user:
 
 | User says | `when` |
 |---|---|
+| "today", "this morning", "before EOD", "right now" | `today` |
 | "tomorrow" | `tomorrow` |
 | "this evening" / "tonight" | `evening` |
-| "next week" / "later" | `someday` (or specific date if given) |
-| "someday" | `someday` |
-| YYYY-MM-DD or natural date | that date |
-| no urgency | `anytime` |
+| a named day or YYYY-MM-DD | that date |
+| "next week" | the specific date if given, else `anytime` |
+| "someday", "eventually", "if I ever get to it" | `someday` |
+| **anything else, including no timing signal at all** | **`anytime`** |
+
+A **deadline** is not a start date. "This is due Friday" sets `deadline: <Friday>` and leaves `when: "anytime"` — the task surfaces in review with its deadline visible, and gets a start date when there's actually room for it.
+
+**Rationalizations that mean you are about to break rule 1:**
+
+| Thought | Reality |
+|---|---|
+| "This seems urgent, so Today" | Urgency is the `deadline` field. Today is capacity. |
+| "It's quick, it won't crowd anything" | Twenty-five "quick" items is the current Today. |
+| "He'll want to see this immediately" | He will see it in Anytime at next `/shape`. |
+| "It's already late, so it belongs on Today" | Late means it needs a decision in review, not a slot today. |
+| "The source (work sweep, ticket) implies today" | Only the user's own words about timing count. |
 
 ### Tags
 
