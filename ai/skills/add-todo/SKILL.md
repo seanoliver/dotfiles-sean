@@ -208,12 +208,21 @@ If the title isn't there with the expected wording (especially no `+` in place o
 **Task created in Things**
 
 **Title**: [exact title as it landed]
-**Scheduled**: [today / tomorrow / etc.]
-**Area / Project**: [❇️ Supabase / etc., or "Inbox"]
-**Tags**: [list, or "none"]
+**Scheduled**: [anytime / today / YYYY-MM-DD] — [why, if not anytime]
+**Container**: [🎿 Skiing / ❇️ Supabase / etc., or "Inbox — couldn't route, needs triage"]
+**Deadline**: [YYYY-MM-DD, or omit the line entirely]
+**Tags**: [tag, or omit the line entirely]
 
 **Notes preview**:
 > [first 1-2 lines]
+```
+
+State the reason whenever `when` is anything other than `anytime` — it should trace back to something the user actually said. If you can't name the quote, the answer was `anytime`.
+
+For a link routed away from Things, report one line instead:
+
+```markdown
+→ **Readwise Reader**: [title] — it's a read, not an action. Not added to Things.
 ```
 
 Skip the closing pleasantries.
