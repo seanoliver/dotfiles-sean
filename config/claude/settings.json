@@ -155,7 +155,8 @@
     "claude-md-management@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "supabase@claude-plugins-official": true,
-    "slack@claude-plugins-official": true
+    "slack@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
