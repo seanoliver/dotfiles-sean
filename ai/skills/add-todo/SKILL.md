@@ -234,8 +234,23 @@ Skip the closing pleasantries.
 - **User wants this in Linear/GitHub, not Things**: skip this skill. This is Things-specific.
 - **Recurring task**: the Things URL scheme doesn't natively support recurrence. Create the task and add a note `Note: set repeat in Things UI after capture` — recurrence is configured in the app.
 
-## When not to use this skill
+## Red flags — stop and re-read rule 1
 
-- The user is asking *about* tasks ("what's on my list?") — that's a query, not a capture. Use AppleScript directly.
-- Creating tasks in another system (Linear, GitHub, the conversation's TaskCreate tool) — this skill is Things-only.
-- Bulk-importing many tasks from a list — fine to invoke once per task, but check whether the user actually wants them all in Today (usually not).
+- You typed `when="today"` and can't quote the user saying a same-day word
+- You're about to add a priority tag because the task "feels" important
+- You're about to create a Things task whose only content is a URL
+- You're about to leave `list_title` empty because routing was hard
+- You're bulk-creating more than ~3 tasks and any of them are dated today
+
+**All of these mean: `when="anytime"`, pick a container, and move on.**
+
+## Out of Scope
+
+This skill **captures one task**. It does not:
+
+- **Schedule or prioritize.** Deciding what to do today is `/shape`. This skill never shapes the Today list, never moves existing tasks, and never clears dates.
+- **Review or clean up.** Aging, stale items, project health, Someday resurfacing — all `/things-review`.
+- **Query.** "What's on my list?" is a read, not a capture. Use the Things MCP or AppleScript directly.
+- **Write to other systems.** Linear, GitHub, and the conversation's own task tools are out of scope. Things only.
+- **Bulk-import.** For more than ~3 tasks, ask first whether it should be one task with a checklist. Never bulk-create dated-today tasks.
+- **Set recurrence.** The URL scheme can't. Add a note `Note: set repeat in Things UI after capture` and tell the user.
