@@ -237,8 +237,8 @@ Skip the closing pleasantries.
 
 - **Multiple tasks in one request**: ask whether to create one task with a checklist or several separate tasks. Don't guess.
 - **Vague request** ("remind me about that thing"): capture with best interpretation; add a `Note: [aspect needs clarification]` line in the notes. Don't block on ambiguity.
-- **User wants this in Linear/GitHub, not Things**: skip this skill. This is Things-specific.
-- **Recurring task**: the Things URL scheme doesn't natively support recurrence. Create the task and add a note `Note: set repeat in Things UI after capture` — recurrence is configured in the app.
+- **Deadline mentioned**: set `deadline`, leave `when: "anytime"`. Never convert a deadline into a start date.
+- **Task is already overdue** ("I was supposed to do this last week"): still `anytime`. It needs a decision in `/shape`, not an automatic slot today.
 
 ## Red flags — stop and re-read rule 1
 
