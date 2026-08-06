@@ -92,20 +92,15 @@ A **deadline** is not a start date. "This is due Friday" sets `deadline: <Friday
 
 ### Tags
 
-**Apply tags only when explicitly inferable** from user language. Otherwise leave untagged. Match against the discovered tag list — use exact strings including emoji:
+**There are only three tags.** Anything else you remember seeing has been retired. Apply only when explicitly inferable from the user's language; otherwise leave untagged. Untagged is the normal case.
 
 | Signal | Tag |
 |---|---|
-| "urgent" | `🔴 Urgent` |
-| "important" / "MIT" / "most important" | `🟠 Important` or `🌟 MIT` |
-| "blocked on X" / "waiting for X" / "waiting on" | `🟡 Waiting` |
-| "at home" / "from home" | `🟣 Home` |
-| "at the office" | `Office` |
-| "on my laptop" / "needs computer" | `🟢 Laptop` |
+| "blocked on X" / "waiting for X" / "waiting to hear back" | `🟡 Waiting` |
 | "with Tina" / "ask Tina" / "Tina needs to" | `🔵 Tina Required` |
-| "errand" / "while I'm out" | `Errand` |
+| "most important" / "MIT" / "the one thing" | `🌟 MIT` |
 
-Max 2-3 tags. Drop anything that doesn't match cleanly.
+Max 1 tag in practice. **Do not invent priority tags** — no Urgent, no Important, no In Progress, no context tags (Home/Office/Errand/Laptop). Priority is expressed by what `/shape` puts on Today; urgency by the `deadline` field. If the user says "urgent", set a deadline and mention it, don't tag it.
 
 ## Step 3 — Notes format (scale to complexity)
 
