@@ -150,8 +150,7 @@ from urllib.parse import quote
 params = {
     "title": "Submit PR review on growth-eng#9 (Pam)",
     "notes": "...",            # raw string, newlines OK
-    "when": "today",
-    "tags": "🟢 Laptop",       # comma-separated for multiple
+    "when": "anytime",         # default — NOT today
     "list": "❇️ Supabase",     # area OR project name
 }
 encoded = "&".join(f"{k}={quote(v, safe='')}" for k, v in params.items())
