@@ -62,6 +62,15 @@ Areas and tags include emoji — preserve them exactly when passing back to Thin
 
 **Never create a new project to hold a single task.** Use the area.
 
+### Known ambiguity traps
+
+| Trap | Resolution |
+|---|---|
+| **"the office"** | Sean works from home. "Office" means the room at 41 Westwood → `🏡 41 Westwood`. Work context is signalled by Supabase/Linear/teammates, never by the word "office". |
+| **A person's name you don't recognize** | Check `~/.claude/projects/-Users-seanoliver-supabase/memory/PEOPLE.md` — it distinguishes teammates from family and friends. Don't infer work-vs-personal from a name alone. |
+| **An unfamiliar acronym** (e.g. "CCHP", "PCIT") | Don't guess the domain from the letters. Search Things for the acronym first (`mcp__things__search_items`); an existing task usually reveals the right container. If nothing, → Inbox and flag it. |
+| **Kids, school, childcare, medical** | `🙋‍♂️ Personal` area unless a more specific project exists. |
+
 ### Scheduling
 
 **Default `when: "anytime"`.** The task lands in its project, visible in Anytime, and gets scheduled later by `/shape` or `/things-review`. This is the correct outcome for the large majority of captures.
