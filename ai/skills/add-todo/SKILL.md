@@ -182,11 +182,17 @@ URL=$(cat /tmp/things_url.txt) && open "$URL"
 
 ## Step 5 — Verify
 
-After creating, query Things to confirm. The just-added task should appear in its destination list:
+After creating, confirm the task landed **in its container** — not just that it exists. A task that silently fell into Inbox because of an emoji mismatch is the most common failure here, and checking only the Today list will miss it.
+
+```bash
+osascript -e 'tell application "Things3" to get name of to dos of list "Anytime"'
+osascript -e 'tell application "Things3" to get name of to dos of list "Inbox"'   # should NOT contain it
+```
+
+Also confirm it is **not** on Today unless you deliberately scheduled it there:
 
 ```bash
 osascript -e 'tell application "Things3" to get name of to dos of list "Today"'
-osascript -e 'tell application "Things3" to get name of to dos of list "Inbox"'
 ```
 
 For an area:
