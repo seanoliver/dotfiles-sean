@@ -45,6 +45,32 @@ This number is empirical, not aspirational. Do not raise it because today looks 
 | "This one's urgent, it should also go on Today" | Then it displaces one of the 3. Say which. |
 | "It's already overdue so it must be today" | Overdue means it needs a decision, not a slot. |
 
+## Step 0 — Ask what's top of mind (do not skip)
+
+**Before reading Things, ask:**
+
+> "What's top of mind right now — anything you're already planning to work on, or worrying about?"
+
+Wait for the answer. One short question, then listen.
+
+This step exists because the ranking in Step 3 measures **who is waiting on Sean**, and that is not
+the same as **what Sean cares about**. Deadlines and blocked people are legible to Things; a project
+he's mentally living inside often isn't in Things at all. A shape built only on the queue produces a
+technically-defensible day that feels wrong, and he stops trusting the skill.
+
+Handle the answer as follows:
+
+- **Named something already in Things** → it gets a Today slot. Top-of-mind beats every ranking
+  criterion below except a hard deadline inside 48 hours or a person actively blocked *today*.
+- **Named something not in Things** → capture it (`when: "today"` if it's one of the 3, else
+  `anytime`), then shape. Never let an untracked priority stay untracked.
+- **Named more than 3 things** → tell him the cap forces a choice and ask which one or two are
+  today. Don't silently pick.
+- **Named nothing** ("no idea, that's why I'm asking") → fine, fall through to pure ranking.
+
+`work-sweep` opens with this same brain-dump for the same reason. It is the highest-signal input
+available and it costs one question.
+
 ## Step 1 — Read
 
 ```
