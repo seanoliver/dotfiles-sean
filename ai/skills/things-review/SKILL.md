@@ -44,7 +44,13 @@ Wait. Then:
 ```
 mcp__things__get_projects           # active projects
 mcp__things__get_logbook period=7d  # what actually got done
+mcp__things__get_logbook period=30d # for the stalled test
 ```
+
+**`get_logbook` and `get_anytime` both blow the token limit on this account** and get spilled to a
+file. When that happens, delegate the parsing to a subagent — give it the file path, the schema
+(`{result: string}`, records separated by `\n---\n`), and exactly what to return (per-project
+completion counts and dates). Don't try to read the raw dump into the review.
 
 **Never use the project's own `Modified` / `Age` field as an activity signal.** It does not update
 when child tasks change — 🎿 Skiing has shown "modified 9 months ago" during a week with 8
