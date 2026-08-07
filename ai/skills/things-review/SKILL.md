@@ -105,8 +105,11 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 
 - **Deadlines in the next 21 days** that have no start date. Each needs a day, or an explicit "not
   yet."
-- **`🟡 Waiting` items** — for each, is it still genuinely blocked? If it's been over two weeks,
-  the other person has probably forgotten. Offer to convert it into a follow-up task.
+- **`🟡 Waiting` items** — first separate the two things this tag conflates:
+  - *Genuinely blocked* (he asked, they haven't replied). Over two weeks → they've forgotten. Offer
+    to convert it into a follow-up nudge.
+  - *Not yet asked* (the task IS "go ask someone"). This isn't waiting at all — it's an unstarted
+    task wearing the wrong tag. Drop the tag and treat it as normal work.
 
 ## Step 5 — Capacity check
 
