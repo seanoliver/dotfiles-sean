@@ -126,15 +126,29 @@ the cap should drop to 2. Don't adjust it yourself.
 
 ## Step 6 — Apply and verify
 
-Apply every decision via `mcp__things__update_todo` / `update_project`. Then verify with AppleScript
-— **not** the MCP list readers:
+Apply every decision via `mcp__things__update_todo` / `update_project`.
+
+**Verify the mutations, not just the lists.** Checking that a list is non-empty proves nothing about
+whether a specific task got its date changed or its tag removed. Re-read the items you actually
+touched:
 
 ```bash
-osascript -e 'tell application "Things3" to get name of to dos of list "Anytime"'
+osascript <<'AS'
+tell application "Things3"
+	set t to first to do whose id is "<uuid>"
+	return (name of t) & " | " & ((activation date of t) as string) & " | " & (tag names of t)
+end tell
+AS
 ```
 
-`get_today` and `get_upcoming` have both been observed silently omitting items. Any count you report
-must come from AppleScript.
+**Any list-membership count you report must come from AppleScript**, not the MCP — `get_today` and
+`get_upcoming` have both been observed silently omitting items. Ages and Logbook stats can come from
+the MCP; those aren't affected.
+
+Things has **no MCP delete for projects**. Killing a project requires
+`osascript -e 'tell application "Things3" to delete (first project whose name is "X")'`, which moves
+it to Trash rather than destroying it. Confirm with Sean before running it, and tell him it's
+recoverable from Things' Trash.
 
 ## Output format
 
