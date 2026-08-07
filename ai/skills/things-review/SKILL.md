@@ -21,8 +21,8 @@ whole point of this review is to catch that. Lead with project health, not with 
 2. **Ask what he worked on that isn't in Things.** Untracked work is the failure mode that made a
    prior `/shape-today` run useless — the Gauge contract conversation was his top priority and had
    no task. Capture whatever surfaces.
-3. **Every stalled project gets a decision** — activate, park, or kill. "Still stalled" is not an
-   outcome; it's the same conversation next week.
+3. **Stalled projects get a decision** — activate, park, or kill. "Still stalled" is not an outcome.
+   **Max 2 per review**, oldest first; name the rest and leave them for next week.
 4. **Apply the changes.** A review whose conclusions live only in chat has to be redone.
 5. **Timebox to ~20 minutes.** If a section is generating more than a couple of decisions, capture
    the rest as a task and move on. A review he dreads is a review he skips.
