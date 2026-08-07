@@ -46,24 +46,40 @@ mcp__things__get_projects           # active projects
 mcp__things__get_logbook period=7d  # what actually got done
 ```
 
-For each active project, determine:
+**Never use the project's own `Modified` / `Age` field as an activity signal.** It does not update
+when child tasks change — 🎿 Skiing has shown "modified 9 months ago" during a week with 8
+completions in it. Derive movement from the **Logbook only**.
 
-| Signal | How |
+Assign exactly one verdict per project:
+
+| Verdict | Definition |
 |---|---|
-| Movement | completions in the last 7 days, from the Logbook |
-| Next action | does it have at least one open, dated-or-Anytime task? |
-| Stalled | zero completions in 30 days **and** nothing scheduled |
+| **moving** | ≥1 completion in the last 7 days |
+| **quiet** | no completions in 30 days, but has open tasks modified within 60 days, or any dated task |
+| **stalled** | no completions in 30 days **and** (zero open tasks **or** every open task untouched 60+ days) |
 
-Report as a compact table — project, last movement, open count, verdict. Three verdicts only:
-**moving**, **quiet**, **stalled**.
+"Quiet" is not a problem. A project with real next actions and no recent completions is just waiting
+its turn — do not force a decision on it. Only **stalled** projects need one.
 
-**Every stalled project gets a forced choice:**
+**Force at most 2 decisions per review, oldest-stalled first:**
 
-> **🧠 TheraGPT** — no completions in 4 months, 3 open tasks.
+> **🧠 TheraGPT** — no completions in 7 months, 0 open tasks.
 > → activate (give it a task this week) / park (move tasks to Someday) / kill (delete the project)?
+
+If more than 2 are stalled, name the rest in one line — *"also stalled, next review: 🏡 41 Westwood,
+❤️ Mom"* — and stop there. Because the order is deterministic (oldest first) and decided projects
+stop being stalled, next week's review resumes exactly where this one left off with no bookkeeping.
+
+This cap resolves the tension with the timebox: **completeness loses to Sean actually finishing the
+review.** Six forced decisions produces a review he abandons, which surfaces nothing at all.
 
 A project that is deliberately parked is healthy. A project that is *accidentally* parked is the
 thing this review exists to surface. Sean can't tell which is which from inside the daily loop.
+
+**If Step 0's named worry contradicts the data**, say so explicitly rather than picking a side — the
+worry is often about a system Things can't see (a Linear project, a Slack thread). Report both:
+*"Things shows movement 2 days ago, but the concern is the Linear project, which Things doesn't
+track."* Then ask whether the tracked next action actually addresses the worry.
 
 ## Step 2 — Aging backlog
 
