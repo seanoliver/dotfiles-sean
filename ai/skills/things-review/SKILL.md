@@ -55,8 +55,16 @@ Assign exactly one verdict per project:
 | Verdict | Definition |
 |---|---|
 | **moving** | ≥1 completion in the last 7 days |
-| **quiet** | no completions in 30 days, but has open tasks modified within 60 days, or any dated task |
-| **stalled** | no completions in 30 days **and** (zero open tasks **or** every open task untouched 60+ days) |
+| **quiet** | not moving, **and** has at least one open task that is dated or modified within 60 days |
+| **stalled** | not moving, **and** zero open tasks **or** every open task untouched 60+ days |
+
+These are exhaustive and ordered — test `moving`, then `quiet`, then `stalled`. A project whose last
+completion was 20 days ago is **quiet**, not an edge case; the only thing that matters after
+"moving" fails is whether a live next action exists.
+
+Flag a quiet project with an asterisk when **more than half its open tasks are 60+ days stale** —
+*"quiet\*, 9 of 12 tasks are 2–4 months old."* It doesn't need a forced decision, but it's rotting
+underneath a healthy-looking verdict and Sean should see that.
 
 "Quiet" is not a problem. A project with real next actions and no recent completions is just waiting
 its turn — do not force a decision on it. Only **stalled** projects need one.
