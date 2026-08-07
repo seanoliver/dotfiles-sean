@@ -117,6 +117,35 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 
 - **Deadlines in the next 21 days** that have no start date. Each needs a day, or an explicit "not
   yet."
+
+  The MCP can't query a date range — `search_advanced` takes an exact date. Sweep with AppleScript
+  instead (iterate lists **and** projects, then de-duplicate by name; an item in a project shows up
+  in both passes):
+
+  ```bash
+  osascript <<'AS'
+  tell application "Things3"
+  	set out to ""
+  	repeat with t in (to dos of list "Anytime")
+  		try
+  			set dd to due date of t
+  			if dd is not missing value then set out to out & (short date string of dd) & " | " & (name of t) & linefeed
+  		end try
+  	end repeat
+  	repeat with p in projects
+  		repeat with t in (to dos of p)
+  			if status of t is open then
+  				try
+  					set dd to due date of t
+  					if dd is not missing value then set out to out & (short date string of dd) & " | " & (name of t) & linefeed
+  				end try
+  			end if
+  		end repeat
+  	end repeat
+  	return out
+  end tell
+  AS
+  ```
 - **`🟡 Waiting` items** — first separate the two things this tag conflates:
   - *Genuinely blocked* (he asked, they haven't replied). Over two weeks → they've forgotten. Offer
     to convert it into a follow-up nudge.
