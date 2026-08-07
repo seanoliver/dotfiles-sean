@@ -62,6 +62,10 @@ instead. Don't shape a list that doesn't need shaping.
 A **rotter** is an item whose start date is 14+ days in the past. Because deferral always names a
 day, an old start date means it has been pushed repeatedly without a decision.
 
+**Compute the age yourself** from `Start Date` against today's date. Do not trust the `Age:` and
+`Last modified:` strings in the Things MCP output — they describe *creation* and *modification*, not
+how long the item has sat on Today, and they will disagree with the number that matters.
+
 Rotters do not get silently pushed again. Each one gets surfaced by name with its age and a forced
 choice: **do it today / schedule a specific day / Someday / delete.**
 
