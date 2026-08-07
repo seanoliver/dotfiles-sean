@@ -71,7 +71,8 @@ choice: **do it today / schedule a specific day / Someday / delete.**
 
 Items at **10–13 days** are *aging*, not yet rotters. List them in one line under the rotter section
 ("aging: X (11d), Y (10d)") without forcing a decision. This keeps the binary cutoff from hiding
-things that are one day short of it.
+things that are one day short of it. Aging items still get a normal Step 4 disposition like
+everything else — the aging line is visibility, not an exemption.
 
 This is the mechanism that prevents the list from rotting invisibly. Never skip it.
 
