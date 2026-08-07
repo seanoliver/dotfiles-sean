@@ -69,6 +69,10 @@ how long the item has sat on Today, and they will disagree with the number that 
 Rotters do not get silently pushed again. Each one gets surfaced by name with its age and a forced
 choice: **do it today / schedule a specific day / Someday / delete.**
 
+Items at **10–13 days** are *aging*, not yet rotters. List them in one line under the rotter section
+("aging: X (11d), Y (10d)") without forcing a decision. This keeps the binary cutoff from hiding
+things that are one day short of it.
+
 This is the mechanism that prevents the list from rotting invisibly. Never skip it.
 
 ## Step 3 — Pick 3
