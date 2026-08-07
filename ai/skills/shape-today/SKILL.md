@@ -200,8 +200,12 @@ Keep reasons to one line. He is deciding, not reading.
 - **Dispositioning rituals.** Leave them alone.
 - **Burying the decision.** Rotters go in their own section, not a footnote.
 - **Re-deriving capacity.** The cap is 3. Don't recompute it from today's vibes.
-- **Counting wrong.** `get_today` and AppleScript's `to dos of list "Today"` can disagree; trust
-  `get_today`, and report the number you actually re-read in Step 5.
+- **Counting wrong.** `get_today` and AppleScript disagree, and **AppleScript is the authoritative
+  one** — `get_today` has been observed omitting items. Verify with AppleScript in Step 5 and report
+  that number.
+- **Resetting start dates on the 3 picks.** Leave them alone. They're already on Today, and
+  refreshing the date to today resets the age clock — an item picked-but-not-done every day would
+  never accumulate age and never trip rotter detection. Only write the `🌟 MIT` tag.
 
 ## Out of Scope
 
