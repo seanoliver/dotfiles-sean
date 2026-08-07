@@ -86,7 +86,12 @@ track."* Then ask whether the tracked next action actually addresses the worry.
 Anytime items whose last-modified is 30+ days old, grouped by project. These are candidates, not
 condemned — present them and let him triage in bulk ("kill the whole 41 Westwood block").
 
-Cap the presented list at ~15. If there are more, say how many you're not showing.
+**Exclude any project already flagged stalled in Step 1.** Its tasks are old *because* the project
+is stalled — listing them again is the same signal twice, and it's the main thing that makes this
+review feel long.
+
+**One line per project bucket, ~10 buckets max**, not one line per task. "🏡 41 Westwood — 19 tasks,
+2–9 months" is one line. State how many buckets you're not showing.
 
 ## Step 3 — Someday resurface
 
