@@ -82,7 +82,19 @@ Rank by, in order:
 5. **The thing he'd feel best having shipped** — bias toward finishing over starting
 
 A **person** waiting outranks a **ticket or issue** being blocked. "Blocks GROWTH-1073" is rank 5
-work, not rank 2 — no human is sitting there refreshing.
+work, not rank 2 — no human is sitting there refreshing. Within rank 2, a **named individual** who
+messaged Sean directly outranks a **queue ticket** whose customer is anonymous and who has other
+channels.
+
+**Reserve one slot for proactive work.** If the first two picks are both reactive — replies,
+tickets, follow-ups, anything where someone else set the agenda — the **third slot goes to the best
+proactive item**: shipping something, finishing a parked branch, moving a project he owns.
+
+This rule exists because strict ranking is self-defeating. Reactive work always looks more urgent,
+so it wins every day, and the proactive work that actually constitutes his job never gets a slot.
+A week of all-reactive days is how a shipping drought sustains itself. If there is genuinely no
+proactive candidate on the list, say so explicitly rather than silently filling the slot with a
+third ticket.
 
 When several items tie at the same rank, break it by, in order: stated severity (an urgent ticket
 beats a low one) → how long the person has been waiting → smaller effort first, so the day starts
