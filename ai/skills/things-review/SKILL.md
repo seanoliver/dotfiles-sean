@@ -74,9 +74,13 @@ its turn — do not force a decision on it. Only **stalled** projects need one.
 > **🧠 TheraGPT** — no completions in 7 months, 0 open tasks.
 > → activate (give it a task this week) / park (move tasks to Someday) / kill (delete the project)?
 
+"Oldest" means **most recent completion date, oldest first**; for projects that have never had one,
+fall back to project creation date, and treat never-completed as older than any completed project.
+Say which ordering you used in one clause so the ranking is reproducible.
+
 If more than 2 are stalled, name the rest in one line — *"also stalled, next review: 🏡 41 Westwood,
-❤️ Mom"* — and stop there. Because the order is deterministic (oldest first) and decided projects
-stop being stalled, next week's review resumes exactly where this one left off with no bookkeeping.
+❤️ Mom"* — and stop there. Because the order is deterministic and decided projects stop being
+stalled, next week's review resumes exactly where this one left off with no bookkeeping.
 
 This cap resolves the tension with the timebox: **completeness loses to Sean actually finishing the
 review.** Six forced decisions produces a review he abandons, which surfaces nothing at all.
