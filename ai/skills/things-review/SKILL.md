@@ -97,7 +97,10 @@ thing this review exists to surface. Sean can't tell which is which from inside 
 **If Step 0's named worry contradicts the data**, say so explicitly rather than picking a side — the
 worry is often about a system Things can't see (a Linear project, a Slack thread). Report both:
 *"Things shows movement 2 days ago, but the concern is the Linear project, which Things doesn't
-track."* Then ask whether the tracked next action actually addresses the worry.
+track."* Then ask whether the tracked next action actually addresses the worry. If it does but isn't
+scheduled soon enough, offer to pull its date forward — that's the whole remediation. If there is no
+tracked action at all, capture one before moving on. Don't leave the worry discussed-but-unrecorded;
+that's the failure mode that made the Gauge conversation invisible.
 
 ## Step 2 — Aging backlog
 
