@@ -77,6 +77,14 @@ Rank by, in order:
 4. **Rotter that he chose to commit to** in Step 2
 5. **The thing he'd feel best having shipped** — bias toward finishing over starting
 
+A **person** waiting outranks a **ticket or issue** being blocked. "Blocks GROWTH-1073" is rank 5
+work, not rank 2 — no human is sitting there refreshing.
+
+When several items tie at the same rank, break it by, in order: stated severity (an urgent ticket
+beats a low one) → how long the person has been waiting → smaller effort first, so the day starts
+with a completion. An item that satisfies *two* ranks (blocked person **and** broken promise) beats
+one that satisfies a single higher rank.
+
 Each pick needs a one-line reason naming the specific fact that earned it. "Important" is not a
 reason. "Yorvi re-pinged Aug 3 after 11 days of silence, and Pam is OOO" is a reason.
 
