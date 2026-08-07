@@ -113,6 +113,9 @@ This is the mechanism that prevents the list from rotting invisibly. Never skip 
 
 Rank by, in order:
 
+0. **Top of mind** — anything he named in Step 0. This outranks everything below except a hard
+   deadline inside 48 hours or a person actively blocked today. If a top-of-mind item displaces a
+   queue item, say which one it displaced and why.
 1. **Hard external deadline** within ~7 days, or already passed
 2. **A person is blocked on Sean** — a customer, a teammate, someone waiting on a reply
 3. **A promise already broken** — he said he'd do it and went quiet (check notes for "told X I'd…")
