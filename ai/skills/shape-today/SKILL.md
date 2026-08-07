@@ -170,6 +170,8 @@ _Rituals: [names], uncapped._
 **[Title]** — on Today [N] days, pushed without resolution.
 → do it today / [specific day] / Someday / delete?
 
+_Aging: [title] (11d), [title] (10d)._
+
 ### Deferred
 | Item | To |
 |---|---|
