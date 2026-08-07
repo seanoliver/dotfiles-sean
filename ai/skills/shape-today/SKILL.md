@@ -48,9 +48,16 @@ This number is empirical, not aspirational. Do not raise it because today looks 
 ## Step 1 — Read
 
 ```
-mcp__things__get_today          # the list to shape
+mcp__things__get_today          # rich data: notes, deadlines, projects
 mcp__things__get_upcoming       # what's already committed to coming days
+osascript -e 'tell application "Things3" to get name of to dos of list "Today"'
 ```
+
+**Run both Today reads. `get_today` under-reports.** Observed 2026-08-07: it returned 26 items while
+AppleScript returned 32, silently omitting four substantive items that were genuinely on Today. Use
+`get_today` for the rich fields (notes, deadlines, project) and **AppleScript for the authoritative
+roster**. Anything in the AppleScript list but missing from `get_today` still needs a disposition —
+look it up by name to get its id.
 
 Note today's date via `date +%Y-%m-%d`. You need it to compute ages and to name deferral days.
 
