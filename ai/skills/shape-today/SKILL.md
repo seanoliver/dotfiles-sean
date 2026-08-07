@@ -93,8 +93,22 @@ Every remaining item gets exactly one:
 | **Someday** | Not now; weekly review will resurface it | `when: "someday"` |
 | **Delete** | It's dead | trash it |
 
-**Spread named days.** Do not push everything to tomorrow — that rebuilds today's pile 24 hours out.
-Check `get_upcoming` first and respect days that are already loaded.
+**Spread named days, and cap each one.** A future day may hold **at most 3 substantive items**,
+counting what `get_upcoming` shows is already scheduled there. Deferring 4 items onto Monday is the
+same overcommitment you're fixing, relocated three days out — Monday arrives and `/shape` has to
+push them all again.
+
+If a day is full, use the next open one. If you run out of days inside the next ~2 weeks, that is
+the signal that too much is being deferred rather than decided: send the overflow to **Anytime**,
+where the weekly review will surface it. Anytime is not a failure state — it's the correct home for
+"real, but not tied to a day."
+
+**Deadlines don't need to be start dates.** An item with a hard deadline 8–21 days out doesn't
+belong on a near-term day just because the deadline exists. Set `deadline`, send it to Anytime, and
+let it surface in review. Pull it onto a day when it's genuinely within striking distance.
+
+**Respect dependencies.** If item B can't start until item A is done, don't schedule them the same
+day or B before A. Chain them across consecutive open days.
 
 Propose the full set as a table, then let Sean edit inline ("no, Wave 4 Friday not Monday"). Apply
 what he lands on.
