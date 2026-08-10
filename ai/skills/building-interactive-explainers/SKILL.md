@@ -54,12 +54,24 @@ Playwright blocks `file://`, so serve it: `cd <dir> && python3 -m http.server 87
 
 Check all five, and report what you observed:
 1. **Console is clean** (a favicon 404 is fine, nothing else is).
-2. **Screenshot 3+ chapters** and actually look at them — labels colliding, geometry cropped, scene too dark to read.
+2. **Screenshot every chapter** — not a sample. Jump to each one, screenshot, and judge it against the framing rules below. Bad framing is the most common defect that survives to delivery, and it is invisible unless you look at every shot.
 3. **Seek integrity** — jump to a late chapter cold, then to an early one, then back. State must match what playing through produces.
 4. **No leaked DOM** — count `.lbl` elements at chapter 1, jump around, return to chapter 1, count again. Same number.
 5. **Mobile** — resize to 390×844 and screenshot.
 
 If a check fails, fix it and re-run. Report honestly which checks you ran.
+
+### Framing rules (apply to every chapter screenshot)
+
+The narration panel covers the lower-left corner, roughly 420×300px. The legend covers the upper right.
+
+- **The chapter's subject sits in the right two-thirds of the frame, vertically centered.** If the thing the `watch` line names is behind the panel, the camera is wrong.
+- **No more than about a third of the frame is empty sky or bare ground.** Large void = camera aimed above the action; lower `cam.pos.y` or raise `cam.tgt.y`.
+- **Nothing important is cropped by an edge.** Cropped is worse than small — when in doubt, dolly out.
+- **Labels do not overlap each other.** Two colliding labels mean the components are too close in screen space: spread the geometry, don't shrink the text.
+- **Both endpoints of a chapter's motion are visible.** If a packet flies from A to B, both A and B must be in frame, or the journey reads as a thing vanishing off-screen.
+
+A quick sanity check on any `cam` entry: the subject should span roughly half the frame width. Chapter cameras copied from an earlier build usually need re-tuning after the world's layout changes.
 
 ## Output Format
 
