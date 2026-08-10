@@ -73,6 +73,25 @@ The narration panel covers the lower-left corner, roughly 420×300px. The legend
 
 A quick sanity check on any `cam` entry: the subject should span roughly half the frame width. Chapter cameras copied from an earlier build usually need re-tuning after the world's layout changes.
 
+### Mechanical camera check — run this, don't eyeball it
+
+"Half the frame is empty sky" is the defect agents most reliably certify as fine. It has an exact cause: the camera is pitched too shallow, so the horizon sits inside the frame. Run this over the finished file and fix every chapter it flags. This is not optional and not a substitute for looking at screenshots — do both.
+
+```python
+import re, math
+s = open('<file>.html').read()
+for i, (p, t) in enumerate(re.findall(
+        r'cam:\s*\{\s*pos:\s*\[([-\d.,\s]+)\],\s*tgt:\s*\[([-\d.,\s]+)\]', s)):
+    p = [float(x) for x in p.split(',')]; t = [float(x) for x in t.split(',')]
+    rise, run = p[1] - t[1], math.hypot(p[0] - t[0], p[2] - t[2])
+    r = rise / run if run else 99
+    print(f"ch{i+1:>2} rise/run={r:5.2f} {'ok' if r >= 0.62 else 'FLAT — horizon in frame'}")
+```
+
+**Every chapter needs `rise/run >= 0.62`.** Below that, the horizon creeps into frame and the top third of the shot is empty sky. Fix by raising `cam.pos[1]` until the ratio clears — `pos.y = tgt.y + 0.65 * run`. Do not fix it by moving the camera closer; that crops the subject.
+
+Re-run the check after any layout change.
+
 ## Output Format
 
 Single file: `~/supabase/docs/learning/<topic>-lowpoly.html`. No build step, no local server needed to open it — Three.js loads from the unpkg CDN via an import map, which works from `file://` because unpkg sends `Access-Control-Allow-Origin: *`.
