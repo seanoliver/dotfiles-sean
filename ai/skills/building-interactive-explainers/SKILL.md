@@ -88,9 +88,13 @@ for i, (p, t) in enumerate(re.findall(
     print(f"ch{i+1:>2} rise/run={r:5.2f} {'ok' if r >= 0.62 else 'FLAT — horizon in frame'}")
 ```
 
-**Every chapter needs `rise/run >= 0.62`.** Below that, the horizon creeps into frame and the top third of the shot is empty sky. Fix by raising `cam.pos[1]` until the ratio clears — `pos.y = tgt.y + 0.65 * run`. Do not fix it by moving the camera closer; that crops the subject.
+**Every chapter needs `rise/run >= 0.62`.** Below that, the horizon creeps into frame and the top of the shot is empty sky. Fix by raising `cam.pos[1]` until the ratio clears — `pos.y = tgt.y + 0.65 * run`.
 
-Re-run the check after any layout change.
+This check catches horizon-in-frame and nothing else. It will pass a shot whose subject is a tiny object marooned in a field of empty ground — a different defect with a different fix:
+
+**The subject must span at least ~40% of the frame width.** If it doesn't, the camera is too far away. Shorten the distance from `tgt` (scale `pos - tgt` down) and re-run the pitch check, since shortening the run also raises the ratio. As a starting point, distance from target ≈ 2.5× the subject's own width. A chapter about one building frames that building; it does not frame the whole world with the building in it.
+
+Re-run both checks after any layout change.
 
 ## Output Format
 
