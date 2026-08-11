@@ -205,6 +205,9 @@ Mark the single most important one `🌟 MIT` — **and apply that tag in Things
 star. Clear it from whatever held it previously. A star that exists only in the chat reply violates
 this skill's core principle. In bucket mode, tag the **project row itself**, not a task inside it.
 
+The tag string is exactly `🌟 MIT`, emoji included. Writing `MIT` creates a second, duplicate tag in
+Things rather than reusing the existing one.
+
 ## Step 4 — Disposition everything else
 
 Every remaining item gets exactly one:
