@@ -1,6 +1,6 @@
 ---
 name: shape-today
-description: Use when Sean sits down to work and wants to decide what he's actually doing today, when his Things Today list has grown past what he can finish, or when he asks what should I work on / plan my day / what's on today / shape my day / triage today. Also use when returning after days away and Today has accumulated.
+description: Use when Sean sits down to work and wants to decide what he's actually doing today, when his Things Today list has grown past what he can finish, or when he asks what should I work on / plan my day / what's on today / shape my day / triage today. Also use when returning after days away and Today has accumulated, when several big initiatives are running at once, or when the day's work is interconnected project pieces rather than discrete tasks.
 ---
 
 # Shape Today
