@@ -90,6 +90,12 @@ in Things plus shared context plus real split-cost is the test.
 | "Categorizing them in my reply is enough" | The reply evaporates. Things is the record. |
 | "This one's urgent, it should also go on Today" | Then it displaces one of the 3. Say which. |
 | "It's already overdue so it must be today" | Overdue means it needs a decision, not a slot. |
+| "It's only two minutes, it doesn't really count" | Nothing is free. Either it's inside a bucket or it's a fourth unit. |
+| "It's already drafted, it's a paste-and-send, not a project" | Effort is not the unit. Commitment is. Still a fourth item wearing a hat. |
+| "These are all sort of the same initiative" | Run the four-part admission test. Vibes-based grouping is the loophole. |
+| "Bucket mode, so the cap doesn't really apply today" | The cap never stops applying. Bucket mode changes the unit, not the number. |
+| "I'll just leave the whole project on Today, it's one bucket" | A bucket is 2–6 tasks you'll actually touch, not a project's full backlog. |
+| "I counted buckets today and line items for the deferrals" | Pick one unit and hold it through Step 4. Mixed counting hides overcommitment. |
 
 ## Step 0 — Ask what's top of mind (do not skip)
 
