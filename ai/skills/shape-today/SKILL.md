@@ -335,4 +335,8 @@ Keep reasons to one line. He is deciding, not reading.
   and nothing else.
 - **Doing the work.** Shape the day, then stop. Don't start executing the first item unless asked.
 - **Re-litigating the cap.** If Sean wants a different number he'll say so; take his instruction for
-  that session and don't argue. Do not change it on your own initiative.
+  that session and don't argue. Do not change it on your own initiative. Bucket mode is not a
+  loophole for this — it changes what counts as one, never how many.
+- **Restructuring his projects.** Bucket mode reads the project structure already in Things. Don't
+  create projects, split them, or re-parent tasks to make buckets come out neatly. The one exception
+  is moving a blocker into the bucket it unblocks.
