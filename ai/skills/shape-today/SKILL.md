@@ -163,6 +163,10 @@ This is the mechanism that prevents the list from rotting invisibly. Never skip 
 
 ## Step 3 — Pick 3
 
+Pick three units. In bucket mode, rank the buckets themselves by the criteria below using their
+strongest member task — an incident with a customer waiting ranks on that customer, not on its
+average task.
+
 Rank by, in order:
 
 0. **Top of mind** — anything he named in Step 0. This outranks everything below except a hard
