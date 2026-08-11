@@ -203,7 +203,7 @@ reason. "Yorvi re-pinged Aug 3 after 11 days of silence, and Pam is OOO" is a re
 
 Mark the single most important one `🌟 MIT` — **and apply that tag in Things**, don't just print the
 star. Clear it from whatever held it previously. A star that exists only in the chat reply violates
-this skill's core principle.
+this skill's core principle. In bucket mode, tag the **project row itself**, not a task inside it.
 
 ## Step 4 — Disposition everything else
 
