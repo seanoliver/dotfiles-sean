@@ -317,6 +317,13 @@ Keep reasons to one line. He is deciding, not reading.
 - **Resetting start dates on the 3 picks.** Leave them alone. They're already on Today, and
   refreshing the date to today resets the age clock — an item picked-but-not-done every day would
   never accumulate age and never trip rotter detection. Only write the `🌟 MIT` tag.
+- **Letting a bucket smuggle in a freebie.** Observed 2026-08-11: a token refresh stayed on Today as
+  "only 2 minutes, and it unblocks the incident." It was a fourth unit. It belonged *inside* the
+  incident project, moved there in Things.
+- **Bucketing by vibes.** Three tasks that merely share a topic are three tasks. Run the four-part
+  admission test and say which part each bucket passed on.
+- **A bucket with no tail.** Eight tasks and no statement of what drops when the day compresses is
+  not a plan, it's the old overgrown list with a project name on top.
 
 ## Out of Scope
 
