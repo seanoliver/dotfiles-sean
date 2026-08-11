@@ -278,6 +278,30 @@ _Aging: [title] (11d), [title] (10d)._
 Applied: Today now has 3 + N rituals (was M).
 ```
 
+**Bucket mode** replaces the three title blocks with three bucket blocks, and reports both counts:
+
+```markdown
+## Today — [Day, Mon D]
+
+Three project-level commitments. [M] loose items → 3 units.
+
+**🌟 [Project name]** — [N] tasks
+[one-line reason the bucket earned the slot]
+Order: [a] → [b] → [c]. Droppable tail: [task].
+
+**[Project name]** — [N] tasks
+[reason]
+Order: [...]. Droppable tail: [task].
+
+**[Project name]** — [N] task(s)
+[reason]
+
+_Rituals: uncapped._
+
+---
+Applied and verified: Today is 3 units ([K] line items) + N rituals, was M loose items.
+```
+
 Keep reasons to one line. He is deciding, not reading.
 
 ## Common mistakes
