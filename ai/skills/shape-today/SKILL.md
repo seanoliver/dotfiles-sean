@@ -216,8 +216,10 @@ Every remaining item gets exactly one:
 | **Someday** | Not now; weekly review will resurface it | `when: "someday"` |
 | **Delete** | It's dead | trash it |
 
-**Spread named days, and cap each one.** A future day may hold **at most 3 substantive items**,
-counting what `get_upcoming` shows is already scheduled there. Deferring 4 items onto Monday is the
+**Spread named days, and cap each one.** A future day may hold **at most 3 substantive units**,
+counting what `get_upcoming` shows is already scheduled there. Use the same unit you used for Today
+— if a cluster of tasks moves to Wednesday together and it passed the admission test, it lands as
+one unit; if it didn't pass, it lands as several and fills the day accordingly. Deferring 4 items onto Monday is the
 same overcommitment you're fixing, relocated three days out — Monday arrives and `/shape` has to
 push them all again.
 
