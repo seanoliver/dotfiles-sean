@@ -22,9 +22,55 @@ do not count.
 
 This number is empirical, not aspirational. Do not raise it because today looks like a good day.
 
+The cap counts **units of commitment**, not line items. Normally a unit is one task. On days when
+whole initiatives are in flight, a unit can be a bucket — see below. Either way, **three.**
+
+## Bucket mode
+
+Some days the work doesn't decompose. An active incident is not eight tasks, it's one thing with
+eight moving parts, and staffing "three of the eight" leaves the incident unstaffed. Bucket mode
+lets a **project count as one unit**, so the cap describes the day honestly instead of forcing a
+fiction.
+
+**Default is discrete tasks.** Use bucket mode only when Sean asks for it, or when Step 0 surfaces
+two or more multi-task initiatives and the flat cap would obviously misdescribe the day. Say which
+mode you're in, in the first line of the output.
+
+### Admission test — a bucket must pass ALL four
+
+1. **It is a real Things project or area**, not a grouping you invented during the shape.
+2. **It has 2+ tasks on Today.** A one-task project is a task. Call it a task.
+3. **The tasks share one working context** — same incident, same dataset, same document, same
+   person. You load the context once and it serves all of them.
+4. **Splitting it across days costs rework** — re-reading the same export, re-establishing the same
+   thread, re-deriving the same numbers.
+
+Fails any one of these? It is not a bucket. Its tasks are individual items competing for the three
+slots like everything else. **"These are all kind of related" is not the test.** Same project field
+in Things plus shared context plus real split-cost is the test.
+
+### Rules once you're in bucket mode
+
+- **Three buckets maximum.** Not three buckets plus loose tasks. Not "two buckets and these four
+  quick ones." Mixed is fine — two buckets and one discrete task is three units — but the total is
+  always three.
+- **Every bucket names a droppable tail.** State the one task inside it that goes if the day
+  compresses. A bucket without a tail is a blank check, and blank checks are how the cap dies.
+- **Every bucket gets a one-line internal order**, including dependencies. "Validate the export →
+  verify their claims → post the update carrying both answers" is the deliverable, not a task list.
+- **Blockers live inside the bucket they unblock.** A two-minute chore that unblocks a bucket task
+  is not a free extra item floating beside the three — it is part of that bucket. Move it into the
+  project in Things (`list_id` / `list`) so the grouping is real and not just narration.
+- **Buckets over ~6 tasks get called out.** Say plainly which tasks are genuinely today and which
+  are the project's backlog that drifted onto Today, and disposition the backlog like anything else.
+  A bucket is not permission to leave an entire project sitting on Today.
+- **The unit is consistent across the whole shape.** If buckets are the unit for Today, they are the
+  unit for the Step 4 day caps too. Don't count buckets on Today and line items on Wednesday.
+
 ## Hard rules
 
-1. **Exactly 3 substantive items on Today.** Not 4, not "3 plus a couple quick ones."
+1. **Exactly 3 substantive units on Today.** Not 4, not "3 plus a couple quick ones." A unit is one
+   task, or one bucket that passed the admission test above.
 2. **No optional tier.** No "quick wins," "stretch goals," "if you have time," or "bonus" section.
    A soft tier is how the cap gets defeated — the baseline agent that this skill replaces produced
    3 committed + 3 "quick wins" + 5 "parked," which is just the old 11-item list with headings.
