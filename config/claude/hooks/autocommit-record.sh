@@ -46,4 +46,5 @@ esac
 
 mkdir -p "$LEDGER_DIR" 2>/dev/null || exit 0
 printf '%s\n' "$rel" >> "$LEDGER_DIR/$sid.paths"
+echo "[$(date -u +%FT%TZ)] record: $rel ($sid)" >> "$LOG"
 exit 0
