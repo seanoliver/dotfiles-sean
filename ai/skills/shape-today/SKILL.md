@@ -334,7 +334,7 @@ Keep reasons to one line. He is deciding, not reading.
   with `when: "anytime"` and keep going — never add it to today's 3.
 - **Backlog review.** Aging reports, stalled projects, Someday resurfacing, tag hygiene — all
   `/things-review`. This skill only touches Today and the items on it.
-- **Cross-tool sweeps.** Slack, Linear, Gmail, GitHub — that's `work-sweep`. This skill reads Things
+- **Cross-tool sweeps.** Slack, Linear, GitHub — that's `work-sweep`. This skill reads Things
   and nothing else.
 - **Doing the work.** Shape the day, then stop. Don't start executing the first item unless asked.
 - **Re-litigating the cap.** If Sean wants a different number he'll say so; take his instruction for

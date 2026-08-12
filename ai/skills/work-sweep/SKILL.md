@@ -1,15 +1,15 @@
 ---
 name: work-sweep
-description: Sweeps across Slack, Linear, Notion, GitHub, Things 3, and personal Gmail to produce a full prioritized inventory of open work, pending follow-ups, and next actions. Use this skill whenever the user wants to get up to speed on everything they have going on — even if they don't use the phrase "work sweep". Trigger on phrases like "what do I have open", "get me up to speed", "what should I work on", "show me everything I'm working on", "I've lost track of my threads", "what are my priorities", "catch me up", "what's on my plate", "end of day check-in", "start of week check-in", or any variant of "what do I need to follow up on". Also trigger if the user asks to look across multiple tools (Slack + Linear, GitHub + Notion, etc.) for a status summary.
+description: Sweeps across Slack, Linear, Notion, GitHub, and Things 3 to produce a full prioritized inventory of open work, pending follow-ups, and next actions. Use this skill whenever the user wants to get up to speed on everything they have going on — even if they don't use the phrase "work sweep". Trigger on phrases like "what do I have open", "get me up to speed", "what should I work on", "show me everything I'm working on", "I've lost track of my threads", "what are my priorities", "catch me up", "what's on my plate", "end of day check-in", "start of week check-in", or any variant of "what do I need to follow up on". Also trigger if the user asks to look across multiple tools (Slack + Linear, GitHub + Notion, etc.) for a status summary.
 ---
 
 # Work Sweep
 
-A parallel sweep across six sources — Slack, Linear, Notion, GitHub, Things 3, and personal Gmail — to give you a complete, prioritized picture of everything open in one shot.
+A parallel sweep across five sources — Slack, Linear, Notion, GitHub, and Things 3 — to give you a complete, prioritized picture of everything open in one shot.
 
 ## Why this works
 
-Your work is spread across systems that don't talk to each other. A Linear issue might have an open Slack thread, a GitHub PR, and a related Things task. Personal Gmail has commitments that never make it into work tools. This skill gathers all six simultaneously and synthesizes them into a single prioritized view organized by what needs action — not by which tool it came from.
+Your work is spread across systems that don't talk to each other. A Linear issue might have an open Slack thread, a GitHub PR, and a related Things task. This skill gathers all five simultaneously and synthesizes them into a single prioritized view organized by what needs action — not by which tool it came from.
 
 It also bookends the sweep with the user's own framing — a top-of-mind brain-dump up front (Phase 0) and a Things Today reconciliation at the end (Phase 5). The brain-dump becomes a prior the synthesis uses to merge "different cuts at the same big thing" into one entry. The Today reconciliation makes Things the canonical record of the agreed-upon plan, so the sweep's output doesn't evaporate the moment the conversation ends.
 
@@ -32,11 +32,11 @@ Do NOT ask follow-up questions yet. The sweep will fill in most context. The onl
 
 Acknowledge the brain-dump in one line ("Got it — N items noted. Sweeping now."), then proceed to Phase 1.
 
-**Why this comes first:** The sweep returns dozens of items across six sources. The user's top-of-mind list tells you which sweep items are facets of the same mental project vs genuinely separate concerns. Without this prior, the report fragments one initiative into three entries because they came from three tools.
+**Why this comes first:** The sweep returns dozens of items across five sources. The user's top-of-mind list tells you which sweep items are facets of the same mental project vs genuinely separate concerns. Without this prior, the report fragments one initiative into three entries because they came from three tools.
 
-## Phase 1: Launch All Six Agents in Parallel
+## Phase 1: Launch All Five Agents in Parallel
 
-Dispatch all six background agents **in a single message** (parallel, not sequential). Announce to the user: "Sweeping across Slack, Linear, Notion, GitHub, Things, and personal Gmail in parallel — this will take 2-3 minutes."
+Dispatch all five background agents **in a single message** (parallel, not sequential). Announce to the user: "Sweeping across Slack, Linear, Notion, GitHub, and Things in parallel — this will take 2-3 minutes."
 
 **Model:** Always use `model: "sonnet"` for all agents — never Haiku. These agents make nuanced judgment calls (filtering noise, identifying follow-ups, reading context across threads). Haiku has demonstrated hallucinating PRs that don't exist, missing permalinks entirely, and misapplying filter logic. Sonnet is required, no exceptions.
 
@@ -186,46 +186,15 @@ Use mcp__things__ tools.
 
 ---
 
-### Agent 6: Personal Gmail
-
-```
-Search the user's personal Gmail (helloseanoliver@gmail.com) for anything unread or stale in the inbox. This is personal email, not work — adjust the noise filter accordingly.
-
-All google_workspace Gmail tool calls require the `user_google_email` parameter. Always pass `user_google_email: "helloseanoliver@gmail.com"`.
-
-1. Unread in inbox: search `is:unread in:inbox` (page_size ~50). For each unread thread, decide if it's:
-   a. Action-required — a human asking a question, a bill/deadline, a personal commitment, something awaiting the user's reply. Include these in "Ball in user's court".
-   b. Noise — newsletter, promotional email, automated notification, receipt. Do not surface individually; count them instead (e.g., "~23 unread newsletters and notifications also present").
-2. Stale inbox: search `in:inbox older_than:2w`. For each stale thread, check if it's something that was intended to be acted on but got buried. If the subject/snippet suggests it was meaningful (reply from a person, flagged/starred, attached invoice, etc.), surface it as a Background Reminder. Skip obvious newsletters and promotional mail.
-3. Starred: search `is:starred`. Include any starred items not already captured above as Background Reminders.
-
-For each surfaced thread, capture:
-- Subject
-- From (name and email)
-- A one-line snippet or summary of what it appears to want
-- Approximate age (e.g., "3 days", "2 weeks", "1 month")
-- The Gmail web URL returned by the search tool
-
-Return a structured summary with these categories:
-- **Ball in user's court** — unread threads from humans that appear to want a reply or action. Each one short: subject, who, what they want, link.
-- **Background reminders** — stale inbox items (>2 weeks) that look meaningful but have been sitting. Each one-liner.
-- **Starred** — anything starred that isn't already surfaced above.
-- **Noise count** — a rough count of unread newsletters/automated mail so the user has a sense of inbox volume without listing each one.
-
-Use mcp__google_workspace__ tools. Always pass `user_google_email: "helloseanoliver@gmail.com"`.
-```
-
----
-
 ## Phase 2: Wait, Synthesize, Route
 
-Once all six agents complete, cross-reference their results and route each item into the right output section. The same piece of work often shows up in multiple places (a Linear issue + GitHub PR + Slack thread + Things task). **Group those into a single numbered entry**, not separate entries per source.
+Once all five agents complete, cross-reference their results and route each item into the right output section. The same piece of work often shows up in multiple places (a Linear issue + GitHub PR + Slack thread + Things task). **Group those into a single numbered entry**, not separate entries per source.
 
 ### Overlay the top-of-mind list (Phase 0)
 
 Before applying the routing guide, take the brain-dump captured in Phase 0 and use it as the spine of the synthesis:
 
-1. **Match each Phase 0 item to sweep results.** For every brain-dump item, find all sweep items that plausibly relate to it across the six sources (Linear issue, GitHub PR, Slack thread, Things task, Notion doc, Gmail thread). Group them under the user's framing — use the user's phrasing as the entry title. This is how "different cuts at the same big thing" collapse into one numbered entry instead of three.
+1. **Match each Phase 0 item to sweep results.** For every brain-dump item, find all sweep items that plausibly relate to it across the five sources (Linear issue, GitHub PR, Slack thread, Things task, Notion doc). Group them under the user's framing — use the user's phrasing as the entry title. This is how "different cuts at the same big thing" collapse into one numbered entry instead of three.
 2. **Elevate priority.** Items the user surfaced in Phase 0 should generally rank higher in the Priority Order — they're signaling these matter today. Don't blindly put them at the top, but use this as a tie-breaker against equally-urgent sweep-only items.
 3. **Flag capture candidates.** For each Phase 0 item that has NO matching Things task in the sweep results, mark it as a "needs Things capture" candidate. These get handled in Phase 5. Note: an item may exist in Linear/GitHub/Notion but not Things — that still counts as a capture candidate, since Things is the canonical day plan.
 4. **Note unmatched sweep items.** Sweep items that don't relate to anything in Phase 0 still appear in the report — the user can't have everything top-of-mind. They just don't get the elevation bump.
@@ -235,10 +204,10 @@ Before applying the routing guide, take the brain-dump captured in Phase 0 and u
 Use the agent's category hints, but exercise judgment where items overlap:
 
 - **Active Projects** ← Linear active projects, Notion active project docs, any multi-thread initiative with work spread across sources. If you see three items from three sources that are clearly the same project, merge them.
-- **Your Move** ← Slack "ball in user's court", Linear assigned + In Progress / Todo / Triage, Notion open action items, Things 3 Today, Things 3 Inbox items that look active, Gmail "ball in user's court".
+- **Your Move** ← Slack "ball in user's court", Linear assigned + In Progress / Todo / Triage, Notion open action items, Things 3 Today, Things 3 Inbox items that look active.
 - **PRs Awaiting Your Review** ← GitHub review requests only.
 - **Upcoming** ← Things 3 Upcoming, any near-term deadlines (<1 week) from other sources, scheduled items.
-- **Background Reminders** ← Things 3 Someday, Gmail stale inbox + starred, Slack stale bookmarks, Notion background context. One-liners — not full entries.
+- **Background Reminders** ← Things 3 Someday, Slack stale bookmarks, Notion background context. One-liners — not full entries.
 
 ### Filtering dismissed items
 
@@ -251,7 +220,7 @@ For each candidate item in the report, check if any of its URLs match a URL in t
 
 **The default deliverable is an interactive HTML app, not an in-thread report (see Phase 3.5).** This section defines the *content model* — the sections, numbering, and link rules the app renders. Do NOT print this full structure in the chat thread unless the user explicitly asks for "both" or "in-thread" output. Build the content mentally (or as a scratch outline), then render it as the app in Phase 3.5.
 
-Every item must carry at least one link — GitHub URL, Linear URL, Slack permalink, Notion URL, Things deep link, or Gmail web URL. Every item must be immediately actionable: a glance tells the user what to do and a click takes them to it.
+Every item must carry at least one link — GitHub URL, Linear URL, Slack permalink, Notion URL, or Things deep link. Every item must be immediately actionable: a glance tells the user what to do and a click takes them to it.
 
 ### Item numbering
 
@@ -272,12 +241,11 @@ Example format:
 
 ### Your Move
 
-Everything where the ball is in the user's court — tasks to do, questions to answer, commitments to complete, decisions to make. Pulls from Things Today, Linear assigned, Slack replies needed, Gmail replies needed, and Notion action items. Each item is one line: what it is, where it's from (icon or short tag), link.
+Everything where the ball is in the user's court — tasks to do, questions to answer, commitments to complete, decisions to make. Pulls from Things Today, Linear assigned, Slack replies needed, and Notion action items. Each item is one line: what it is, where it's from (icon or short tag), link.
 
 Example format:
 > **[2] Reply to Ivan re: attribution phase 2 timing** — Slack DM, 2 days old. He needs an answer before Friday. [[thread]](https://...)
 > **[3] Draft PostHog renewal response** — Things Today. Deadline April 3. [[task]](things:///show?id=...)
-> **[4] Bill from Con Edison** — Gmail unread, 4 days old. Due April 30. [[email]](https://mail.google.com/...)
 
 ---
 
@@ -299,14 +267,13 @@ Example format:
 
 ### Background Reminders
 
-Things Someday, stale Gmail inbox (>2 weeks), starred items, dusty Slack bookmarks, Notion background context. These aren't actionable today — they're here so nothing rots. One terse line each. End with inbox-volume counts (e.g., "~23 unread newsletters in personal Gmail").
+Things Someday, starred items, dusty Slack bookmarks, Notion background context. These aren't actionable today — they're here so nothing rots. One terse line each.
 
 Example format:
 > **[15] Someday: migrate Cortex to Obsidian Sync** — [[task]](things:///show?id=...)
 > **[16] Stale: "Your kraken order has shipped" (5 weeks)** — [[email]](https://mail.google.com/...)
 > **[17] Bookmark: Anthropic prompt caching docs (3 weeks old)** — [[slack]](https://...)
 >
-> *Inbox volume: ~23 unread newsletters/automated mail in personal Gmail.*
 
 ---
 
@@ -346,7 +313,7 @@ The sweep ships as a self-contained interactive HTML app backed by a tiny local 
 ### Item data model (required for interactions to work)
 
 - **`data-id` on every `<li class="item">`** = the item's sequential number. The SAME id appears on an item's Priority row AND its Your Move row — actions key off `data-id` and apply to all matching nodes, so "mark done" / "dismiss" propagate across both.
-- **`ITEMS` JS registry** maps `id → {label, url}` where `url` is the item's PRIMARY url by preference order: Linear > GitHub > Notion > Things > Gmail > Slack. This is the single source dismiss reads — keep it complete for every id, including ones that live in only one section.
+- **`ITEMS` JS registry** maps `id → {label, url}` where `url` is the item's PRIMARY url by preference order: Linear > GitHub > Notion > Things > Slack. This is the single source dismiss reads — keep it complete for every id, including ones that live in only one section.
 - **Project chips** — items belonging to an active project carry `<a class="proj-chip" href="#project-N">↳ Project Name</a>`. Project cards get `id="project-N"`.
 - **Next-step propagation** — each project's `Next:` action also appears as its own Priority + Your Move item, tagged `<span class="nextstep-tag">★ Next step · Project</span>`, and the project's `Next:` line links down to it (`Your Move #N`).
 - Items that are not actionable (e.g. an OOO block) get NO action toolbar. In `example-report.html` the toolbar-injection loop opens `if (!id || id === "22") return;` — replace `"22"` with the actual id(s) of any non-actionable items in this sweep (comma-check or array `.includes`).
@@ -370,7 +337,7 @@ Chat-based fallback — when the user says "cut N" in the thread instead of usin
 
 1. Look up the numbered items they referenced.
 2. For each item, extract the **primary URL** (the most stable identifier). Preference order:
-   Linear issue URL > GitHub PR URL > Notion page URL > Things deep link > Gmail web URL > Slack permalink.
+   Linear issue URL > GitHub PR URL > Notion page URL > Things deep link > Slack permalink.
 3. Append each to the dismissed items file at `~/.claude/projects/-Users-seanoliver-supabase/memory/work-sweep-dismissed.md` using the format:
    ```
    - YYYY-MM-DD | <primary URL> | "<short label>" | <reason if provided>

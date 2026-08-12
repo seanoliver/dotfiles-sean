@@ -245,7 +245,7 @@ Applied: [what changed]
 
 - **Choosing today's tasks.** That's `shape-today`. This skill may schedule items onto future days,
   but it never builds the Today list.
-- **Cross-tool sweeps.** Slack, Linear, Gmail, GitHub — `work-sweep`. This reads Things only.
+- **Cross-tool sweeps.** Slack, Linear, GitHub — `work-sweep`. This reads Things only.
 - **Capture-by-default.** New items surfaced in Step 0 get captured, but don't turn the review into
   a brainstorming session.
 - **Restructuring areas, projects, or tags.** If the structure feels wrong, note it and take it up
