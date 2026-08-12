@@ -64,7 +64,6 @@ Length budget: ~10–15 lines total. Long threads still get short triage.
 This skill does NOT:
 - Draft the actual reply — hand off to `message-crafter` after triage
 - Sweep multiple Slack threads or other tools — that's `work-sweep`
-- Triage Gmail — that's `inbox-triage`
 - Decide whether assigned future work is worth doing — surface the assignment, let the user judge
 - Act on the thread (send a message, add reactions, mark unread)
 - Summarize threads the user posted themselves and is monitoring (no @-mention triage needed)
