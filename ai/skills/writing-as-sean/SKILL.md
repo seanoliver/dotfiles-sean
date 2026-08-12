@@ -37,6 +37,7 @@ Ask the question about the artifact, not about your intent. The case that gets m
     - Ask: "What do you need from us?" Not: "What do you need from us? I'm assuming prompt format and repo specification, but tell me if there's more."
     - Introduce: "Here are the six prompts we'd like to run in the next wave." Not: "Here are the six prompts. Four leave the choice to the agent, two name Supabase as controls."
     - Facts stand on their own. Questions stand on their own. Material speaks for itself.
+11. **Never claim an action you did not take.** Search the draft for: *ran, tested, verified, confirmed, checked, spot-checked, reproduced, measured, deployed, reviewed, validated, all green, passing*. For every hit, name the evidence: the command, the output you read, the page you loaded. No evidence means you did not do it, and writing what a person would normally have done in that situation is the violation. Two options only, and reaching for a third is the failure: delete the claim, or write `unverified` beside it and name who closes it. `Testing: unverified. Needs a manual pass on the modal before merge.` A template demanding a Testing or Validation section does not license filling it. A section naming what is still unchecked is correct and costs nothing. A section describing work nobody did is the one a reviewer merges on. Scope note: inside a Testing or Validation section these statements are the required content, so the evidence-deletion search in Self-check does not apply there. Everywhere else it still does.
 
 ## Self-check
 
@@ -55,6 +56,7 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Find every question mark. If the next sentence answers the question, delete it.
 - [ ] Find every list, quote, or block. If the sentence before it describes what is in it, delete that description.
 - [ ] Find any list of options you considered and rejected. Delete it. State the choice.
+- [ ] **Search for: *ran, tested, verified, confirmed, checked, spot-checked, reproduced, measured, deployed, reviewed, validated, all green, passing*.** For every hit, name the evidence out loud. Any hit you cannot attach evidence to is deleted or marked `unverified`. Count of unevidenced claims must be zero.
 - [ ] For every sentence that survived a cut: would the reader act differently without it? If not, cut it now.
 
 The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.

@@ -38,6 +38,8 @@ Re-read this template before writing; it may have evolved. If you find a section
 
 **Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, phrasing, the em-dash ban, bullets-over-prose, and section-title style. Do not restate its rules here.
 
+Its **Rule 11, never claim an action you did not take**, is load-bearing for this skill in particular. A PR description is the artifact a reviewer merges on, and the Testing section is where an invented claim does the damage.
+
 PR-specific additions only:
 
 - **For testing**, describe what you actually tested, not formal test cases.
@@ -101,7 +103,11 @@ When you do include it, cover: whether data integrity is affected, what gating l
 
 ### Testing
 
-What you actually verified. Prefer a **flat bullet list** when there are multiple paths; prefer casual narration when there's one or two ("Ran the e2e suite locally, all green. Spot-checked the new toggle in Chrome and Safari."). Don't write formal test cases. Don't list every test name — reviewers know what tests exist.
+What you actually verified, and nothing else. Before writing a word here, list the commands you ran and the output you read. That list is the only material this section may contain. If it is empty, this section says so: `unverified. Needs a local pass on the grid before merge.` An honest gap costs a reviewer thirty seconds. An invented pass costs them the bug.
+
+Do not describe the checks a person would normally run on a change like this. That is the failure mode this section exists to prevent, and it is convincing enough to merge on.
+
+Format: a **flat bullet list** for multiple paths, casual one-line narration for one or two. No formal test cases. Don't list every test name, since reviewers know what tests exist.
 
 ### Post-deploy expectations (optional)
 

@@ -65,6 +65,8 @@ Write a message that is **3-5 sentences max**. Apply these principles:
 
 **Voice is owned by `writing-as-sean`.** That skill is the source of truth for tone, phrasing, and the em-dash ban. Read it before drafting. This skill owns the *process* (find the core ask, one ask per message) and the *shape* (short, one point). It does not own voice.
 
+Its **Rule 11, never claim an action you did not take**, applies to every factual claim you put in Sean's mouth. A message reporting status to a teammate is the highest-risk case: `I've deployed it`, `that's fixed now`, `I checked and it's fine` are commitments Sean has to honor, made from your inference about what happened. If the source material does not say it plainly, ask him instead of drafting it.
+
 **Flexible on format, not on substance.** "Happy to chat async or hop on a call, whatever works" is better than proposing three meeting times. It signals flexibility without neediness.
 
 **Match tone to context.** Read the thread's existing tone. If it's casual, be casual. If it's more formal, match that. Don't be the person who shifts the register.

@@ -47,6 +47,8 @@ Sub-bullets under a top-level item do NOT get the name prefix.
 
 **Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, the em-dash ban, evidence discipline, and phrasing. This skill owns only the weekly-update format below.
 
+Its **Rule 11, never claim an action you did not take**, applies to every bullet here. A weekly update is written about a week you did not observe: you have Sean's notes, not his session. Shipped, merged, fixed, and unblocked are claims about the world, so each one traces to something in the notes or it does not go in. When a note is ambiguous about whether something landed, ask rather than picking the confident reading.
+
 **Bullet length**: Changelog items are one line. Notes items can be longer with sub-bullets for supporting details, links, or context.
 
 **Weekly-update conventions**:
