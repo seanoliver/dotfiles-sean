@@ -271,7 +271,6 @@ Things Someday, starred items, dusty Slack bookmarks, Notion background context.
 
 Example format:
 > **[15] Someday: migrate Cortex to Obsidian Sync** — [[task]](things:///show?id=...)
-> **[16] Stale: "Your kraken order has shipped" (5 weeks)** — [[email]](https://mail.google.com/...)
 > **[17] Bookmark: Anthropic prompt caching docs (3 weeks old)** — [[slack]](https://...)
 >
 
