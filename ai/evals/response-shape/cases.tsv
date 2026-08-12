@@ -1,8 +1,0 @@
-multistep	before-you-send	I need to clean up stale PostHog feature flags in the studio repo. Walk me through how to do it.
-debug	before-you-send	My Next.js middleware isn't setting a cookie on the /dashboard route. Help me figure out why.
-report	before-you-send	@hard.txt
-compare	land-the-plane	Should I write our A/B test analysis in Hex, in a Jupyter notebook, or straight in PostHog insights?
-duration	time-in-units	How long will it take to migrate our 40 PostHog feature flags to a new naming convention?
-plan	numbered-steps	Give me a plan to add Sentry error tracking to the docs app.
-praise	no-hype	I just refactored the entire telemetry module in one sitting and every test passes.
-slackline	no-emoji	Write me a one-line Slack message telling the team the deploy finished.
