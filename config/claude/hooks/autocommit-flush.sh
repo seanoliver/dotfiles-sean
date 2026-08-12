@@ -57,7 +57,8 @@ fi
 
 n=${#paths[@]}
 if [ "$n" -le 3 ]; then
-  subject="dotfiles: update $(IFS=', '; echo "${paths[*]}")"
+  joined=$(printf '%s, ' "${paths[@]}")
+  subject="dotfiles: update ${joined%, }"
 else
   subject="dotfiles: update $n files (${paths[0]}, ${paths[1]}, +$((n - 2)) more)"
 fi
