@@ -1,6 +1,6 @@
 ---
 name: slack-mention-triage
-description: Use when the user shares a Slack thread URL where they were @-mentioned and asks "what should I do with this?", "do I need to act on this?", "am I on the hook here?", "summarize this thread", or pastes a Slack URL with no other context. Also use when the user is overwhelmed by a long thread and wants ambient awareness before deciding whether to engage. Do NOT use for Gmail (use inbox-triage), multi-tool sweeps (use work-sweep), or drafting the actual reply (use message-crafter).
+description: Use when the user shares a Slack thread URL where they were @-mentioned and asks "what should I do with this?", "do I need to act on this?", "am I on the hook here?", "summarize this thread", or pastes a Slack URL with no other context. Also use when the user is overwhelmed by a long thread and wants ambient awareness before deciding whether to engage. Do NOT use for multi-tool sweeps (use work-sweep) or drafting the actual reply (use message-crafter).
 allowed-tools: mcp__claude_ai_Slack__slack_read_thread, mcp__claude_ai_Slack__slack_read_channel, mcp__claude_ai_Slack__slack_search_users
 ---
 
