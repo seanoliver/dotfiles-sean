@@ -114,6 +114,24 @@ review feel long.
 **One line per project bucket, ~10 buckets max**, not one line per task. "🏡 41 Westwood — 19 tasks,
 2–9 months" is one line. State how many buckets you're not showing.
 
+## Step 2b — 🟠 Soon (the daily parking lot)
+
+`🟠 Soon` is where `/shape-today` parks still-live work that is not on Today. **It is a queue for
+`unbury` to sweep, not a list Sean reads** — he doesn't open it, and the `Scan Soon` ritual that tried
+to make him was deleted on 2026-08-14. This review is where that queue gets honest.
+
+`unbury` handles individual burning/rotting items daily. This step handles the queue's **shape** —
+whether it has grown past what a daily sweep can keep up with.
+
+- **Count it.** If Soon has grown past ~20, force a bulk triage: keep / name a day / drop the tag
+  (plain Anytime) / Someday / delete. Don't silently restamp the whole list.
+- **Soon but stale** (last-modified 30+ days, still tagged Soon) — call those out in one line. The
+  tag says "look at this"; 30 days without a look means the tag is lying.
+- **Don't double-count** with Step 2. If a Soon item is also in an aging project bucket, mention it
+  here, not again as aging.
+
+The tag string is exactly `🟠 Soon`.
+
 ## Step 3 — Someday resurface
 
 Pull the **5 oldest** Someday items. Each gets a forced choice: **do it (schedule a day) / keep in
@@ -218,6 +236,9 @@ recoverable from Things' Trash.
 ### Aging (30+ days untouched)
 [grouped list, ~15 max]
 
+### 🟠 Soon
+N items. Stale: [titles]. Over ~20? triage keep / day / drop tag / Someday / delete.
+
 ### Someday — this week's 5
 1. **[Title]** (9 months) → do / keep / delete?
 
@@ -245,6 +266,8 @@ Applied: [what changed]
 
 - **Choosing today's tasks.** That's `shape-today`. This skill may schedule items onto future days,
   but it never builds the Today list.
+- **Clearing individual quick replies.** That's `unbury`, daily. This review sizes and reshapes the
+  Soon queue; it doesn't work through it item by item.
 - **Cross-tool sweeps.** Slack, Linear, GitHub — `work-sweep`. This reads Things only.
 - **Capture-by-default.** New items surfaced in Step 0 get captured, but don't turn the review into
   a brainstorming session.

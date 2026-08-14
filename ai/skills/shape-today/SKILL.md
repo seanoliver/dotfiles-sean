@@ -1,18 +1,18 @@
 ---
 name: shape-today
-description: Use when Sean sits down to work and wants to decide what he's actually doing today, when his Things Today list has grown past what he can finish, or when he asks what should I work on / plan my day / what's on today / shape my day / triage today. Also use when returning after days away and Today has accumulated, when several big initiatives are running at once, or when the day's work is interconnected project pieces rather than discrete tasks.
+description: Use when Sean sits down to work and wants to decide what he's actually doing today, when his Things Today list has grown past what he can finish, when Inbox has piled up, or when he asks what should I work on / plan my day / what's on today / shape my day / triage today. Also use when returning after days away and Today or Inbox has accumulated, when several big initiatives are running at once, or when the day's work is interconnected project pieces rather than discrete tasks. Always triage Inbox in the same pass as Today.
 ---
 
 # Shape Today
 
-Turn an overgrown Things Today list into a plan Sean can actually finish, and **write that plan back
-into Things** so it survives the conversation ending.
+Turn an overgrown Things Today list into a plan Sean can actually finish, **empty the Inbox in
+the same pass**, and **write both back into Things** so the plan survives the conversation ending.
 
 ## Core principle
 
 **A plan that lives only in chat is not a plan.** The terminal step of this skill is applying
-dispositions to Things. If the conversation ends with items still piled on Today, the skill failed —
-no matter how good the prose was.
+dispositions to Things. If the conversation ends with items still piled on Today **or sitting in
+Inbox**, the skill failed — no matter how good the prose was.
 
 ## The capacity fact
 
@@ -78,6 +78,10 @@ in Things plus shared context plus real split-cost is the test.
    prose. See Dispositions below.
 4. **You must apply the changes.** Read-only shaping is a failed run. See Step 5.
 5. **Rituals are never dispositioned.** Don't move, defer, or comment on recurring chores.
+6. **Inbox is in scope every run.** Read it with Today. Every inbox item gets an explicit
+   disposition in this pass. Do not dump Inbox onto Today — those items compete for the 3-slot
+   cap like everything else. Default is the right project + Anytime (tag `🟠 Soon` if it must
+   stay visible). Named day / Today only if it earns one of the 3 slots.
 
 ## Rationalizations to refuse
 
@@ -86,6 +90,8 @@ in Things plus shared context plus real split-cost is the test.
 | "Five is achievable today" | The median is 2. Five means four failures and a red list tonight. |
 | "I'll add a small optional section" | That's a fourth, fifth, sixth item wearing a hat. Banned. |
 | "I don't know his calendar, so I shouldn't reschedule" | Correct — so *ask*, in one batch. Don't skip the step. |
+| "I'll put it in Anytime so it isn't lost" | Untagged Anytime is lost. Tag `🟠 Soon` or name a day. |
+| "I'll spread them across next week so he sees them" | Fake dates. Soon is the visible list. |
 | "He can decide what to defer himself" | He asked you because deciding across 30 items is the expensive part. |
 | "Categorizing them in my reply is enough" | The reply evaporates. Things is the record. |
 | "This one's urgent, it should also go on Today" | Then it displaces one of the 3. Say which. |
@@ -115,7 +121,8 @@ Handle the answer as follows:
 - **Named something already in Things** → it gets a Today slot. Top-of-mind beats every ranking
   criterion below except a hard deadline inside 48 hours or a person actively blocked *today*.
 - **Named something not in Things** → capture it (`when: "today"` if it's one of the 3, else
-  `anytime`), then shape. Never let an untracked priority stay untracked.
+  `anytime` + tag `🟠 Soon` if he still wants it visible), then shape. Never let an untracked
+  priority stay untracked.
 - **Named more than 3 things** → tell him the cap forces a choice and ask which one or two are
   today. Don't silently pick.
 - **Named nothing** ("no idea, that's why I'm asking") → fine, fall through to pure ranking.
@@ -128,6 +135,7 @@ available and it costs one question.
 ```
 mcp__things__get_today          # rich data: notes, deadlines, projects
 mcp__things__get_upcoming       # what's already committed to coming days
+mcp__things__get_inbox          # untriaged captures; in scope every run
 osascript -e 'tell application "Things3" to get name of to dos of list "Today"'
 ```
 
@@ -139,8 +147,11 @@ look it up by name to get its id.
 
 Note today's date via `date +%Y-%m-%d`. You need it to compute ages and to name deferral days.
 
-If Today has 3 or fewer substantive items, say so and stop — offer to pull one forward from Anytime
-instead. Don't shape a list that doesn't need shaping.
+If Today has 3 or fewer substantive items **and Inbox is empty**, say so and stop — offer to pull
+one forward from Anytime instead. Don't shape a Today list that doesn't need shaping.
+
+If Today is already at 3 (or fewer) but Inbox has items, **still triage Inbox**. Skip the Today
+reshuffle; only disposition Inbox. A clean Today with a dirty Inbox is not a finished shape.
 
 ## Step 2 — Detect rotters
 
@@ -163,7 +174,10 @@ This is the mechanism that prevents the list from rotting invisibly. Never skip 
 
 ## Step 3 — Pick 3
 
-Pick three units. In bucket mode, rank the buckets themselves by the criteria below using their
+Pick three units from **Today and Inbox together**. An inbox item can win a Today slot if it
+outranks what's already on Today. Most inbox items will not; they get filed, not scheduled.
+
+In bucket mode, rank the buckets themselves by the criteria below using their
 strongest member task — an incident with a customer waiting ranks on that customer, not on its
 average task.
 
@@ -215,7 +229,8 @@ Every remaining item gets exactly one:
 | Disposition | Means | Things action |
 |---|---|---|
 | **A named day** | Committed to a specific date | `when: "YYYY-MM-DD"` |
-| **Anytime** | Active, no specific day, lives in its project | `when: "anytime"` |
+| **🟠 Soon** | Active, no day, must stay visible | `when: "anytime"` + tag `🟠 Soon` |
+| **Anytime** | Real, no day, and he does **not** need it in the daily scan | `when: "anytime"`, no Soon tag |
 | **Someday** | Not now; weekly review will resurface it | `when: "someday"` |
 | **Delete** | It's dead | trash it |
 
@@ -227,9 +242,21 @@ same overcommitment you're fixing, relocated three days out — Monday arrives a
 push them all again.
 
 If a day is full, use the next open one. If you run out of days inside the next ~2 weeks, that is
-the signal that too much is being deferred rather than decided: send the overflow to **Anytime**,
-where the weekly review will surface it. Anytime is not a failure state — it's the correct home for
-"real, but not tied to a day."
+the signal that too much is being date-committed rather than decided. Send overflow that still
+needs eyes to **🟠 Soon**, not to a fourth named-day slot and not to untagged Anytime.
+
+**Untagged Anytime is a black hole for Sean.** He will not look at it between shapes. Do not park
+committed or still-live work there. If he needs to keep seeing the item, tag it `🟠 Soon` (exact
+string, emoji included — writing `Soon` creates a duplicate tag). Named days are for real date
+commitments, not a workaround for visibility.
+
+**Soon is a machine-readable queue, not a list Sean reads.** He does not open it, and the `Scan Soon`
+ritual that tried to make him was deleted on 2026-08-14 after failing daily. The tag's only job now
+is to give `unbury` a curated pool to sweep. Never write a disposition that depends on him going to
+look at Soon himself.
+
+Untagged Anytime is correct only when the work is real, has a project, and he does **not** need it
+in the daily scan. Someday is for "not now."
 
 **Deadlines don't need to be start dates.** An item with a hard deadline 8–21 days out doesn't
 belong on a near-term day just because the deadline exists. Set `deadline`, send it to Anytime, and
@@ -238,15 +265,21 @@ let it surface in review. Pull it onto a day when it's genuinely within striking
 **Respect dependencies.** If item B can't start until item A is done, don't schedule them the same
 day or B before A. Chain them across consecutive open days.
 
+**Inbox default:** file to the matching project (or area) + Anytime. Tag `🟠 Soon` if it is live
+work he should see in the daily scan. Someday if it is not now. Delete if it is noise. A named day
+only when it earned one of the 3 Today slots or has a real date commitment. Never leave an item
+in Inbox "to deal with later."
+
 Propose the full set as a table, then let Sean edit inline ("no, Wave 4 Friday not Monday"). Apply
 what he lands on.
 
 ## Step 5 — Apply, then verify
 
-Use `mcp__things__update_todo` per item. Then **re-read `get_today`** and confirm the count.
+Use `mcp__things__update_todo` per item. Then **re-read `get_today` and `get_inbox`** and confirm both.
 
-Report the actual post-state number. If it isn't 3 substantive + rituals, say so plainly and fix it.
-Never claim a shape succeeded without re-reading.
+Report the actual post-state numbers. If Today isn't 3 substantive + rituals, or Inbox still has
+items you were supposed to file, say so plainly and fix it. Never claim a shape succeeded without
+re-reading both lists.
 
 ## Output format
 
@@ -270,15 +303,23 @@ _Rituals: [names], uncapped._
 
 _Aging: [title] (11d), [title] (10d)._
 
+### Inbox
+| Item | To |
+|---|---|
+| [title] | Anytime · 📈 Instrumentation · 🟠 Soon |
+| [title] | Someday |
+| [title] | delete |
+
 ### Deferred
 | Item | To |
 |---|---|
 | [title] | Fri Aug 8 |
-| [title] | Anytime · 📈 Instrumentation |
+| [title] | 🟠 Soon · 📈 Instrumentation |
+| [title] | Anytime · 💰 Finance |
 | [title] | Someday |
 
 ---
-Applied: Today now has 3 + N rituals (was M).
+Applied: Today now has 3 + N rituals (was M). Inbox now empty (was K).
 ```
 
 **Bucket mode** replaces the three title blocks with three bucket blocks, and reports both counts:
@@ -307,11 +348,34 @@ Applied and verified: Today is 3 units ([K] line items) + N rituals, was M loose
 
 Keep reasons to one line. He is deciding, not reading.
 
+## Step 6 — Offer `unbury` (do not skip)
+
+Today is now correct, but it is deliberately only 3 items. Everything else in the system is invisible
+to Sean, because he does not open lists other than Today. Close every run with a one-line offer:
+
+> Want me to check what's buried? (`unbury` — quick replies, anything owed or rotting.)
+
+If he says yes, invoke `unbury`. If he says no, stop — do not surface a preview of what it would have
+found, since that is the run without the structure.
+
+**This offer is mandatory, and it is the offer that must be automatic, not the run.** Sean will not
+remember to invoke `unbury` himself; requiring him to is the same second-location failure that killed
+the `Scan Soon` ritual. The `unbury` skill enforces its own 5-item cap and will not touch the 3 you
+just set without an explicit displacement.
+
 ## Common mistakes
 
 - **Shaping without applying.** The most common and most damaging. Step 5 is the point of the skill.
-- **Pushing everything to tomorrow.** Spread across the week.
+- **Leaving Inbox dirty.** Today at 3 with 12 items still in Inbox is a failed shape.
+- **Dumping Inbox onto Today.** Inbox is not extra Today slots. File it. Only promote what earned a cap slot.
+- **Pushing everything to tomorrow.** Spread across the week, or use 🟠 Soon if there is no real
+  date.
+- **Parking still-live work in untagged Anytime.** He will forget it. If it still needs eyes, tag
+  `🟠 Soon`. Named days are for date commitments, not "please don't forget."
+- **Inventing named days to keep something visible.** That is how Friday hits 5. Visibility is the
+  Soon tag; a date is a commitment.
 - **Dispositioning rituals.** Leave them alone.
+- **Ending without offering `unbury`.** Sean will not invoke it from memory. Step 6 is not optional.
 - **Burying the decision.** Rotters go in their own section, not a footnote.
 - **Re-deriving capacity.** The cap is 3. Don't recompute it from today's vibes.
 - **Counting wrong.** `get_today` and AppleScript disagree, and **AppleScript is the authoritative
@@ -331,9 +395,13 @@ Keep reasons to one line. He is deciding, not reading.
 ## Out of Scope
 
 - **Capturing new tasks.** That's `add-todo`. If Sean mentions something new mid-shape, capture it
-  with `when: "anytime"` and keep going — never add it to today's 3.
+  with `when: "anytime"` and tag `🟠 Soon` if it's live work he wants to see — never add it to
+  today's 3.
+- **Surfacing buried work.** Quick replies, owed follow-ups, and rotting Soon items are `unbury`.
+  Offer it in Step 6; don't do its job inline, and don't let it expand today's 3.
 - **Backlog review.** Aging reports, stalled projects, Someday resurfacing, tag hygiene — all
-  `/things-review`. This skill only touches Today and the items on it.
+  `/things-review`. This skill touches **Today and Inbox** (and Upcoming only to cap named days).
+  It does not walk Anytime, Someday, or project lists.
 - **Cross-tool sweeps.** Slack, Linear, GitHub — that's `work-sweep`. This skill reads Things
   and nothing else.
 - **Doing the work.** Shape the day, then stop. Don't start executing the first item unless asked.
