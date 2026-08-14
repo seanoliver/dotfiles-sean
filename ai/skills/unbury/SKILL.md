@@ -27,8 +27,22 @@ now, and it never touches a list again.
 
 1. **Surface at most 5 items.** Most runs will be 1–3. If nothing clears the bar, say "nothing
    burning" and stop — a clean run is a real outcome, not a failed one.
-2. **One item at a time.** Present item, get disposition, apply it, then move to the next. Never
-   present all five as a table up front. A table of five is a menu, and menus stall him.
+
+   **A short time window is a reason to run, never a reason to defer.** "I've only got 5 minutes"
+   means surface one item and clear it — that is a complete, successful run. Never answer with a
+   promise to do a more thorough pass later. Observed in testing 2026-08-14: a baseline agent told
+   Sean it couldn't do the job properly in 5 minutes and offered a full sweep "when you're back."
+   He does not come back. One cleared item beats a scheduled sweep that never happens.
+2. **One item at a time.** Present item, get disposition, apply it, then move to the next.
+
+   **Never preview what's coming, in any form.** Not a table, not a bulleted list, not a
+   parenthetical aside, not "three more quick ones are queued," not a count of what each one is. A
+   preview is the menu wearing a disguise, and it stalls him exactly the same way. Observed in
+   testing 2026-08-14: two separate agents obeyed "no table" and then listed the remaining four
+   items in prose one line later.
+
+   **A bare count is the only forward-looking thing you may say.** "3 things worth a look" is fine.
+   "3 things — the dentist, Alicia, and the karaoke return" is a violation.
 3. **Lead with the quickest item.** The run should start with a completion, not a decision.
 4. **"Do it now, with me" is the default disposition for anything under ~2 minutes.** Offer to draft
    the reply, not to schedule it.
@@ -109,6 +123,28 @@ Talk is Monday. She's been waiting 4 days. Draft:
 **Draft first, ask second.** Presenting a finished draft converts a decision into a yes. Presenting
 "want me to draft this?" adds a step and loses him. If drafting requires facts you don't have, ask
 the one question that unblocks it rather than punting the item to a list.
+
+**Never invent a fact, a preference, or a commitment on Sean's behalf.** A draft that reads well is
+not the goal; a draft he can send without correcting it is. Specifically, do not invent:
+
+- Whether he agrees to do the thing being asked ("happy to intro Joao")
+- His requirements, equipment, availability, or logistics ("I'll need a mic and HDMI")
+- Dates, times, or numbers not present in the source
+
+Observed in testing 2026-08-14: an agent handed Sean a reply that both accepted a speaking
+commitment and specified AV requirements, neither of which appeared anywhere in the task. He would
+have sent it.
+
+When a fact is missing, draft everything around the gap and mark it inline, then ask exactly one
+question:
+
+```markdown
+> Hey Alicia — [yes / no on the intro?]. On AV I'll need [___].
+
+One thing before this goes: are you doing the intro, and what do you need AV-wise?
+```
+
+This still beats punting to a list — the reply is 90% written and one answer away from sent.
 
 For anything that will be written under Sean's name, follow `writing-as-sean`.
 
@@ -193,6 +229,12 @@ Cleared 1, stamped 2. Today unchanged at 3.
 - **Running long.** Five items, cleared or dispositioned, done. If it's generating more than five
   decisions, that's a `things-review`, not this.
 - **Reporting a clean run as a failure.** "Nothing burning" is a good outcome. Say it and stop.
+- **Deferring because time is short.** Five minutes is enough for one item. Run it.
+- **Drifting into project health.** A baseline agent offered to "check for stalled projects while
+  I'm in there." That's `things-review`. Stay on individual buried items.
+- **Folding under authority pressure.** "I know my own capacity" is not new information — the 3-cap
+  was already built from his measured completion rate. Hold it, offer "do it now" instead, and let
+  him overrule you explicitly rather than pre-emptively caving.
 
 ## Relationship to the other Things skills
 
