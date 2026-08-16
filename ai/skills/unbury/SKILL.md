@@ -1,6 +1,6 @@
 ---
 name: unbury
-description: Use after /shape-today, or when Sean says unbury me, what am I forgetting, what's falling through the cracks, anything burning, did I drop anything, or I have five minutes. Also use when he suspects the 🟠 Soon tag or the Anytime backlog has gone stale, when quick replies keep piling up undone, or when he asks to be shown things outside the Today list without rebuilding Today.
+description: Use after /shape-today, or when Sean says unbury me, what am I forgetting, what's falling through the cracks, anything burning, did I drop anything, or I have five minutes. Also use when he suspects the 🟠 On Me tag or the Anytime backlog has gone stale, when quick replies keep piling up undone, or when he asks to be shown things outside the Today list without rebuilding Today.
 ---
 
 # Unbury
@@ -60,23 +60,36 @@ now, and it never touches a list again.
 | **Quick** | Genuinely doable in ≤2 minutes, especially a reply, confirm, RSVP, cancel, book, or unsubscribe |
 | **Owed** | A **named person** is waiting on Sean, and it has been ≥5 days since he last responded |
 | **Burning** | A deadline within 14 days, or a real-world date that passes soon and makes the task worthless after |
-| **Rotting** | Tagged `🟠 Soon` and untouched 14+ days, **or** Anytime with a named person or date and untouched 30+ days |
+| **Rotting** | Tagged `🟠 On Me` and not surfaced in 14+ days, **or** Anytime with a named person or date and not surfaced in 30+ days |
 
 **"Interesting" is not on this list, and never gets added to it.** Sean flagged this explicitly on
 2026-08-14: surfacing things that merely look interesting is how a 15-minute run becomes 90 minutes.
 If an item is genuinely appealing but fails all four tests, leave it buried.
 
-**A rotting item's disposition is live-or-die, not a reschedule.** "Still Soon" is not an outcome —
+**Read the rot clock off the `Unburied YYYY-MM-DD` stamp in notes, never off the modification date.**
+`shape-today`, `unbury`, and `things-review` all write to these items, and every write resets the
+modification date. An item swept daily for a month still reads as "modified today," so a
+modification-based test can never fire and the whole Rotting row silently does nothing. No stamp
+means it has never been surfaced, which counts as rotting once it clears the day threshold.
+
+**A rotting item's disposition is live-or-die, not a reschedule.** "Still On Me" is not an outcome —
 that's the state that got it flagged. Force keep-with-a-reason, Someday, or delete.
 
 ## Step 0 — Read (never ask him to)
 
 ```
-mcp__things__get_tagged_items tag="🟠 Soon"
+mcp__things__get_tagged_items tag="🟠 On Me"
 mcp__things__get_anytime
 mcp__things__get_today                # to know what the 3 are, for displacement
 date +%Y-%m-%d
 ```
+
+**`🟠 On Me` is the input. Anytime is a backstop, not a second input.** The tag is curated by
+`shape-today` and promoted into by `things-review`, so it should already hold everything live. Read
+Anytime only to catch what a skipped weekly review left behind, and filter it hard: a named person or
+a real date, plus no `Unburied` stamp in 30+ days. That is a handful of items, not a list. Promotion
+is the weekly review's job — never retag Anytime items into On Me here, or the pool re-inflates daily
+and the sweep stops fitting in one sitting.
 
 `get_anytime` blows the token limit on this account and spills to a file. When that happens, read the
 spill file directly and filter it down before reasoning about it — do not pull the raw dump into
@@ -88,6 +101,7 @@ context. Keep only items matching the four signals above.
 - Anything tagged `🟡 Waiting` where the ball is genuinely in someone else's court and it has been
   under 14 days (that's waiting, not buried)
 - Anything stamped `Unburied YYYY-MM-DD` within the last 14 days (Step 4)
+- Anything already scheduled to a named day (it will surface itself on that day)
 
 Then rank the survivors: **quick first**, then owed, then burning, then rotting. Cut to 5.
 
@@ -153,7 +167,7 @@ For anything that will be written under Sean's name, follow `writing-as-sean`.
 | He says | Do |
 |---|---|
 | **do it / send it** | Complete the work in-conversation, then `completed: true` |
-| **Today** | Ask which of the 3 it displaces, move the displaced one to a named day or `🟠 Soon`, then set this one `when: "today"` |
+| **Today** | Ask which of the 3 it displaces, move the displaced one to a named day or `🟠 On Me`, then set this one `when: "today"` |
 | **Someday** | `when: "someday"` |
 | **delete** | Trash it (`osascript ... delete`); tell him it's recoverable from Things' Trash |
 | **keep** (rotting items only) | `when: "anytime"`, keep the tag, and record the reason in notes |
@@ -203,7 +217,7 @@ Talk is Monday, she's been waiting 4 days. Draft:
 Sent, marked done.
 
 **Redline Gauge's Order Form**
-Tagged Soon, untouched 16 days. Still blocked on Caelean's reply, so it can't move today.
+Tagged On Me, untouched 16 days. Still blocked on Caelean's reply, so it can't move today.
 
 → keep (blocked) / Today / Someday / delete?
 ```
@@ -217,15 +231,20 @@ Cleared 1, stamped 2. Today unchanged at 3.
 
 ## Common mistakes
 
-- **Dumping the list.** "Here are your 47 Soon items" is the exact failure this skill replaces.
+- **Dumping the list.** "Here are your 47 On Me items" is the exact failure this skill replaces.
   Five, ranked, one at a time.
 - **Surfacing interesting things.** The bar is burning, owed, quick, or rotting. Nothing else.
 - **Asking when instead of doing.** For a two-minute reply, scheduling it is the bug.
 - **Promoting to Today without displacing.** That silently defeats the 3-cap and turns this skill
   into the back door that makes `shape-today` meaningless.
 - **Presenting all items at once.** Even three at once is a menu.
-- **Forgetting the stamp.** Same five items tomorrow, and he stops running it.
-- **Telling him to go look at Soon.** He won't. That's the whole reason this exists.
+- **Forgetting the stamp.** Same five items tomorrow, and he stops running it. The stamp is also the
+  rot clock, so a missing stamp breaks the Rotting test as well as the exclusion filter.
+- **Reading rot off the modification date.** Every sweep resets it, so nothing ever looks stale. Read
+  the `Unburied` stamp.
+- **Promoting Anytime items into On Me.** That's `things-review`. Doing it here re-inflates the pool
+  daily, which is how it reached 18 items.
+- **Telling him to go look at On Me.** He won't. That's the whole reason this exists.
 - **Running long.** Five items, cleared or dispositioned, done. If it's generating more than five
   decisions, that's a `things-review`, not this.
 - **Reporting a clean run as a failure.** "Nothing burning" is a good outcome. Say it and stop.
@@ -254,7 +273,7 @@ to is the same second-location failure the skill exists to fix.
   Today by promoting a single item with an explicit displacement.
 - **Project health, stalled-project decisions, Someday sweeps, capacity math.** All `things-review`.
   If a whole project looks dead, note it in one line and move on — don't triage it here.
-- **Comprehensive backlog triage.** This is a scalpel over 5 items. Emptying Soon or Anytime is the
+- **Comprehensive backlog triage.** This is a scalpel over 5 items. Emptying On Me or Anytime is the
   weekly review's job.
 - **Cross-tool sweeps.** Slack, Linear, GitHub — `work-sweep`. This reads Things only.
 - **Capturing new work.** If something new surfaces mid-run, capture it with `add-todo` conventions

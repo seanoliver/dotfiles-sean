@@ -80,7 +80,7 @@ in Things plus shared context plus real split-cost is the test.
 5. **Rituals are never dispositioned.** Don't move, defer, or comment on recurring chores.
 6. **Inbox is in scope every run.** Read it with Today. Every inbox item gets an explicit
    disposition in this pass. Do not dump Inbox onto Today — those items compete for the 3-slot
-   cap like everything else. Default is the right project + Anytime (tag `🟠 Soon` if it must
+   cap like everything else. Default is the right project + Anytime (tag `🟠 On Me` if it must
    stay visible). Named day / Today only if it earns one of the 3 slots.
 
 ## Rationalizations to refuse
@@ -90,8 +90,8 @@ in Things plus shared context plus real split-cost is the test.
 | "Five is achievable today" | The median is 2. Five means four failures and a red list tonight. |
 | "I'll add a small optional section" | That's a fourth, fifth, sixth item wearing a hat. Banned. |
 | "I don't know his calendar, so I shouldn't reschedule" | Correct — so *ask*, in one batch. Don't skip the step. |
-| "I'll put it in Anytime so it isn't lost" | Untagged Anytime is lost. Tag `🟠 Soon` or name a day. |
-| "I'll spread them across next week so he sees them" | Fake dates. Soon is the visible list. |
+| "I'll tag it On Me so it isn't lost" | On Me is not a safety net. Name who's waiting or what date is running, or leave it untagged. |
+| "I'll spread them across next week so he sees them" | Fake dates. Decide, don't schedule. |
 | "He can decide what to defer himself" | He asked you because deciding across 30 items is the expensive part. |
 | "Categorizing them in my reply is enough" | The reply evaporates. Things is the record. |
 | "This one's urgent, it should also go on Today" | Then it displaces one of the 3. Say which. |
@@ -121,7 +121,7 @@ Handle the answer as follows:
 - **Named something already in Things** → it gets a Today slot. Top-of-mind beats every ranking
   criterion below except a hard deadline inside 48 hours or a person actively blocked *today*.
 - **Named something not in Things** → capture it (`when: "today"` if it's one of the 3, else
-  `anytime` + tag `🟠 Soon` if he still wants it visible), then shape. Never let an untracked
+  `anytime` + tag `🟠 On Me` if he still wants it visible), then shape. Never let an untracked
   priority stay untracked.
 - **Named more than 3 things** → tell him the cap forces a choice and ask which one or two are
   today. Don't silently pick.
@@ -229,8 +229,8 @@ Every remaining item gets exactly one:
 | Disposition | Means | Things action |
 |---|---|---|
 | **A named day** | Committed to a specific date | `when: "YYYY-MM-DD"` |
-| **🟠 Soon** | Active, no day, must stay visible | `when: "anytime"` + tag `🟠 Soon` |
-| **Anytime** | Real, no day, and he does **not** need it in the daily scan | `when: "anytime"`, no Soon tag |
+| **🟠 On Me** | A named person is waiting, or a real-world date applies. No day committed yet. | `when: "anytime"` + tag `🟠 On Me` |
+| **Anytime** | Real work, but nobody is waiting and no date is running | `when: "anytime"`, no On Me tag |
 | **Someday** | Not now; weekly review will resurface it | `when: "someday"` |
 | **Delete** | It's dead | trash it |
 
@@ -243,20 +243,33 @@ push them all again.
 
 If a day is full, use the next open one. If you run out of days inside the next ~2 weeks, that is
 the signal that too much is being date-committed rather than decided. Send overflow that still
-needs eyes to **🟠 Soon**, not to a fourth named-day slot and not to untagged Anytime.
+needs eyes to **🟠 On Me**, not to a fourth named-day slot and not to untagged Anytime.
 
-**Untagged Anytime is a black hole for Sean.** He will not look at it between shapes. Do not park
-committed or still-live work there. If he needs to keep seeing the item, tag it `🟠 Soon` (exact
-string, emoji included — writing `Soon` creates a duplicate tag). Named days are for real date
-commitments, not a workaround for visibility.
+### The On Me admission test
 
-**Soon is a machine-readable queue, not a list Sean reads.** He does not open it, and the `Scan Soon`
-ritual that tried to make him was deleted on 2026-08-14 after failing daily. The tag's only job now
-is to give `unbury` a curated pool to sweep. Never write a disposition that depends on him going to
-look at Soon himself.
+**Name who or what is waiting. If you can't, it doesn't get the tag.**
 
-Untagged Anytime is correct only when the work is real, has a project, and he does **not** need it
-in the daily scan. Someday is for "not now."
+An item earns `🟠 On Me` only if one of these is true:
+
+- **A named person is waiting on Sean.** Not a ticket, not a project, a person you can name.
+- **A real-world date applies.** A trial that lapses, an event that passes, a deadline inside ~30 days.
+
+Everything else that is real work goes to **untagged Anytime** and becomes the weekly review's
+problem, not a daily one. "Still alive" is not a criterion. "I don't want him to forget it" is not a
+criterion — that instinct is what grew the tag to 18 items by 2026-08-16, at which point it ranked
+nothing and drained never.
+
+The tag string is exactly `🟠 On Me`, emoji included. Writing `On Me` without the emoji creates a
+second, duplicate tag in Things.
+
+**On Me is a machine-readable queue, not a list Sean reads.** He does not open it, and the `Scan Soon`
+ritual that tried to make him was deleted on 2026-08-14 after failing daily. The tag's only job is to
+give `unbury` a curated pool to sweep, and a pool only stays sweepable while it stays small. Never
+write a disposition that depends on him going to look at On Me himself.
+
+**Untagged Anytime is not a black hole, it is the weekly review's inbox.** `things-review` reads it
+and promotes what has become live. Parking real work there is correct when nobody is waiting and no
+date is running. Someday is for "not now."
 
 **Deadlines don't need to be start dates.** An item with a hard deadline 8–21 days out doesn't
 belong on a near-term day just because the deadline exists. Set `deadline`, send it to Anytime, and
@@ -265,8 +278,8 @@ let it surface in review. Pull it onto a day when it's genuinely within striking
 **Respect dependencies.** If item B can't start until item A is done, don't schedule them the same
 day or B before A. Chain them across consecutive open days.
 
-**Inbox default:** file to the matching project (or area) + Anytime. Tag `🟠 Soon` if it is live
-work he should see in the daily scan. Someday if it is not now. Delete if it is noise. A named day
+**Inbox default:** file to the matching project (or area) + Anytime. Tag `🟠 On Me` only if it passes
+the admission test above. Someday if it is not now. Delete if it is noise. A named day
 only when it earned one of the 3 Today slots or has a real date commitment. Never leave an item
 in Inbox "to deal with later."
 
@@ -306,7 +319,7 @@ _Aging: [title] (11d), [title] (10d)._
 ### Inbox
 | Item | To |
 |---|---|
-| [title] | Anytime · 📈 Instrumentation · 🟠 Soon |
+| [title] | Anytime · 📈 Instrumentation · 🟠 On Me |
 | [title] | Someday |
 | [title] | delete |
 
@@ -314,7 +327,7 @@ _Aging: [title] (11d), [title] (10d)._
 | Item | To |
 |---|---|
 | [title] | Fri Aug 8 |
-| [title] | 🟠 Soon · 📈 Instrumentation |
+| [title] | 🟠 On Me · 📈 Instrumentation |
 | [title] | Anytime · 💰 Finance |
 | [title] | Someday |
 
@@ -368,12 +381,12 @@ just set without an explicit displacement.
 - **Shaping without applying.** The most common and most damaging. Step 5 is the point of the skill.
 - **Leaving Inbox dirty.** Today at 3 with 12 items still in Inbox is a failed shape.
 - **Dumping Inbox onto Today.** Inbox is not extra Today slots. File it. Only promote what earned a cap slot.
-- **Pushing everything to tomorrow.** Spread across the week, or use 🟠 Soon if there is no real
+- **Pushing everything to tomorrow.** Spread across the week, or use 🟠 On Me if there is no real
   date.
-- **Parking still-live work in untagged Anytime.** He will forget it. If it still needs eyes, tag
-  `🟠 Soon`. Named days are for date commitments, not "please don't forget."
+- **Tagging On Me because it feels important.** The test is a named person or a real date, nothing
+  else. An unbounded tag is the same overgrown list one layer down.
 - **Inventing named days to keep something visible.** That is how Friday hits 5. Visibility is the
-  Soon tag; a date is a commitment.
+  On Me tag; a date is a commitment.
 - **Dispositioning rituals.** Leave them alone.
 - **Ending without offering `unbury`.** Sean will not invoke it from memory. Step 6 is not optional.
 - **Burying the decision.** Rotters go in their own section, not a footnote.
@@ -395,9 +408,9 @@ just set without an explicit displacement.
 ## Out of Scope
 
 - **Capturing new tasks.** That's `add-todo`. If Sean mentions something new mid-shape, capture it
-  with `when: "anytime"` and tag `🟠 Soon` if it's live work he wants to see — never add it to
+  with `when: "anytime"` and tag `🟠 On Me` if it's live work he wants to see — never add it to
   today's 3.
-- **Surfacing buried work.** Quick replies, owed follow-ups, and rotting Soon items are `unbury`.
+- **Surfacing buried work.** Quick replies, owed follow-ups, and rotting On Me items are `unbury`.
   Offer it in Step 6; don't do its job inline, and don't let it expand today's 3.
 - **Backlog review.** Aging reports, stalled projects, Someday resurfacing, tag hygiene — all
   `/things-review`. This skill touches **Today and Inbox** (and Upcoming only to cap named days).
