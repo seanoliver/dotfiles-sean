@@ -154,3 +154,6 @@ export PATH=/Users/seanoliver/.opencode/bin:$PATH
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Machine-local secrets and overrides, untracked. See .zshrc.local (gitignored).
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

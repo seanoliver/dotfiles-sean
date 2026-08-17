@@ -26,3 +26,8 @@ fig.dotfiles.bak
 
 # Logs and debug output
 *.log
+
+**/.claude/.cc-writes/
+
+# Machine-local secrets, never tracked
+.zshrc.local
