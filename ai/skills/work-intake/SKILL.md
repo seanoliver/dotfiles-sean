@@ -59,7 +59,7 @@ Format for annotation, not for reading. Sean replies inline, prefixing his comme
 - GROWTH-9012 — reverse In Progress; the call reversed this decision
 
 ## Things
-- Create: <title> (today) — one line
+- Create: <title> (today | 🟠 On Me | anytime) — one line
 - Update: <existing title> — what changes
 - [DESTRUCTIVE] Complete/cancel: <existing title> — why
 

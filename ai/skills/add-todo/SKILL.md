@@ -97,7 +97,7 @@ A **deadline** is not a start date. "This is due Friday" sets `deadline: <Friday
 | "this week" | `deadline` = this coming Friday |
 | "end of month" | `deadline` = last day of the current month |
 | "in two weeks" | `deadline` = today + 14 days |
-| "soon" / "at some point" / no date at all | no deadline — genuinely absent, don't invent one |
+| "soon" / "at some point" / no date at all | no deadline — don't invent one. The word "soon" is the `🟠 On Me` tag, not a date. |
 
 If the relative phrase is truly unresolvable ("after the migration lands"), put it in the notes as a `## Blocked on` line and set no deadline.
 
@@ -107,21 +107,33 @@ If the relative phrase is truly unresolvable ("after the migration lands"), put 
 |---|---|
 | "This seems urgent, so Today" | Urgency is the `deadline` field. Today is capacity. |
 | "It's quick, it won't crowd anything" | Twenty-five "quick" items is the current Today. |
-| "He'll want to see this immediately" | He will see it in Anytime at next `/shape`. |
+| "He'll want to see this immediately" | If he needs it visible between shapes, tag `🟠 On Me`. Not Today. |
 | "It's already late, so it belongs on Today" | Late means it needs a decision in review, not a slot today. |
 | "The source (work sweep, ticket) implies today" | Only the user's own words about timing count. |
 
 ### Tags
 
-**There are only three tags.** Anything else you remember seeing has been retired. Apply only when explicitly inferable from the user's language; otherwise leave untagged. Untagged is the normal case.
+**There are only four tags.** Anything else you remember seeing has been retired. Apply only when explicitly inferable from the user's language; otherwise leave untagged. Untagged is the normal case.
 
 | Signal | Tag |
 |---|---|
 | "blocked on X" / "waiting for X" / "waiting to hear back" | `🟡 Waiting` |
 | "with Tina" / "ask Tina" / "Tina needs to" | `🔵 Tina Required` |
 | "most important" / "MIT" / "the one thing" | `🌟 MIT` |
+| a named person is waiting, or a real-world date applies | `🟠 On Me` |
 
-Max 1 tag in practice. **Do not invent priority tags** — no Urgent, no Important, no In Progress, no context tags (Home/Office/Errand/Laptop). Priority is expressed by what `/shape` puts on Today; urgency by the `deadline` field. If the user says "urgent", set a deadline and mention it, don't tag it.
+**On Me has an admission test: name who is waiting, or what date is running.** If you can't name
+either, leave it untagged. "Soon", "don't want to forget", and "keep this visible" are *not*
+criteria — that instinct is what grew the tag to 18 items by 2026-08-16, at which point it ranked
+nothing and drained never. Untagged Anytime is not a black hole; it is the weekly review's inbox, and
+`things-review` promotes from it when something goes live.
+
+The tag string is exactly `🟠 On Me`, emoji included. Writing `On Me` creates a duplicate.
+
+Max 1 tag in practice. If both Waiting and On Me apply, **Waiting wins**. **Do not invent priority
+tags** — no Urgent, no Important, no In Progress, no context tags (Home/Office/Errand/Laptop).
+Priority is expressed by what `/shape` puts on Today; urgency by the `deadline` field. If the user
+says "urgent", set a deadline and mention it, don't tag it Urgent.
 
 ## Step 3 — Notes format (scale to complexity)
 

@@ -367,7 +367,7 @@ For each confirmed item, use `mcp__things__add_todo` with:
 - **notes** — any context the sweep surfaced (related Linear/GitHub/Notion links go here so the task carries the source thread)
 - **when** — `"today"` if it's part of the day's priority list, otherwise omit (lands in Inbox) so the user can triage later. Accepted values: `today`, `tomorrow`, `evening`, `anytime`, `someday`, or `YYYY-MM-DD`.
 - **list** / **list_id** — only if the task obviously belongs to an existing project or area (this is the project/area name, NOT the scheduling bucket — don't confuse with `when`)
-- **tags** — only if obvious from context
+- **tags** — `🟠 On Me` if it's live work he needs to see and it is not going on Today; `🟡 Waiting` if blocked. Exact strings, emoji included. Don't invent other tags.
 
 **Don't duplicate.** If an item arguably matches an existing Things task that you missed in Phase 2, ask before creating: "There's already a task 'X' in your Inbox — is that the same thing or different?"
 
@@ -383,7 +383,7 @@ Build three buckets:
 |---|---|
 | **Priority items already on Today** | Leave alone — already correct. |
 | **Priority items NOT yet on Today** (have Things task elsewhere — Inbox, Upcoming, Someday, or just-captured in Step 1) | Use `mcp__things__update_todo` with `when: "today"` to schedule for today. |
-| **Currently on Today but NOT in priority list** | Ask the user: "Today has these tasks that didn't make the priority list: [titles]. Defer to Anytime, keep on Today, push to a specific date, or move to Someday?" Default suggestion: `when: "anytime"` (clears today's date, leaves task accessible in the Anytime list) unless the user said otherwise. |
+| **Currently on Today but NOT in priority list** | Ask the user: "Today has these tasks that didn't make the priority list: [titles]. Park as 🟠 On Me, keep on Today, push to a specific date, or move to Someday?" Default suggestion: `when: "anytime"` + tag `🟠 On Me` if it's still-live work he needs to see. Untagged Anytime only if he does not need it in the daily scan. |
 
 **Edge case — priority items with no Things task at all** (e.g., a Slack reply, a GitHub PR review): offer to create a stub Things task pointing to the source URL, scheduled for Today. This is optional — the user may prefer to act on those directly without creating overhead. Ask: "Want stub Things tasks for [N] of these so they're on Today, or are you good acting on the links directly?"
 
