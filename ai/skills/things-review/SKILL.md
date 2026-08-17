@@ -26,6 +26,45 @@ whole point of this review is to catch that. Lead with project health, not with 
 4. **Apply the changes.** A review whose conclusions live only in chat has to be redone.
 5. **Timebox to ~20 minutes.** If a section is generating more than a couple of decisions, capture
    the rest as a task and move on. A review he dreads is a review he skips.
+6. **Every number comes from `things-db.sh` (Step 0a).** No MCP list reads, no AppleScript counts.
+7. **Never state elapsed time.** You cannot measure it. Saying "we're 35 minutes in" when 12 have
+   passed pressures Sean into cutting a review short on a number you invented. If pacing matters,
+   count steps remaining, not minutes.
+8. **When two queries disagree, stop and reconcile before continuing.** A contradiction is a
+   methodology failure, not a curiosity to note in passing. Observed 2026-08-16: one query reported
+   a project that a second query said did not exist. It was a *completed* project leaking through an
+   unfiltered read, and pressing on turned one bad number into six.
+
+## Step 0a — Data integrity gate (before anything else)
+
+**Run `./things-db.sh check` from this skill's folder. If any line starts with FAIL, stop and fix it
+before presenting a single number to Sean.**
+
+```bash
+~/.claude/skills/things-review/things-db.sh check      # integrity gate
+~/.claude/skills/things-review/things-db.sh buckets    # reconciled counts
+~/.claude/skills/things-review/things-db.sh sql "SELECT ... FROM lt"
+```
+
+**Do not use the Things MCP tools to build any list in this review.** Measured on 2026-08-16, the
+MCP's unfiltered view of "open tasks" was 866 against a true live count of 194, because:
+
+- **672 open tasks belong to completed, cancelled, or trashed projects.** The MCP does not join
+  parent status, so dead work reads as live.
+- **70 open headings exist**, and the MCP emits them as if they were tasks. A heading also prints
+  without a `Project:` line, so its children look unfiled.
+- **`startDate` and `deadline` are packed bitfields** (`year<<16 | month<<12 | day<<7`), not
+  timestamps. Decoding them as unix epoch returns 1974 for every row. `creationDate` and
+  `userModificationDate` *are* epoch seconds. The two encodings sit in adjacent columns.
+- **`Age:` and `Last modified:` describe creation and modification**, and every sweep by
+  `shape-today` / `unbury` / this skill rewrites modification. Age a backlog item by `created`.
+
+The script's views (`lt` for live to-dos, `proj` for active projects) apply all of these filters.
+Query them for every list in this review.
+
+**A count you did not get from `things-db.sh` does not go in front of Sean.** This review is what he
+commits to doing; a number that is off by 4x is worse than no review. If the script can't answer
+something, say so rather than falling back to the MCP or to AppleScript.
 
 ## Step 0 — Ask first
 
@@ -41,16 +80,28 @@ Wait. Then:
 
 ## Step 1 — Project health (the main event)
 
-```
-mcp__things__get_projects           # active projects
-mcp__things__get_logbook period=7d  # what actually got done
-mcp__things__get_logbook period=30d # for the stalled test
+Per-project open counts and completion history, straight from the database:
+
+```bash
+S=~/.claude/skills/things-review/things-db.sh
+
+# open tasks per active project
+$S sql "SELECT COALESCE(project,'(no project)') p, COUNT(*) n,
+        SUM(CASE WHEN created<=date('now','-90 day') THEN 1 ELSE 0 END) older_90d, MIN(created) oldest
+        FROM lt WHERE start=1 AND start_d IS NULL GROUP BY 1 ORDER BY 2 DESC"
+
+# completions per project, last 7 and 30 days (status=3 is completed; stopDate is epoch)
+$S sql "SELECT COALESCE((SELECT title FROM TMTask p WHERE p.uuid=COALESCE(NULLIF(t.project,''),
+          (SELECT h.project FROM TMTask h WHERE h.uuid=t.heading))),'(none)') proj,
+        SUM(CASE WHEN t.stopDate>=strftime('%s',date('now','-7 day')) THEN 1 ELSE 0 END) d7,
+        COUNT(*) d30, MAX(date(t.stopDate,'unixepoch','localtime')) last
+        FROM TMTask t WHERE t.type=0 AND t.status=3 AND t.trashed=0
+          AND t.stopDate>=strftime('%s',date('now','-30 day'))
+        GROUP BY 1 ORDER BY 3 DESC"
 ```
 
-**`get_logbook` and `get_anytime` both blow the token limit on this account** and get spilled to a
-file. When that happens, delegate the parsing to a subagent — give it the file path, the schema
-(`{result: string}`, records separated by `\n---\n`), and exactly what to return (per-project
-completion counts and dates). Don't try to read the raw dump into the review.
+Exclude repeating rituals from completion counts (`rep IS NOT NULL` in `lt`) — 123 of the last 30
+days' 207 completions were rituals, which swamps every real signal.
 
 **Never use the project's own `Modified` / `Age` field as an activity signal.** It does not update
 when child tasks change — 🎿 Skiing has shown "modified 9 months ago" during a week with 8
@@ -60,9 +111,13 @@ Assign exactly one verdict per project:
 
 | Verdict | Definition |
 |---|---|
-| **moving** | ≥1 completion in the last 7 days |
-| **quiet** | not moving, **and** has at least one open task that is dated or modified within 60 days |
-| **stalled** | not moving, **and** zero open tasks **or** every open task untouched 60+ days |
+| **moving** | ≥1 non-ritual completion in the last 7 days |
+| **quiet** | not moving, **and** has ≥1 open task either scheduled (`start_d`) or created within 90 days |
+| **stalled** | not moving, **and** zero open tasks **or** every open task created 90+ days ago with no start date |
+
+**Staleness is measured by `created`, never by modification.** Modification is rewritten by every
+sweep, so a task nobody has genuinely touched since April reads as fresh. Observed 2026-08-16:
+❤️ Mom and 🧠 TheraGPT were both misclassified in opposite directions off modification date.
 
 These are exhaustive and ordered — test `moving`, then `quiet`, then `stalled`. A project whose last
 completion was 20 days ago is **quiet**, not an edge case; the only thing that matters after
@@ -201,8 +256,10 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 
 ## Step 5 — Capacity check
 
-```
-mcp__things__get_logbook period=7d
+```bash
+~/.claude/skills/things-review/things-db.sh sql "SELECT COUNT(*) substantive FROM TMTask t
+  WHERE t.type=0 AND t.status=3 AND t.trashed=0 AND t.rt1_repeatingTemplate IS NULL
+    AND t.stopDate>=strftime('%s',date('now','-7 day'))"
 ```
 
 Count substantive (non-ritual) completions. Compare to 21 (3/day × 7).
@@ -275,6 +332,13 @@ Applied: [what changed]
 
 ## Common mistakes
 
+- **Using the MCP for any list or count.** It reports 866 open tasks against a true 194. Step 0a or
+  nothing.
+- **Decoding startDate/deadline as a timestamp.** They are packed bitfields. You get 1974.
+- **Aging an item by modification date.** Every sweep resets it. Age by `created`.
+- **Stating elapsed time.** You can't measure it, and a wrong number makes Sean cut the review short.
+- **Continuing past a contradiction.** Two queries disagreeing means stop and reconcile, not note
+  and move on.
 - **Leading with list hygiene.** Project health first. That's what he came for.
 - **Reporting stalled projects without forcing a decision.** Same list next week.
 - **Dumping all 70 Someday items.** Five. Every week.
