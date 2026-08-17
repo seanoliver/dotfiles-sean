@@ -51,7 +51,7 @@
           },
           {
             "type": "command",
-            "command": "[ -f ~/.claude/skills/using-superpowers/SKILL.md ] && { echo '<EXTREMELY_IMPORTANT>'; echo 'You have superpowers. Below is the full content of your local using-superpowers skill \u2014 your introduction to using skills. For all other skills, use the Skill tool.'; echo; cat ~/.claude/skills/using-superpowers/SKILL.md; echo '</EXTREMELY_IMPORTANT>'; } || true"
+            "command": "[ -f ~/.claude/skills/using-superpowers/SKILL.md ] && { echo '<EXTREMELY_IMPORTANT>'; echo 'You have superpowers. Below is the full content of your local using-superpowers skill — your introduction to using skills. For all other skills, use the Skill tool.'; echo; cat ~/.claude/skills/using-superpowers/SKILL.md; echo '</EXTREMELY_IMPORTANT>'; } || true"
           }
         ]
       },
@@ -92,8 +92,8 @@
           {
             "type": "command",
             "command": "\"$HOME/dotfiles/config/claude/hooks/autocommit-flush.sh\"",
-            "async": true,
-            "statusMessage": "Committing dotfiles edits..."
+            "statusMessage": "Committing dotfiles edits...",
+            "async": true
           }
         ]
       }
