@@ -66,22 +66,40 @@ now, and it never touches a list again.
 2026-08-14: surfacing things that merely look interesting is how a 15-minute run becomes 90 minutes.
 If an item is genuinely appealing but fails all four tests, leave it buried.
 
-**Read the rot clock off the `Unburied YYYY-MM-DD` stamp in notes, never off the modification date.**
-`shape-today`, `unbury`, and `things-review` all write to these items, and every write resets the
-modification date. An item swept daily for a month still reads as "modified today," so a
-modification-based test can never fire and the whole Rotting row silently does nothing. No stamp
-means it has never been surfaced, which counts as rotting once it clears the day threshold.
+**Read the rot clock off the `Unburied YYYY-MM-DD` stamp, never off the modification date.** The
+`unburied_on` column in `lt` extracts it for you. `shape-today`, `unbury`, and `things-review` all
+write to these items, and every write resets the modification date, so an item swept daily for a
+month still reads as "modified today." A modification-based test can never fire, and the whole
+Rotting row silently does nothing. `never` in `last_surfaced` means it has never been surfaced, which
+counts as rotting once it clears the day threshold.
 
 **A rotting item's disposition is live-or-die, not a reschedule.** "Still On Me" is not an outcome —
 that's the state that got it flagged. Force keep-with-a-reason, Someday, or delete.
 
 ## Step 0 — Read (never ask him to)
 
-```
-mcp__things__get_tagged_items tag="🟠 On Me"
-mcp__things__get_anytime
-mcp__things__get_today                # to know what the 3 are, for displacement
+```bash
+S=~/dotfiles/scripts/things-db.sh
+$S check          # integrity gate — if any line says FAIL, stop and fix it first
+$S onme           # the pool, oldest-unsurfaced first, with last_surfaced per item
+$S today          # to know what the 3 are, for displacement
 date +%Y-%m-%d
+```
+
+**Never build these lists from the Things MCP.** It does not filter by parent-project status and
+emits headings as tasks: measured 2026-08-16, its unfiltered open-task count was 866 against a true
+live count of 194. It also decodes nothing — `startDate` is a packed bitfield, and reading it as a
+timestamp returns 1974. Writes still go through `mcp__things__update_todo`; only reads moved.
+
+`$S onme` already sorts by `last_surfaced` ascending (never-surfaced first), which is the rank order
+the Rotting test wants. The Anytime backstop:
+
+```bash
+$S sql "SELECT uuid, created, COALESCE(unburied_on,'never') last_surfaced, title
+        FROM lt WHERE start=1 AND start_d IS NULL AND rep IS NULL
+          AND (tags IS NULL OR tags NOT LIKE '%On Me%')
+          AND created <= date('now','-30 day')
+        ORDER BY created LIMIT 20"
 ```
 
 **`🟠 On Me` is the input. Anytime is a backstop, not a second input.** The tag is curated by
@@ -90,10 +108,6 @@ Anytime only to catch what a skipped weekly review left behind, and filter it ha
 a real date, plus no `Unburied` stamp in 30+ days. That is a handful of items, not a list. Promotion
 is the weekly review's job — never retag Anytime items into On Me here, or the pool re-inflates daily
 and the sweep stops fitting in one sitting.
-
-`get_anytime` blows the token limit on this account and spills to a file. When that happens, read the
-spill file directly and filter it down before reasoning about it — do not pull the raw dump into
-context. Keep only items matching the four signals above.
 
 **Always exclude:**
 - Anything in `🔄 Rituals`
@@ -177,11 +191,14 @@ should leave everything decided-so-far already saved.
 
 ## Step 4 — Stamp everything you touched
 
-Append one line to the notes of every item that survived the run without being completed:
+Every item that survived the run without being completed gets one stamp line in its notes:
 
 ```
 Unburied 2026-08-14 — kept, reason: blocked on Caelean's reply.
 ```
+
+**Replace the existing `Unburied` line, don't append a second one.** The `unburied_on` column reads
+the first match, so stacked stamps make an item look permanently stale and it re-surfaces forever.
 
 Step 0 skips anything stamped within 14 days. **This is the mechanism that stops the skill from
 showing the same five items every day**, which is the fastest way for Sean to start ignoring it.

@@ -132,20 +132,29 @@ available and it costs one question.
 
 ## Step 1 — Read
 
-```
-mcp__things__get_today          # rich data: notes, deadlines, projects
-mcp__things__get_upcoming       # what's already committed to coming days
-mcp__things__get_inbox          # untriaged captures; in scope every run
-osascript -e 'tell application "Things3" to get name of to dos of list "Today"'
+```bash
+S=~/dotfiles/scripts/things-db.sh
+$S check            # integrity gate — if any line says FAIL, stop and fix it first
+$S today            # the roster, rituals flagged, with substantive count
+$S inbox            # untriaged captures; in scope every run
+$S sql "SELECT uuid, start_d, COALESCE(project,area) bucket, COALESCE(due_d,'-') due, title
+        FROM lt WHERE start_d > date('now','localtime') ORDER BY start_d"   # upcoming, for day caps
+date +%Y-%m-%d
 ```
 
-**Run both Today reads. `get_today` under-reports.** Observed 2026-08-07: it returned 26 items while
-AppleScript returned 32, silently omitting four substantive items that were genuinely on Today. Use
-`get_today` for the rich fields (notes, deadlines, project) and **AppleScript for the authoritative
-roster**. Anything in the AppleScript list but missing from `get_today` still needs a disposition —
-look it up by name to get its id.
+**Read the roster from `things-db.sh`, not from the MCP.** The Things MCP does not filter by
+parent-project status and emits headings as tasks: measured 2026-08-16, its unfiltered open-task
+count was 866 against a true live count of 194. `get_today` has also been observed silently omitting
+items (2026-08-07: 26 returned against 32 actually on Today). The script's `lt` view resolves
+heading→project, drops dead parents, and decodes `startDate` correctly — it is a packed bitfield, not
+a timestamp, and reading it as epoch returns 1974.
 
-Note today's date via `date +%Y-%m-%d`. You need it to compute ages and to name deferral days.
+`$S today` flags rituals in its `kind` column and prints `substantive_today` at the end. That count is
+the one the 3-cap applies to.
+
+Note today's date via `date +%Y-%m-%d`. You need it to compute ages and to name deferral days. Age
+items by `created`, never by modification — every sweep by this skill, `unbury`, or `things-review`
+rewrites modification date.
 
 If Today has 3 or fewer substantive items **and Inbox is empty**, say so and stop — offer to pull
 one forward from Anytime instead. Don't shape a Today list that doesn't need shaping.
@@ -288,7 +297,14 @@ what he lands on.
 
 ## Step 5 — Apply, then verify
 
-Use `mcp__things__update_todo` per item. Then **re-read `get_today` and `get_inbox`** and confirm both.
+Use `mcp__things__update_todo` per item (writes still go through the MCP; only reads moved).
+
+Then re-verify from the database, not from the tool you just wrote with:
+
+```bash
+S=~/dotfiles/scripts/things-db.sh
+$S check && $S today && $S inbox
+```
 
 Report the actual post-state numbers. If Today isn't 3 substantive + rituals, or Inbox still has
 items you were supposed to file, say so plainly and fix it. Never claim a shape succeeded without
@@ -391,9 +407,8 @@ just set without an explicit displacement.
 - **Ending without offering `unbury`.** Sean will not invoke it from memory. Step 6 is not optional.
 - **Burying the decision.** Rotters go in their own section, not a footnote.
 - **Re-deriving capacity.** The cap is 3. Don't recompute it from today's vibes.
-- **Counting wrong.** `get_today` and AppleScript disagree, and **AppleScript is the authoritative
-  one** — `get_today` has been observed omitting items. Verify with AppleScript in Step 5 and report
-  that number.
+- **Counting from the MCP.** `get_today` omits items and counts dead-project tasks and headings as
+  live. Every count comes from `things-db.sh`; report `substantive_today` from `$S today`.
 - **Resetting start dates on the 3 picks.** Leave them alone. They're already on Today, and
   refreshing the date to today resets the age clock — an item picked-but-not-done every day would
   never accumulate age and never trip rotter detection. Only write the `🌟 MIT` tag.
