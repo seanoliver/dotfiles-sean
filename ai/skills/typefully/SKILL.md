@@ -28,7 +28,7 @@ Update methods by installation type:
 | Cursor | Remote rules auto-sync from GitHub |
 | Manual | Pull latest from repo or re-copy `skills/typefully/` |
 
-API changes ship independently—updating the skill ensures you have the latest commands and workflows.
+API changes ship independently, so updating the skill ensures you have the latest commands and workflows.
 
 ## Setup
 
@@ -154,7 +154,7 @@ Follow this workflow when creating posts:
    ```
    Note: If `--platform` is omitted, the first connected platform is auto-selected.
 
-   **For multi-platform posts**: See [Publishing to Multiple Platforms](#publishing-to-multiple-platforms) — always use a single draft, even when content differs per platform.
+   **For multi-platform posts**: See [Publishing to Multiple Platforms](#publishing-to-multiple-platforms). Always use a single draft, even when content differs per platform.
 
 4. **Schedule or publish** as needed
 
@@ -193,7 +193,7 @@ When the content is the same across platforms, create a single draft with multip
 ./scripts/typefully.js drafts:create --all --text "Posting everywhere!"
 ```
 
-**IMPORTANT**: When content should be tailored (e.g., X thread with a LinkedIn post version), **still use a single draft** — create with one platform first, then update to add the other:
+**IMPORTANT**: When content should be tailored (e.g., X thread with a LinkedIn post version), **still use a single draft**: create with one platform first, then update to add the other:
 
 ```bash
 # 1. Create draft with the primary platform first
@@ -609,7 +609,7 @@ Example: `https://typefully.com/?a=12345&d=67890`
 
 ## Draft Scratchpad
 
-**When the user explictly asked to add notes, ideas, or anything else in the draft scratchpad, use the `--scratchpad` flag—do NOT write to local files!**
+**When the user explictly asked to add notes, ideas, or anything else in the draft scratchpad, use the `--scratchpad` flag. Do NOT write to local files!**
 
 The `--scratchpad` option attaches internal notes directly to the Typefully draft. These notes:
 - Are visible in the Typefully UI alongside the draft

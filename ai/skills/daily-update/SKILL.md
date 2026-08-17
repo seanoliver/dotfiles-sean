@@ -12,11 +12,11 @@ Single-page HTML report of Sean Oliver's work activity over the last 7 days, pul
 This skill does NOT:
 
 - Generate updates for anyone other than Sean (use Marc's weekly-status prompt for team reports).
-- Cover Personal or Indie Hacking work — only Supabase-area activity.
-- Schedule itself — pair with `/schedule` for automated daily runs.
-- Edit, follow up on, or act on the items it surfaces — this is a read-only report.
+- Cover Personal or Indie Hacking work. Only Supabase-area activity.
+- Schedule itself. Pair with `/schedule` for automated daily runs.
+- Edit, follow up on, or act on the items it surfaces. This is a read-only report.
 - Backfill more than 7 days; the window is fixed.
-- Push the report anywhere (Slack, Notion, Linear) — output is local HTML only.
+- Push the report anywhere (Slack, Notion, Linear). Output is local HTML only.
 
 ## Identity Constants
 
@@ -38,10 +38,10 @@ Use these verbatim; do not look them up at runtime.
 
 Work in Pacific Time. Compute:
 
-- `TODAY` — invocation date as `YYYY-MM-DD` (e.g., `2026-05-20`).
-- `WINDOW_START` — `TODAY` minus 7 days (e.g., `2026-05-13`).
-- `YESTERDAY` — `TODAY` minus 1 day.
-- `GENERATED_AT` — current timestamp, formatted `YYYY-MM-DD HH:MM PT`.
+- `TODAY`: invocation date as `YYYY-MM-DD` (e.g., `2026-05-20`).
+- `WINDOW_START`: `TODAY` minus 7 days (e.g., `2026-05-13`).
+- `YESTERDAY`: `TODAY` minus 1 day.
+- `GENERATED_AT`: current timestamp, formatted `YYYY-MM-DD HH:MM PT`.
 
 Then:
 
@@ -53,9 +53,9 @@ Check if `~/Documents/daily-updates/daily-update-${YESTERDAY}.html` exists. If y
 
 ## Phase 2: Parallel Intelligence
 
-Dispatch seven subagents in a SINGLE message to maximize parallelism. Each agent uses `subagent_type: general-purpose` and `model: sonnet`. Haiku is appealing on cost but several sources (PostHog, Slack ranking, Things filtering) need light reasoning + iterative tool loading via ToolSearch — Sonnet is the reliable default. Downgrade individual agents to Haiku only after they're observed to work consistently.
+Dispatch seven subagents in a SINGLE message to maximize parallelism. Each agent uses `subagent_type: general-purpose` and `model: sonnet`. Haiku is appealing on cost but several sources (PostHog, Slack ranking, Things filtering) need light reasoning + iterative tool loading via ToolSearch. Sonnet is the reliable default. Downgrade individual agents to Haiku only after they're observed to work consistently.
 
-**REQUIRED PATTERN:** Follow `dispatching-parallel-agents` — all seven Agent calls in one tool-use block.
+**REQUIRED PATTERN:** Follow `dispatching-parallel-agents`. All seven Agent calls in one tool-use block.
 
 Each subagent receives a prompt of the form:
 
@@ -63,23 +63,23 @@ Each subagent receives a prompt of the form:
 
 ### Per-source instructions
 
-**1. Linear** — Use `mcp__claude_ai_Linear__list_issues` with filter on team `a2feb365-231c-4bd2-9be7-b40217f8ad33` and assignee containing "Sean Oliver", updated since `{WINDOW_START}`. For each issue capture: `identifier` (e.g., GROWTH-123), `title`, `state.name`, `state.type`, `project.name`, `url`, `updatedAt`, AND `description` (first sentence of the issue body, max 120 chars, or empty string if no body). Issues with `state.type = completed` go to `shipped`; others to `in_progress`. Issues untouched for 5+ days but still open go to `flags` with context "stalled".
+**1. Linear**: Use `mcp__claude_ai_Linear__list_issues` with filter on team `a2feb365-231c-4bd2-9be7-b40217f8ad33` and assignee containing "Sean Oliver", updated since `{WINDOW_START}`. For each issue capture: `identifier` (e.g., GROWTH-123), `title`, `state.name`, `state.type`, `project.name`, `url`, `updatedAt`, AND `description` (first sentence of the issue body, max 120 chars, or empty string if no body). Issues with `state.type = completed` go to `shipped`; others to `in_progress`. Issues untouched for 5+ days but still open go to `flags` with context "stalled".
 
-**2. GitHub** — Use `mcp__plugin_github_github__search_pull_requests` twice:
+**2. GitHub**: Use `mcp__plugin_github_github__search_pull_requests` twice:
   - `is:pr author:seanoliver org:supabase updated:>={WINDOW_START}` → authored PRs
   - `is:pr reviewed-by:seanoliver org:supabase updated:>={WINDOW_START}` → reviewed PRs
   
-  Authored merged PRs → `shipped`. Authored open PRs → `in_progress` (skip drafts older than 5 days; flag those). Reviewed PRs → `discussions` (collaboration signal). Capture: `repo`, `number`, `title`, `state`, `merged_at`/`updated_at`, `html_url`, AND `description` (first sentence of PR body, max 120 chars; for reviewed PRs this is usually unnecessary — leave empty if the title is self-explanatory).
+  Authored merged PRs → `shipped`. Authored open PRs → `in_progress` (skip drafts older than 5 days; flag those). Reviewed PRs → `discussions` (collaboration signal). Capture: `repo`, `number`, `title`, `state`, `merged_at`/`updated_at`, `html_url`, AND `description` (first sentence of PR body, max 120 chars; for reviewed PRs this is usually unnecessary, so leave empty if the title is self-explanatory).
 
-**3. Slack** — Use `mcp__claude_ai_Slack__slack_search_public` with query `from:<@U094379BQLB> after:{WINDOW_START}`. Then a second search: `<@U094379BQLB> after:{WINDOW_START}` (where Sean was mentioned). Rank threads by reply count + decision-weight signals (words like "decision", "ship", "block", "RFC", "?"). Top 3-5 go to `discussions`. Capture: `channel`, `one_line_summary`, `reply_count`, `permalink`. If rate-limited (429), put a single item in `flags` with text "Slack rate-limited" and do NOT retry.
+**3. Slack**: Use `mcp__claude_ai_Slack__slack_search_public` with query `from:<@U094379BQLB> after:{WINDOW_START}`. Then a second search: `<@U094379BQLB> after:{WINDOW_START}` (where Sean was mentioned). Rank threads by reply count + decision-weight signals (words like "decision", "ship", "block", "RFC", "?"). Top 3-5 go to `discussions`. Capture: `channel`, `one_line_summary`, `reply_count`, `permalink`. If rate-limited (429), put a single item in `flags` with text "Slack rate-limited" and do NOT retry.
 
-**4. Notion** — Use `mcp__claude_ai_Notion__notion-search` with query "Sean Oliver" filtered to pages edited after `{WINDOW_START}`. Pages Sean created or edited in the window. Recently-published pages → `shipped`. Draft/in-progress pages → `in_progress`. Capture: `title`, `url`, `last_edited_time`, `brief` (first sentence of summary).
+**4. Notion**: Use `mcp__claude_ai_Notion__notion-search` with query "Sean Oliver" filtered to pages edited after `{WINDOW_START}`. Pages Sean created or edited in the window. Recently-published pages → `shipped`. Draft/in-progress pages → `in_progress`. Capture: `title`, `url`, `last_edited_time`, `brief` (first sentence of summary).
 
-**5. PostHog** — Use `mcp__posthog__exec` to query for experiments and feature flags Sean created or modified in the window. Filter the experiment + feature flag lists by `created_by.email = sean.oliver@supabase.io` OR `updated_at >= {WINDOW_START}` with `created_by.email = sean.oliver@supabase.io`. Experiments transitioning to "running" state in window → `launched`. Feature flags rolled to 100% in window → `launched`. New draft experiments → `in_progress`. Capture: `name`, `type` (experiment/flag/insight), `status`, URL. If query returns 0, double-check by listing recent items and filtering client-side before declaring empty.
+**5. PostHog**: Use `mcp__posthog__exec` to query for experiments and feature flags Sean created or modified in the window. Filter the experiment + feature flag lists by `created_by.email = sean.oliver@supabase.io` OR `updated_at >= {WINDOW_START}` with `created_by.email = sean.oliver@supabase.io`. Experiments transitioning to "running" state in window → `launched`. Feature flags rolled to 100% in window → `launched`. New draft experiments → `in_progress`. Capture: `name`, `type` (experiment/flag/insight), `status`, URL. If query returns 0, double-check by listing recent items and filtering client-side before declaring empty.
 
-**6. Things 3** — Use `mcp__things__get_logbook` to fetch completed tasks. Client-side filter to `area = "GguAn2gpEuEbSCi59RhJ4W"` (Supabase area only — explicitly exclude Personal `2kxr1cEK38g34vUrxTUEVx` and Indie Hacking `8e4tgjvV8zVLRurmBdXqnn`) AND `completion_date >= {WINDOW_START}`. All matched items → `shipped` (personal-tracking work that may not have a PR). Capture: `title`, `completed_at`, `project` (if any), `tags`.
+**6. Things 3**: Use `mcp__things__get_logbook` to fetch completed tasks. Client-side filter to `area = "GguAn2gpEuEbSCi59RhJ4W"` (Supabase area only, so explicitly exclude Personal `2kxr1cEK38g34vUrxTUEVx` and Indie Hacking `8e4tgjvV8zVLRurmBdXqnn`) AND `completion_date >= {WINDOW_START}`. All matched items → `shipped` (personal-tracking work that may not have a PR). Capture: `title`, `completed_at`, `project` (if any), `tags`.
 
-**7. Local docs** — Run the following bash via the agent:
+**7. Local docs**: Run the following bash via the agent:
 
 ```bash
 find ~/supabase/docs/bugs ~/supabase/docs/investigations -type f -name "*.md" -newermt "{WINDOW_START}" 2>/dev/null | grep -v TEMPLATE
@@ -87,11 +87,11 @@ find ~/supabase/docs/bugs ~/supabase/docs/investigations -type f -name "*.md" -n
 
 For each file, read the first `# ` heading (title) and the `Repo` line if present. Bug journal entries → `flags` (recurring issue signal). Investigation entries → `shipped` (knowledge artifact). Capture: `file_path`, `title`, `type` (bug/investigation), `mtime`.
 
-**Populate the `url` field** with `cursor://file<absolute_path>` (note: scheme is `cursor://file` followed directly by the absolute path starting with `/`, e.g. `cursor://file/Users/seanoliver/supabase/docs/investigations/foo.md`). This makes the ref-line clickable and opens the file in Cursor. Do NOT use `file://` — browsers download `.md` rather than preview, which defeats the affordance.
+**Populate the `url` field** with `cursor://file<absolute_path>` (note: scheme is `cursor://file` followed directly by the absolute path starting with `/`, e.g. `cursor://file/Users/seanoliver/supabase/docs/investigations/foo.md`). This makes the ref-line clickable and opens the file in Cursor. Do NOT use `file://`, because browsers download `.md` rather than preview, which defeats the affordance.
 
 ### Subagent Output Format
 
-Each subagent MUST return RAW JSON only. The FIRST character of the response must be `{`. No prose before, no prose after, no markdown code fences. Do not narrate your classification reasoning — apply rules silently and emit JSON.
+Each subagent MUST return RAW JSON only. The FIRST character of the response must be `{`. No prose before, no prose after, no markdown code fences. Do not narrate your classification reasoning. Apply rules silently and emit JSON.
 
 **Wrong** (will break synthesis):
 ```
@@ -119,11 +119,11 @@ Schema:
 }
 ```
 
-Not every source fills every array — that's fine; leave irrelevant ones empty.
+Not every source fills every array, and that's fine; leave irrelevant ones empty.
 
-**Exclusivity rule:** an item MUST appear in at most ONE section per source payload. `flags` is reserved for problems, risks, and unfinished items only — never as a cross-reference to a launched/shipped success. If a thing both shipped and has a follow-up concern, put it in `shipped` and write a SEPARATE flag item describing the concern, not the same row duplicated. The Slack rate-limit and subagent-error cases are the only exception (those are by definition flag-only).
+**Exclusivity rule:** an item MUST appear in at most ONE section per source payload. `flags` is reserved for problems, risks, and unfinished items only, never as a cross-reference to a launched/shipped success. If a thing both shipped and has a follow-up concern, put it in `shipped` and write a SEPARATE flag item describing the concern, not the same row duplicated. The Slack rate-limit and subagent-error cases are the only exception (those are by definition flag-only).
 
-**Headline field (REQUIRED for every item):** `headline` is a 5–10 word natural-language summary of what the item is or what it does, written for a human skim — NOT the raw PR title, Linear title, or filename. Drop ticket numbers, drop conventional-commit prefixes (`fix:`, `feat:`, `refactor:`), drop scope tags (`(telemetry)`), drop project codes. Strip jargon when possible without losing meaning.
+**Headline field (REQUIRED for every item):** `headline` is a 5 to 10 word natural-language summary of what the item is or what it does, written for a human skim, NOT the raw PR title, Linear title, or filename. Drop ticket numbers, drop conventional-commit prefixes (`fix:`, `feat:`, `refactor:`), drop scope tags (`(telemetry)`), drop project codes. Strip jargon when possible without losing meaning.
 
 Examples:
 - title: `"fix(telemetry): pass org_count and signup_timestamp in flag personProperties"` → headline: `"Wire org_count + signup_timestamp into flag audiences"`
@@ -174,17 +174,17 @@ Font stack: `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`. Mono fal
 <footer>                         link to yesterday's report (if file exists)
 ```
 
-**Section order is intentional:** Launched first because it's the most user-visible outcome and the rarest signal — burying it under "Shipped" hides the headline. Shipped + In Progress next because they're the densest action sections. Flags before Discussions because flags want attention (stalled work, bugs), while discussions are passive awareness signal. Discussions live at the bottom.
+**Section order is intentional:** Launched first because it's the most user-visible outcome and the rarest signal. Burying it under "Shipped" hides the headline. Shipped + In Progress next because they're the densest action sections. Flags before Discussions because flags want attention (stalled work, bugs), while discussions are passive awareness signal. Discussions live at the bottom.
 
 ### Velocity grid tiles
 
 5 tiles, in order:
 
-1. **PRs Merged** — count from GitHub `shipped`
-2. **Linear Closed** — count from Linear `shipped`
-3. **Experiments Launched** — count from PostHog `launched`
-4. **Things Completed** — count from Things `shipped`
-5. **Repos Touched** — distinct count of `repo` across all GitHub items
+1. **PRs Merged**: count from GitHub `shipped`
+2. **Linear Closed**: count from Linear `shipped`
+3. **Experiments Launched**: count from PostHog `launched`
+4. **Things Completed**: count from Things `shipped`
+5. **Repos Touched**: distinct count of `repo` across all GitHub items
 
 Each tile: large number + small caption. Tile bg is `--surface`, number color is `--accent`.
 
@@ -192,10 +192,10 @@ Each tile: large number + small caption. Tile bg is `--surface`, number color is
 
 Each item is a `<li>` with up to FOUR text rows:
 
-1. **Headline** (prominent, 15px, weight 600) — the `headline` field from the source payload. This is what the eye lands on first. Render as plain `<strong>` (not a link) so the click target is unambiguous downstream.
-2. **Reference line** (small, 11–12px, muted, mono font) — the raw `title` field, linked to `url` if present. This is the formal identifier: PR number + commit-style title, Linear ID + ticket title, etc. When `headline` and `title` are identical (e.g. Things tasks, some Notion pages), OMIT this row entirely — no point repeating the same string twice.
-3. **Description** (optional, 13px, muted) — one-line natural-language explanation of WHAT the item does or what changed, drawn from the `description` field. Render between reference and context. Omit the row entirely when `description` is empty.
-4. **Context line** (12px, dim) — `{timestamp 'May 15'}{ · project/repo}{ · state}`.
+1. **Headline** (prominent, 15px, weight 600): the `headline` field from the source payload. This is what the eye lands on first. Render as plain `<strong>` (not a link) so the click target is unambiguous downstream.
+2. **Reference line** (small, 11-12px, muted, mono font): the raw `title` field, linked to `url` if present. This is the formal identifier: PR number + commit-style title, Linear ID + ticket title, etc. When `headline` and `title` are identical (e.g. Things tasks, some Notion pages), OMIT this row entirely. No point repeating the same string twice.
+3. **Description** (optional, 13px, muted): one-line natural-language explanation of WHAT the item does or what changed, drawn from the `description` field. Render between reference and context. Omit the row entirely when `description` is empty.
+4. **Context line** (12px, dim): `{timestamp 'May 15'}{ · project/repo}{ · state}`.
 
 The **source pill** (LINEAR / GITHUB / SLACK / NOTION / POSTHOG / THINGS / DOCS) sits on the headline row to the right, colored to match the section accent.
 
@@ -224,7 +224,7 @@ Wrap the document like this:
 </body>
 ```
 
-Computation rules — precompute at generation time:
+Computation rules, precomputed at generation time:
 
 - Each `<li>` MUST have `data-recent="true"` if its timestamp is on TODAY or YESTERDAY (the trailing 24-hour window, day-precision), else `data-recent="false"`.
 - A `<section.report-section>` MUST gain class `no-recent` IF AND ONLY IF every item in it has `data-recent="false"`.
@@ -248,28 +248,28 @@ Required CSS rules:
 }
 ```
 
-The exec-summary stays visible in both modes — it's a synthesis of the 7-day window and remains relevant context even in 24h view. Do NOT try to also filter it.
+The exec-summary stays visible in both modes. It's a synthesis of the 7-day window and remains relevant context even in 24h view. Do NOT try to also filter it.
 
 ### Cross-source deduplication
 
-The same underlying piece of work often appears in multiple source payloads — a single shipment shows up as a Linear issue, a merged GitHub PR, AND a completed Things task. Before rendering, collapse these into ONE item with multiple source pills.
+The same underlying piece of work often appears in multiple source payloads. A single shipment shows up as a Linear issue, a merged GitHub PR, AND a completed Things task. Before rendering, collapse these into ONE item with multiple source pills.
 
 **Dedup signals (any one match → collapse):**
 - A Linear identifier like `GROWTH-123` appearing in a GitHub PR title or Things task title.
 - A GitHub PR number or URL appearing in a Things task title or Linear issue body.
 - Two titles with >70% word overlap referencing the same date and the same outcome (e.g. "Ship 5% rollout" Things task + "GROWTH-853 · Set up 5% rollout" Linear issue).
 
-**Collapse rule:** keep the most informative title (usually the Linear or GitHub one — it has the formal identifier), then render all matched source pills inline (`<span class="pill linear">LINEAR</span> <span class="pill github">GITHUB</span> <span class="pill things">THINGS</span>`). Use the earliest timestamp of the group.
+**Collapse rule:** keep the most informative title (usually the Linear or GitHub one, since it has the formal identifier), then render all matched source pills inline (`<span class="pill linear">LINEAR</span> <span class="pill github">GITHUB</span> <span class="pill things">THINGS</span>`). Use the earliest timestamp of the group.
 
-**Do NOT dedup across different work items just because they share a project tag** — only merge when the items are clearly the same underlying ship.
+**Do NOT dedup across different work items just because they share a project tag**. Only merge when the items are clearly the same underlying ship.
 
 ### Empty-section behavior
 
-If a section has zero items, render `<p class="empty">No activity in this window.</p>` inside the section. Do NOT omit the section — consistency makes day-over-day diffs scannable.
+If a section has zero items, render `<p class="empty">No activity in this window.</p>` inside the section. Do NOT omit the section. Consistency makes day-over-day diffs scannable.
 
 ### Executive summary box
 
-Render as a SHORT bulleted list (3-5 bullets), NOT a dense paragraph. Each bullet is one tight line. Group related items into a single bullet — don't list every PR.
+Render as a SHORT bulleted list (3-5 bullets), NOT a dense paragraph. Each bullet is one tight line. Group related items into a single bullet. Don't list every PR.
 
 Priority order for bullets:
 
@@ -302,7 +302,7 @@ OUT="$HOME/Documents/daily-updates/daily-update-$(date +%Y-%m-%d).html"
 open "$OUT"
 ```
 
-**Same-day idempotency (REQUIRED):** the filename is keyed to TODAY's date alone. Running the skill multiple times in a single day OVERWRITES the existing file with the latest synthesis. Do NOT append a timestamp, run-counter, or any uniqueness token to the filename — repeated same-day runs are intentional refreshes, not new artifacts. The `open` call re-focuses the browser tab; the user sees the latest data in place.
+**Same-day idempotency (REQUIRED):** the filename is keyed to TODAY's date alone. Running the skill multiple times in a single day OVERWRITES the existing file with the latest synthesis. Do NOT append a timestamp, run-counter, or any uniqueness token to the filename. Repeated same-day runs are intentional refreshes, not new artifacts. The `open` call re-focuses the browser tab; the user sees the latest data in place.
 
 Print this terminal one-liner (replace placeholders with actual counts):
 
@@ -322,15 +322,15 @@ Daily update saved → ~/Documents/daily-updates/daily-update-{TODAY}.html
 | Empty PostHog results unchecked | If PostHog returns 0, retry with a broader list-then-filter approach before declaring empty. |
 | Subagent failures rendered as silence | A failed subagent must surface as `⚠️ {source} subagent failed: {error}` in the Flags section. |
 | Omitting empty sections | Always render the section with an empty-state placeholder. Skipping sections breaks day-over-day visual diff. |
-| Substituting Sean's name when copying Marc's prompt structure | Sean is the subject, not a teammate. There are no per-person cards — only one subject card (Sean's). |
+| Substituting Sean's name when copying Marc's prompt structure | Sean is the subject, not a teammate. There are no per-person cards, only one subject card (Sean's). |
 
 ## Verification
 
 After generating, before declaring complete:
 
-1. `ls -la ~/Documents/daily-updates/daily-update-${TODAY}.html` — file exists and is non-empty.
-2. Open the file — every section has either items or "No activity" placeholder.
-3. Velocity tiles total > 0. If everything is zero, at least one subagent failed silently — investigate.
+1. `ls -la ~/Documents/daily-updates/daily-update-${TODAY}.html`: file exists and is non-empty.
+2. Open the file: every section has either items or "No activity" placeholder.
+3. Velocity tiles total > 0. If everything is zero, at least one subagent failed silently, so investigate.
 4. Section accent colors match theme tokens (visual check).
 5. Yesterday's report link present only if that file exists.
 6. Terminal one-liner printed with accurate counts.
@@ -339,9 +339,9 @@ After generating, before declaring complete:
 
 **This skill cannot be scheduled via `/schedule`.** `/schedule` creates *remote* agents that run in Anthropic's cloud, but this skill depends on three local-only resources:
 
-- **Things 3 MCP** — runs against the local Things database on the Mac; no remote equivalent.
-- **`~/supabase/docs/bugs/` + `~/supabase/docs/investigations/`** — local files at the hub root, not in any git repo.
-- **`~/Documents/daily-updates/`** — local output destination.
+- **Things 3 MCP**: runs against the local Things database on the Mac; no remote equivalent.
+- **`~/supabase/docs/bugs/` + `~/supabase/docs/investigations/`**: local files at the hub root, not in any git repo.
+- **`~/Documents/daily-updates/`**: local output destination.
 
 A remote schedule would silently drop Things + local docs and have nowhere to write the HTML. Run this skill manually (`/daily-update` or trigger from a fresh Claude Code session). If you later want hands-off daily delivery, the right pivot is either:
 

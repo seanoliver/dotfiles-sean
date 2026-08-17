@@ -1,6 +1,6 @@
 ---
 name: weekly-update-formatter
-description: Formats disorganized personal notes into polished weekly update bullets for a growth engineering team meeting. Use this skill whenever the user asks to format, clean up, or turn notes into a weekly update, standup summary, or team update — even if they don't use the word "skill". Trigger on phrases like "format my update", "turn this into bullets", "weekly update", "write up my update", "clean up my notes for the meeting", etc.
+description: Formats disorganized personal notes into polished weekly update bullets for a growth engineering team meeting. Use this skill whenever the user asks to format, clean up, or turn notes into a weekly update, standup summary, or team update, even if they don't use the word "skill". Trigger on phrases like "format my update", "turn this into bullets", "weekly update", "write up my update", "clean up my notes for the meeting", etc.
 argument-hint: [paste your raw notes]
 ---
 
@@ -16,13 +16,13 @@ The update is divided into these sections, in order:
 Charts, stats, and metric callouts worth reviewing async. Include a link to the Growth Eng WBR Hex dashboard. Add any specific metric callouts as bullets.
 
 ### 2. Changelog
-One line per item shipped to prod. Keep it tight — just what landed. No sub-bullets needed unless there's a critical detail.
+One line per item shipped to prod. Keep it tight: just what landed. No sub-bullets needed unless there's a critical detail.
 
 ### 3. Notes
 Interesting work, findings, or FYIs worth sharing during silent reading time. This section can be more verbose than the changelog. Sub-bullets for supporting details, context, links. This is where in-progress work, investigations, discoveries, and upcoming plans go.
 
 ### 4. Discussion Topics
-Topics to discuss live with the team. Reference back to a Notes item if relevant. State the issue clearly — the team will discuss and solve together. List specific questions or sub-points as sub-bullets.
+Topics to discuss live with the team. Reference back to a Notes item if relevant. State the issue clearly. The team will discuss and solve together. List specific questions or sub-points as sub-bullets.
 
 ### 5. Blockers
 Things actively stuck that need the team. Leave empty with placeholder if nothing is blocked.
@@ -35,7 +35,7 @@ Things actively stuck that need the team. Leave empty with placeholder if nothin
 - **[Sean]:** the content here
 ```
 
-The `**[Sean]:**` prefix is bolded (the square brackets, name, and colon — all bold). This applies to:
+The `**[Sean]:**` prefix is bolded (the square brackets, name, and colon are all bold). This applies to:
 - Every Changelog item
 - Every Notes item (top-level only, not sub-bullets)
 - Every Discussion Topics item (top-level only)
@@ -73,7 +73,7 @@ Its **Rule 11, never claim an action you did not take**, applies to every bullet
 - **Changelog**: anything that shipped/merged to production this week. One line each, minimal context.
 - **Notes**: in-progress work, investigations, findings, upcoming plans, parked items, RFCs, explorations. More detail allowed.
 - **Discussion Topics**: anything the user flagged as needing team input, asks, open questions, or decisions. Can reference a Notes item. Questions/sub-points go as sub-bullets.
-- **Blockers**: only things actively stuck. Not "parked by choice" — genuinely blocked on someone or something.
+- **Blockers**: only things actively stuck. Not "parked by choice": genuinely blocked on someone or something.
 
 If an item has both a shipped component AND a discussion component (e.g., shipped Phase 1 but want to discuss Phase 2 approach), put the status in Notes and the question in Discussion Topics.
 
@@ -84,7 +84,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 *(read async before / during silent reading time)*
 
-[Growth Eng WBR — Activation](https://app.hex.tech/supabase/app/Growth-Eng-WBR---activation-032Hy8b68z6aALPSScJZod/latest)
+[Growth Eng WBR: Activation](https://app.hex.tech/supabase/app/Growth-Eng-WBR---activation-032Hy8b68z6aALPSScJZod/latest)
 
 [add chart]
 
@@ -94,7 +94,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 #### Changelog
 
-*(read async — one line per item shipped to prod)*
+*(read async: one line per item shipped to prod)*
 
 - **[Sean]:** auto-RLS experiment: graduated to 100% (+3.3pp lift), experiment code cleaned up https://linear.app/supabase/issue/GROWTH-653/...
 - **[Sean]:** Sentry telemetry instrumentation: instrumented the telemetry pipeline, no silent failures found so far, continuing to monitor passively https://linear.app/supabase/issue/GROWTH-674/...
@@ -102,20 +102,20 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 #### Notes
 
-*(Interesting work, findings, or FYIs worth sharing — read during silent time)*
+*(Interesting work, findings, or FYIs worth sharing, read during silent time)*
 
-- **[Sean]:** cross-app referrer fix (GROWTH-625): deployed Phase 1 — expanded www middleware to /dashboard and /docs, confirmed it works in production with no SPA navigation regressions https://github.com/supabase/supabase/pull/43413
-    - while validating Phase 1 data, found the real blocker: a double-encoding bug in the `_sb_first_referrer` cookie serialization — every cookie was silently unparseable (0 out of 1M+ pageviews had it present).
+- **[Sean]:** cross-app referrer fix (GROWTH-625): deployed Phase 1: expanded www middleware to /dashboard and /docs, confirmed it works in production with no SPA navigation regressions https://github.com/supabase/supabase/pull/43413
+    - while validating Phase 1 data, found the real blocker: a double-encoding bug in the `_sb_first_referrer` cookie serialization. Every cookie was silently unparseable (0 out of 1M+ pageviews had it present).
     - fix is up, recovers the full ~25% of unknown-internal attribution: https://github.com/supabase/supabase/pull/43617
     - middleware expansion (Phase 2) adds another ~1.75% on top, shipping after the encoding fix lands
-- **[Sean]:** GDPR in-memory attribution: PR ready to move first-touch data to in-memory storage pre-consent — parking it until the unknown-internal referral pipeline fix is in, will pick up after https://github.com/supabase/supabase/pull/43570
+- **[Sean]:** GDPR in-memory attribution: PR ready to move first-touch data to in-memory storage pre-consent. Parking it until the unknown-internal referral pipeline fix is in, will pick up after https://github.com/supabase/supabase/pull/43570
 - **[Sean]:** CLI telemetry: started socializing PostHog instrumentation for the CLI in `#team-dev-workflows`, working on drafting an RFC
     - what's our privacy/consent approach for CLI telemetry? opt-in vs opt-out, etc.?
     - who are the right contacts on the CLI team to loop in?
 
 #### Discussion Topics
 
-*(Add after reading above — tag with [Name]. State the Issue clearly; we'll Discuss and Solve together)*
+*(Add after reading above, tag with [Name]. State the Issue clearly; we'll Discuss and Solve together)*
 
 - **[Sean]:** CLI Telemetry
     - what's our privacy/consent approach for CLI telemetry? opt-in vs opt-out, etc.?
@@ -131,7 +131,7 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 ## Process
 
 1. Read all the user's notes carefully
-2. Group related items — don't create one bullet per raw note if they belong together
+2. Group related items. Don't create one bullet per raw note if they belong together
 3. Sort each item into the correct section (Changelog vs Notes vs Discussion vs Blockers)
 4. Identify any URLs and preserve them exactly
 5. Apply the `**[Sean]:**` prefix to every top-level bullet (except Data & Callouts)
@@ -140,4 +140,4 @@ If an item has both a shipped component AND a discussion component (e.g., shippe
 
 ## Output Format
 
-Output the full structured document with all section headers, emoji prefixes, and section descriptions. Include all sections even if some are empty (use placeholders). **All section headers must be H4 level (`####`)** — this matches the nesting depth in the Growth Eng Catch-ups Notion doc. Start directly with `#### Data & Callouts`.
+Output the full structured document with all section headers, emoji prefixes, and section descriptions. Include all sections even if some are empty (use placeholders). **All section headers must be H4 level (`####`)**. This matches the nesting depth in the Growth Eng Catch-ups Notion doc. Start directly with `#### Data & Callouts`.

@@ -7,9 +7,9 @@ description: Use when writing or revising a pull request description, converting
 
 A PR description's job is to let a reviewer skim it in 60 seconds and leave knowing: (1) what changed, (2) why, (3) what to test. Everything else is decoration.
 
-The work splits into two skills that compose: **voice** (conversational, like a thoughtful Slack message — no corporate speak, no marketing copy, no emoji) and **compression** (lead with cause, structure aggressively, cut chronology). Voice without compression produces friendly-sounding noise. Compression without voice produces clinical filler. You need both.
+The work splits into two skills that compose: **voice** (conversational, like a thoughtful Slack message, with no corporate speak, no marketing copy, no emoji) and **compression** (lead with cause, structure aggressively, cut chronology). Voice without compression produces friendly-sounding noise. Compression without voice produces clinical filler. You need both.
 
-## Step 1 — Use the repo's PR template when one exists
+## Step 1: Use the repo's PR template when one exists
 
 **Always check for a repo PR template before writing.** Locations to look:
 
@@ -18,7 +18,7 @@ The work splits into two skills that compose: **voice** (conversational, like a 
 - `.github/PULL_REQUEST_TEMPLATE/*.md` (directory of named templates)
 - `docs/PULL_REQUEST_TEMPLATE.md`
 
-If a template exists, **fill every section it asks for**, in the order it asks. The template is the team's house style and skipping it signals to reviewers that you didn't read the contributing docs. The rest of this skill's structure guidance is subordinate to the repo template — apply the compression principles to whichever sections the template asks for, but don't bolt extra sections onto a template that doesn't ask for them.
+If a template exists, **fill every section it asks for**, in the order it asks. The template is the team's house style and skipping it signals to reviewers that you didn't read the contributing docs. The rest of this skill's structure guidance is subordinate to the repo template. Apply the compression principles to whichever sections the template asks for, but don't bolt extra sections onto a template that doesn't ask for them.
 
 If no template exists, use the default structure in Step 4 as a starting point.
 
@@ -26,15 +26,15 @@ If no template exists, use the default structure in Step 4 as a starting point.
 
 For `~/supabase/supabase/` (the frontend monorepo), the canonical template is at `.github/pull_request_template.md`. As of this skill's creation it asks for:
 
-1. **I have read the [CONTRIBUTING.md](https://github.com/supabase/supabase/blob/master/CONTRIBUTING.md) file.** — answer `YES` (don't skip; reviewers look for this)
-2. **What kind of change does this PR introduce?** — pick from: Bug fix, feature, docs update, refactor, chore, etc. One word or short phrase.
-3. **What is the current behavior?** — describe what's broken or missing. Link relevant issues.
-4. **What is the new behavior?** — describe what the PR does. Include screenshots for visual changes.
-5. **Additional context** — anything that doesn't fit above: rollout notes, related PRs, follow-ups, validation steps.
+1. **I have read the [CONTRIBUTING.md](https://github.com/supabase/supabase/blob/master/CONTRIBUTING.md) file.** Answer `YES` (don't skip; reviewers look for this)
+2. **What kind of change does this PR introduce?** Pick from: Bug fix, feature, docs update, refactor, chore, etc. One word or short phrase.
+3. **What is the current behavior?** Describe what's broken or missing. Link relevant issues.
+4. **What is the new behavior?** Describe what the PR does. Include screenshots for visual changes.
+5. **Additional context.** Anything that doesn't fit above: rollout notes, related PRs, follow-ups, validation steps.
 
 Re-read this template before writing; it may have evolved. If you find a section the live template asks for that this skill doesn't mention, prefer the live template.
 
-## Step 2 — Voice and tone
+## Step 2: Voice and tone
 
 **Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, phrasing, the em-dash ban, bullets-over-prose, and section-title style. Do not restate its rules here.
 
@@ -45,9 +45,9 @@ PR-specific additions only:
 - **For testing**, describe what you actually tested, not formal test cases.
 - No "Resolves #123" footers. Reference the issue inline or at the end.
 
-## Step 3 — Lead with cause, not chronology
+## Step 3: Lead with cause, not chronology
 
-The first paragraph must answer **what broke, why, why this PR exists** — without storytelling. Chronology padding is the most common AI/junior-engineer tell and adds zero reviewer signal.
+The first paragraph must answer **what broke, why, why this PR exists**, without storytelling. Chronology padding is the most common AI/junior-engineer tell and adds zero reviewer signal.
 
 | Don't | Do |
 |---|---|
@@ -58,9 +58,9 @@ The first paragraph must answer **what broke, why, why this PR exists** — with
 
 Compress timelines into causality. Replace "We noticed... then we found... this led us to realize..." with direct statements.
 
-## Step 4 — Structure aggressively
+## Step 4: Structure aggressively
 
-If the repo has a template (Step 1), fill its sections. If it doesn't, the structure below is a reasonable default. Either way, **use named section headers and don't write giant prose blocks** — the reviewer should be able to jump to the section that answers their question.
+If the repo has a template (Step 1), fill its sections. If it doesn't, the structure below is a reasonable default. Either way, **use named section headers and don't write giant prose blocks**. The reviewer should be able to jump to the section that answers their question.
 
 The default structure has three core sections that nearly every PR needs, plus optional sections that you add only when the PR's context demands them.
 
@@ -72,13 +72,13 @@ Don't pad a PR with optional sections just to look thorough. A routine bug fix o
 
 ### Problem
 
-What's wrong, root cause, user impact. One short paragraph or 2-3 bullets. **Lead with the cause, not the symptom timeline.** If there's load-bearing evidence (a metric, a query result, a screenshot), surface it here — don't make the reviewer hunt for it.
+What's wrong, root cause, user impact. One short paragraph or 2-3 bullets. **Lead with the cause, not the symptom timeline.** If there's load-bearing evidence (a metric, a query result, a screenshot), surface it here. Don't make the reviewer hunt for it.
 
 For complex bugs, the diagnosis is the load-bearing part. Show the reviewer how you know. But prefer **directional summaries over exhaustive evidence**:
 
 | Don't | Do |
 |---|---|
-| "Every one of the 484 sampled events showed `project_ref` and `org_slug` null in context, with no exceptions across the entire 20-minute window" | "Affected events consistently lacked org/project context — the signup race signature." |
+| "Every one of the 484 sampled events showed `project_ref` and `org_slug` null in context, with no exceptions across the entire 20-minute window" | "Affected events consistently lacked org/project context: the signup race signature." |
 | "Bucketing rate was 1.02%, 1.16%, 0.94%, 0.88%, ..." | "Bucketing rate hovered around 1% before the fix." |
 
 ### Fix
@@ -111,7 +111,7 @@ Format: a **flat bullet list** for multiple paths, casual one-line narration for
 
 ### Post-deploy expectations (optional)
 
-**Include when:** the PR has a measurable post-deploy signal — a Sentry rate that should move, a conversion metric that should change, a dashboard to watch, a query to rerun on a timeframe. Also include for production hotfixes where reviewers need to know what "working" looks like after merge.
+**Include when:** the PR has a measurable post-deploy signal: a Sentry rate that should move, a conversion metric that should change, a dashboard to watch, a query to rerun on a timeframe. Also include for production hotfixes where reviewers need to know what "working" looks like after merge.
 
 **Skip when:** the PR has no specific metric to track post-deploy. Most PRs don't need this section.
 
@@ -121,7 +121,7 @@ When you do include it, name what should improve, how validation works, what res
 
 If validation has a timeframe ("rerun query in 24h", "watch the dashboard through end of week"), name it explicitly.
 
-## Step 5 — Compression heuristics
+## Step 5: Compression heuristics
 
 When compressing a draft into final form, aim for ~40-70% word reduction relative to a "thorough" first draft. The reduction comes from:
 
@@ -131,7 +131,7 @@ When compressing a draft into final form, aim for ~40-70% word reduction relativ
 - Duplicated causal explanations
 - Low-level plumbing details that don't change reviewer judgment
 - Repeated mentions of the same invariant
-- Balanced phrasings ("well beyond X and well below Y") — usually rewriteable as a single sentence
+- Balanced phrasings ("well beyond X and well below Y"), usually rewriteable as a single sentence
 
 **Preserve verbatim:**
 - Exact race condition descriptions
@@ -141,7 +141,7 @@ When compressing a draft into final form, aim for ~40-70% word reduction relativ
 - Experiment gating logic
 - Operational thresholds (cache TTLs, rate limits, timeouts)
 
-## Step 6 — Defensive-phrase blacklist
+## Step 6: Defensive-phrase blacklist
 
 These phrases add hedging and word count without adding signal. Replace with a direct statement or delete the sentence:
 
@@ -153,9 +153,9 @@ These phrases add hedging and word count without adding signal. Replace with a d
 - "I'd argue that..."
 - "Arguably..."
 - "It could potentially..."
-- "X is real" (as in "the concern is real", "the gap is real") — state the fact directly instead
+- "X is real" (as in "the concern is real", "the gap is real"). State the fact directly instead.
 
-## Step 7 — Pre-PR checklist
+## Step 7: Pre-PR checklist
 
 Before opening the PR, run through Sean's PR Pre-Push Checklist from `~/.claude/CLAUDE.md`:
 
@@ -172,11 +172,11 @@ gh pr view <number> --json commits,additions,deletions
 
 This is mandatory before every push. The most common failure it catches: stacked-PR contamination where `origin/<base>` is behind the local base and the PR ends up including unintended commits.
 
-## Step 8 — Updating an existing PR description
+## Step 8: Updating an existing PR description
 
 Use `gh pr edit <number> --body "$(cat <<'EOF' ... EOF)"` rather than the web UI. This keeps the PR description versioned in commit-adjacent state and makes the rewrite reviewable in chat.
 
-Read the existing description first (`gh pr view <number> --json body`) and identify what to preserve. If the existing description was written without the template, rewrite it FROM the template — don't bolt template sections onto an existing freeform body.
+Read the existing description first (`gh pr view <number> --json body`) and identify what to preserve. If the existing description was written without the template, rewrite it FROM the template. Don't bolt template sections onto an existing freeform body.
 
 ## Anti-patterns
 
@@ -244,7 +244,7 @@ Bug fix.
 
 The `dataApiRevokeOnCreateDefault` experiment (GROWTH-853) flipped to 5%
 rollout on 2026-05-14 22:59 UTC. First-day diagnostic on cohort-filtered
-exposures showed treatment share at 0.87%, well below the 5% target —
+exposures showed treatment share at 0.87%, well below the 5% target,
 about 5× under-bucketed.
 
 Diagnosis: the two audience properties (`org_count` and `signup_timestamp`)
@@ -265,7 +265,7 @@ server-side.
 
 The studio `Telemetry` component's `org_count` identify now also passes
 `signup_timestamp` (sourced from `user.created_at`). That makes the
-`/decide` request body self-sufficient for the audience filter — the
+`/decide` request body self-sufficient for the audience filter. The
 server can match `org_count = 1 AND signup_timestamp >= rollout` against
 request `person_properties` regardless of whether the previous identify's
 `$set` has been persisted yet.
@@ -292,8 +292,8 @@ Notice what's *not* in there: no race-condition theory deep-dive (linked to GROW
 
 This skill does NOT cover:
 
-- **Commit messages** — different shape and audience. Commit messages live forever in `git log`; PR descriptions are for the reviewer in the moment. Use the project's commit-message conventions instead.
-- **PR review comments** — use the `writing-pr-review-comments` skill for inline review feedback.
-- **Release notes** — those have a different shape (user-facing changelog vs reviewer-facing PR body).
-- **Slack messages announcing the PR** — use the `share-pr-for-review` skill.
-- **The actual code review** — separate skill (`pr-review` or `growth-pr-review` depending on context).
+- **Commit messages**: different shape and audience. Commit messages live forever in `git log`; PR descriptions are for the reviewer in the moment. Use the project's commit-message conventions instead.
+- **PR review comments**: use the `writing-pr-review-comments` skill for inline review feedback.
+- **Release notes**: those have a different shape (user-facing changelog vs reviewer-facing PR body).
+- **Slack messages announcing the PR**: use the `share-pr-for-review` skill.
+- **The actual code review**: separate skill (`pr-review` or `growth-pr-review` depending on context).

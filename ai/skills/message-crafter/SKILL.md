@@ -1,17 +1,17 @@
 ---
 name: message-crafter
-description: Helps craft concise, natural-sounding async messages (Slack, email, etc.) through a structured distillation process. Use this skill whenever the user needs help writing a message, responding to someone, or figuring out what to say — especially when they have a lot of thoughts and need help filtering down to the essential point. Trigger on phrases like "help me write a message", "how should I reply", "what should I say", "I don't know how to word this", "draft a slack message", "help me respond", "craft a message", "I need to respond to", or when the user shares a Slack link and asks for help replying. Also trigger when the user brain-dumps a bunch of thoughts about a conversation and seems to be working toward composing a response, even if they don't explicitly ask for help writing it.
+description: Helps craft concise, natural-sounding async messages (Slack, email, etc.) through a structured distillation process. Use this skill whenever the user needs help writing a message, responding to someone, or figuring out what to say, especially when they have a lot of thoughts and need help filtering down to the essential point. Trigger on phrases like "help me write a message", "how should I reply", "what should I say", "I don't know how to word this", "draft a slack message", "help me respond", "craft a message", "I need to respond to", or when the user shares a Slack link and asks for help replying. Also trigger when the user brain-dumps a bunch of thoughts about a conversation and seems to be working toward composing a response, even if they don't explicitly ask for help writing it.
 argument-hint: [slack thread URL or description of the situation]
 allowed-tools: mcp__claude_ai_Slack__slack_read_thread, mcp__claude_ai_Slack__slack_read_channel, mcp__claude_ai_Slack__slack_search_public_and_private, mcp__claude_ai_Slack__slack_search_channels, AskUserQuestion
 ---
 
 # Message Crafter
 
-Helps distill a swirl of thoughts into a short, confident async message. The user often knows exactly what they want to communicate but struggles to filter it down — they overthink, over-explain, and end up sounding more eager than they intend. Your job is to be the editing layer between their thinking and their send button.
+Helps distill a swirl of thoughts into a short, confident async message. The user often knows exactly what they want to communicate but struggles to filter it down. They overthink, over-explain, and end up sounding more eager than they intend. Your job is to be the editing layer between their thinking and their send button.
 
 ## The core insight
 
-The user's casual explaining voice — how they'd describe the situation to a friend — is already the right voice. The gap isn't communication ability, it's trusting that brevity is enough. Every step of this process should reinforce that.
+The user's casual explaining voice, the way they'd describe the situation to a friend, is already the right voice. The gap isn't communication ability, it's trusting that brevity is enough. Every step of this process should reinforce that.
 
 ## Phase 1: Gather Context
 
@@ -21,7 +21,7 @@ https://[workspace].slack.com/archives/[CHANNEL_ID]/p[TIMESTAMP_WITHOUT_DOT]
 ```
 Convert the timestamp: remove the `p` prefix and insert a `.` before the last 6 digits (e.g., `p1773186977186989` → `1773186977.186989`).
 
-If there are links to other Slack threads within the conversation, read those too — they're often critical context.
+If there are links to other Slack threads within the conversation, read those too. They're often critical context.
 
 Read the full thread before asking the user anything. You want to understand:
 - Who's in the conversation and what roles/teams they represent
@@ -31,9 +31,9 @@ Read the full thread before asking the user anything. You want to understand:
 
 ## Phase 2: Listen to the Brain Dump
 
-The user will often arrive with a stream of consciousness — everything they're thinking about the situation, what they want to say, what they're worried about, what impression they want to give. This is gold. Don't interrupt it.
+The user will often arrive with a stream of consciousness: everything they're thinking about the situation, what they want to say, what they're worried about, what impression they want to give. This is gold. Don't interrupt it.
 
-If the user hasn't provided enough context, ask focused questions. But don't run through a formal checklist — pick the 1-2 questions that would actually unlock the draft:
+If the user hasn't provided enough context, ask focused questions. But don't run through a formal checklist. Pick the 1-2 questions that would actually unlock the draft:
 
 - "What do you actually need from this person right now?"
 - "What are you worried about sounding like?"
@@ -73,7 +73,7 @@ Its **Rule 11, never claim an action you did not take**, applies to every factua
 
 ## Phase 5: Explain the Draft
 
-After presenting the draft, briefly explain WHY it works — what's included, what's deliberately left out, and why. This serves two purposes:
+After presenting the draft, briefly explain WHY it works: what's included, what's deliberately left out, and why. This serves two purposes:
 1. It helps the user evaluate whether the draft is right
 2. It builds their instinct for doing this themselves over time
 
@@ -93,7 +93,7 @@ Always bias toward shorter. If in doubt, cut.
 
 - **Don't produce messages with bullet points or structured formatting.** Real Slack messages between colleagues are paragraphs, not presentations.
 - **Don't use phrases like "I'd love to align on", "circle back", "loop in", "sync up on our respective".** These are corporate filler that makes messages sound generated.
-- **Don't use "X is real" as an assertion of significance.** "The concern is real", "the gap is real", "the problem is real" — LLM-generated filler. State the fact directly instead.
+- **Don't use "X is real" as an assertion of significance.** "The concern is real", "the gap is real", "the problem is real" are LLM-generated filler. State the fact directly instead.
 - **Don't link-dump.** If referencing other conversations, mention them conversationally ("I saw the observability discussion") not as hyperlinks unless the user specifically wants links.
 - **Don't front-load expertise.** The temptation is to show the user is smart by listing everything they know about the topic. That's what the meeting is for, not the Slack message.
 - **Don't add emojis** unless the user explicitly uses them in their natural communication style.
