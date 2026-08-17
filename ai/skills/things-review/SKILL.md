@@ -37,13 +37,13 @@ whole point of this review is to catch that. Lead with project health, not with 
 
 ## Step 0a — Data integrity gate (before anything else)
 
-**Run `./things-db.sh check` from this skill's folder. If any line starts with FAIL, stop and fix it
+**Run `~/dotfiles/scripts/things-db.sh check`. If any line starts with FAIL, stop and fix it
 before presenting a single number to Sean.**
 
 ```bash
-~/.claude/skills/things-review/things-db.sh check      # integrity gate
-~/.claude/skills/things-review/things-db.sh buckets    # reconciled counts
-~/.claude/skills/things-review/things-db.sh sql "SELECT ... FROM lt"
+~/dotfiles/scripts/things-db.sh check      # integrity gate
+~/dotfiles/scripts/things-db.sh buckets    # reconciled counts
+~/dotfiles/scripts/things-db.sh sql "SELECT ... FROM lt"
 ```
 
 **Do not use the Things MCP tools to build any list in this review.** Measured on 2026-08-16, the
@@ -83,7 +83,7 @@ Wait. Then:
 Per-project open counts and completion history, straight from the database:
 
 ```bash
-S=~/.claude/skills/things-review/things-db.sh
+S=~/dotfiles/scripts/things-db.sh
 
 # open tasks per active project
 $S sql "SELECT COALESCE(project,'(no project)') p, COUNT(*) n,
@@ -220,35 +220,18 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 - **Deadlines in the next 21 days** that have no start date. Each needs a day, or an explicit "not
   yet."
 
-  The MCP can't query a date range — `search_advanced` takes an exact date. Sweep with AppleScript
-  instead (iterate lists **and** projects, then de-duplicate by name; an item in a project shows up
-  in both passes):
+  One query, no de-duplication needed — the `lt` view already resolves heading and project parents
+  and decodes the deadline bitfield:
 
   ```bash
-  osascript <<'AS'
-  tell application "Things3"
-  	set out to ""
-  	repeat with t in (to dos of list "Anytime")
-  		try
-  			set dd to due date of t
-  			if dd is not missing value then set out to out & (short date string of dd) & " | " & (name of t) & linefeed
-  		end try
-  	end repeat
-  	repeat with p in projects
-  		repeat with t in (to dos of p)
-  			if status of t is open then
-  				try
-  					set dd to due date of t
-  					if dd is not missing value then set out to out & (short date string of dd) & " | " & (name of t) & linefeed
-  				end try
-  			end if
-  		end repeat
-  	end repeat
-  	return out
-  end tell
-  AS
+  ~/dotfiles/scripts/things-db.sh sql "
+    SELECT due_d, COALESCE(project,COALESCE(area,'(loose)')) bucket, title
+    FROM lt WHERE due_d IS NOT NULL AND start_d IS NULL
+      AND due_d <= date('now','+21 day') ORDER BY due_d"
   ```
-- **`🟡 Waiting` items** — first separate the two things this tag conflates:
+- **`🟡 Waiting` items** — pull them with
+  `things-db.sh sql "SELECT created, COALESCE(start_d,'-') sched, title FROM lt WHERE tags LIKE '%Waiting%' ORDER BY created"`,
+  then separate the two things this tag conflates:
   - *Genuinely blocked* (he asked, they haven't replied). Over two weeks → they've forgotten. Offer
     to convert it into a follow-up nudge.
   - *Not yet asked* (the task IS "go ask someone"). This isn't waiting at all — it's an unstarted
@@ -257,7 +240,7 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 ## Step 5 — Capacity check
 
 ```bash
-~/.claude/skills/things-review/things-db.sh sql "SELECT COUNT(*) substantive FROM TMTask t
+~/dotfiles/scripts/things-db.sh sql "SELECT COUNT(*) substantive FROM TMTask t
   WHERE t.type=0 AND t.status=3 AND t.trashed=0 AND t.rt1_repeatingTemplate IS NULL
     AND t.stopDate>=strftime('%s',date('now','-7 day'))"
 ```

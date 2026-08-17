@@ -7,9 +7,14 @@
 # item has actually sat. This script reads the SQLite database directly with
 # explicit filters and verified date decoding.
 #
+# Shared by the shape-today, unbury, and things-review skills.
+#
 # Usage:
-#   things-db.sh check                 # integrity gate — run before any review
+#   things-db.sh check                 # integrity gate — run before presenting any number
 #   things-db.sh buckets               # reconciled bucket counts
+#   things-db.sh today                 # the real Today list, rituals flagged
+#   things-db.sh inbox                 # untriaged captures
+#   things-db.sh onme                  # the 🟠 On Me pool, with stamp age
 #   things-db.sh sql "SELECT ..."      # arbitrary query against the lt / proj views
 #
 # Views created:
@@ -56,7 +61,14 @@ SELECT t.uuid, t.title, t.start, t.rt1_repeatingTemplate AS rep,
   (SELECT a.title FROM TMArea a WHERE a.uuid=COALESCE(
       NULLIF(t.area,''),
       (SELECT p2.area FROM TMTask p2 WHERE p2.uuid=COALESCE(NULLIF(t.project,''),h.project))
-   )) AS area
+   )) AS area,
+  (SELECT group_concat(tg.title,', ') FROM TMTaskTag tt JOIN TMTag tg ON tg.uuid=tt.tags
+     WHERE tt.tasks=t.uuid) AS tags,
+  t.notes AS notes,
+  -- `unbury` writes a single "Unburied YYYY-MM-DD" line. It REPLACES that line rather
+  -- than appending, so this extraction stays unambiguous.
+  CASE WHEN instr(t.notes,'Unburied ')>0
+       THEN substr(t.notes, instr(t.notes,'Unburied ')+9, 10) END AS unburied_on
 FROM TMTask t
 LEFT JOIN TMTask h ON h.uuid=t.heading AND h.type=2
 WHERE t.type=0            -- 0=to-do, 1=project, 2=heading. Headings are NOT tasks.
@@ -131,11 +143,38 @@ SELECT COUNT(*) AS active_projects FROM proj;
 SQL
     ;;
 
+  today)
+    snapshot
+    sqlite3 -column -header "$SNAP" "
+      SELECT CASE WHEN rep IS NOT NULL THEN 'ritual' ELSE '' END kind,
+             start_d, COALESCE(project,COALESCE(area,'-')) bucket,
+             COALESCE(due_d,'-') due, COALESCE(tags,'') tags, title
+      FROM lt WHERE start_d IS NOT NULL AND start_d <= date('now','localtime')
+      ORDER BY (rep IS NOT NULL), start_d;
+      SELECT COUNT(*) AS substantive_today FROM lt
+      WHERE start_d IS NOT NULL AND start_d <= date('now','localtime') AND rep IS NULL;"
+    ;;
+
+  inbox)
+    snapshot
+    sqlite3 -column -header "$SNAP" \
+      "SELECT uuid, created, title FROM lt WHERE start=0 ORDER BY created;"
+    ;;
+
+  onme)
+    snapshot
+    sqlite3 -column -header "$SNAP" "
+      SELECT uuid, created, COALESCE(unburied_on,'never') last_surfaced,
+             COALESCE(start_d,'-') sched, COALESCE(project,COALESCE(area,'-')) bucket, title
+      FROM lt WHERE tags LIKE '%On Me%' ORDER BY COALESCE(unburied_on,'0000-00-00'), created;
+      SELECT COUNT(*) AS on_me_total FROM lt WHERE tags LIKE '%On Me%';"
+    ;;
+
   sql)
     snapshot
     sqlite3 -column -header "$SNAP" "$2"
     ;;
 
   *)
-    echo "usage: things-db.sh {check|buckets|sql \"<query>\"}" >&2; exit 2 ;;
+    echo "usage: things-db.sh {check|buckets|today|inbox|onme|sql \"<query>\"}" >&2; exit 2 ;;
 esac
