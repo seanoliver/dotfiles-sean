@@ -245,7 +245,7 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
     AND t.stopDate>=strftime('%s',date('now','-7 day'))"
 ```
 
-Count substantive (non-ritual) completions. Compare to 21 (3/day × 7).
+Count substantive (non-ritual) completions. Compare to 28 (4/day × 7).
 
 Report one line: *"Last week: 14 substantive completions, ~2/day. Cap of 3 is about right."*
 

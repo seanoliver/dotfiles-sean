@@ -16,8 +16,8 @@ Inbox**, the skill failed — no matter how good the prose was.
 
 ## The capacity fact
 
-Sean completes a **median of 2 substantive tasks per day** (mean 2.9, measured over 30 days of
-Logbook, excluding recurring rituals). The cap is **3 substantive items**. Rituals are uncapped and
+Sean completes a **median of 4 substantive tasks per day** (mean 4.7, measured over 30 days of
+Logbook, excluding recurring rituals). The cap is **4 substantive items**. Rituals are uncapped and
 do not count.
 
 This number is empirical, not aspirational. Do not raise it because today looks like a good day.
@@ -69,35 +69,35 @@ in Things plus shared context plus real split-cost is the test.
 
 ## Hard rules
 
-1. **Exactly 3 substantive units on Today.** Not 4, not "3 plus a couple quick ones." A unit is one
+1. **Exactly 4 substantive units on Today.** Not 5, not "4 plus a couple quick ones." A unit is one
    task, or one bucket that passed the admission test above.
 2. **No optional tier.** No "quick wins," "stretch goals," "if you have time," or "bonus" section.
    A soft tier is how the cap gets defeated — the baseline agent that this skill replaces produced
-   3 committed + 3 "quick wins" + 5 "parked," which is just the old 11-item list with headings.
+   4 committed + 3 "quick wins" + 5 "parked," which is just the old 12-item list with headings.
 3. **Every item you touch gets an explicit disposition.** Never leave an item's fate implied by
    prose. See Dispositions below.
 4. **You must apply the changes.** Read-only shaping is a failed run. See Step 5.
 5. **Rituals are never dispositioned.** Don't move, defer, or comment on recurring chores.
 6. **Inbox is in scope every run.** Read it with Today. Every inbox item gets an explicit
-   disposition in this pass. Do not dump Inbox onto Today — those items compete for the 3-slot
+   disposition in this pass. Do not dump Inbox onto Today — those items compete for the 4-slot
    cap like everything else. Default is the right project + Anytime (tag `🟠 On Me` if it must
-   stay visible). Named day / Today only if it earns one of the 3 slots.
+   stay visible). Named day / Today only if it earns one of the 4 slots.
 
 ## Rationalizations to refuse
 
 | Thought | Reality |
 |---|---|
 | "Five is achievable today" | The median is 2. Five means four failures and a red list tonight. |
-| "I'll add a small optional section" | That's a fourth, fifth, sixth item wearing a hat. Banned. |
+| "I'll add a small optional section" | That's a fifth, sixth, seventh item wearing a hat. Banned. |
 | "I don't know his calendar, so I shouldn't reschedule" | Correct — so *ask*, in one batch. Don't skip the step. |
 | "I'll tag it On Me so it isn't lost" | On Me is not a safety net. Name who's waiting or what date is running, or leave it untagged. |
 | "I'll spread them across next week so he sees them" | Fake dates. Decide, don't schedule. |
 | "He can decide what to defer himself" | He asked you because deciding across 30 items is the expensive part. |
 | "Categorizing them in my reply is enough" | The reply evaporates. Things is the record. |
-| "This one's urgent, it should also go on Today" | Then it displaces one of the 3. Say which. |
+| "This one's urgent, it should also go on Today" | Then it displaces one of the 4. Say which. |
 | "It's already overdue so it must be today" | Overdue means it needs a decision, not a slot. |
-| "It's only two minutes, it doesn't really count" | Nothing is free. Either it's inside a bucket or it's a fourth unit. |
-| "It's already drafted, it's a paste-and-send, not a project" | Effort is not the unit. Commitment is. Still a fourth item wearing a hat. |
+| "It's only two minutes, it doesn't really count" | Nothing is free. Either it's inside a bucket or it's a fifth unit. |
+| "It's already drafted, it's a paste-and-send, not a project" | Effort is not the unit. Commitment is. Still a fifth item wearing a hat. |
 | "These are all sort of the same initiative" | Run the four-part admission test. Vibes-based grouping is the loophole. |
 | "Bucket mode, so the cap doesn't really apply today" | The cap never stops applying. Bucket mode changes the unit, not the number. |
 | "I'll just leave the whole project on Today, it's one bucket" | A bucket is 2–6 tasks you'll actually touch, not a project's full backlog. |
@@ -120,10 +120,10 @@ Handle the answer as follows:
 
 - **Named something already in Things** → it gets a Today slot. Top-of-mind beats every ranking
   criterion below except a hard deadline inside 48 hours or a person actively blocked *today*.
-- **Named something not in Things** → capture it (`when: "today"` if it's one of the 3, else
+- **Named something not in Things** → capture it (`when: "today"` if it's one of the 4, else
   `anytime` + tag `🟠 On Me` if he still wants it visible), then shape. Never let an untracked
   priority stay untracked.
-- **Named more than 3 things** → tell him the cap forces a choice and ask which one or two are
+- **Named more than 4 things** → tell him the cap forces a choice and ask which one or two are
   today. Don't silently pick.
 - **Named nothing** ("no idea, that's why I'm asking") → fine, fall through to pure ranking.
 
@@ -150,16 +150,16 @@ heading→project, drops dead parents, and decodes `startDate` correctly — it 
 a timestamp, and reading it as epoch returns 1974.
 
 `$S today` flags rituals in its `kind` column and prints `substantive_today` at the end. That count is
-the one the 3-cap applies to.
+the one the 4-cap applies to.
 
 Note today's date via `date +%Y-%m-%d`. You need it to compute ages and to name deferral days. Age
 items by `created`, never by modification — every sweep by this skill, `unbury`, or `things-review`
 rewrites modification date.
 
-If Today has 3 or fewer substantive items **and Inbox is empty**, say so and stop — offer to pull
+If Today has 4 or fewer substantive items **and Inbox is empty**, say so and stop — offer to pull
 one forward from Anytime instead. Don't shape a Today list that doesn't need shaping.
 
-If Today is already at 3 (or fewer) but Inbox has items, **still triage Inbox**. Skip the Today
+If Today is already at 4 (or fewer) but Inbox has items, **still triage Inbox**. Skip the Today
 reshuffle; only disposition Inbox. A clean Today with a dirty Inbox is not a finished shape.
 
 ## Step 2 — Detect rotters
@@ -243,7 +243,7 @@ Every remaining item gets exactly one:
 | **Someday** | Not now; weekly review will resurface it | `when: "someday"` |
 | **Delete** | It's dead | trash it |
 
-**Spread named days, and cap each one.** A future day may hold **at most 3 substantive units**,
+**Spread named days, and cap each one.** A future day may hold **at most 4 substantive units**,
 counting what `get_upcoming` shows is already scheduled there. Use the same unit you used for Today
 — if a cluster of tasks moves to Wednesday together and it passed the admission test, it lands as
 one unit; if it didn't pass, it lands as several and fills the day accordingly. Deferring 4 items onto Monday is the
@@ -252,7 +252,7 @@ push them all again.
 
 If a day is full, use the next open one. If you run out of days inside the next ~2 weeks, that is
 the signal that too much is being date-committed rather than decided. Send overflow that still
-needs eyes to **🟠 On Me**, not to a fourth named-day slot and not to untagged Anytime.
+needs eyes to **🟠 On Me**, not to a fifth named-day slot and not to untagged Anytime.
 
 ### The On Me admission test
 
@@ -289,7 +289,7 @@ day or B before A. Chain them across consecutive open days.
 
 **Inbox default:** file to the matching project (or area) + Anytime. Tag `🟠 On Me` only if it passes
 the admission test above. Someday if it is not now. Delete if it is noise. A named day
-only when it earned one of the 3 Today slots or has a real date commitment. Never leave an item
+only when it earned one of the 4 Today slots or has a real date commitment. Never leave an item
 in Inbox "to deal with later."
 
 Propose the full set as a table, then let Sean edit inline ("no, Wave 4 Friday not Monday"). Apply
@@ -306,7 +306,7 @@ S=~/dotfiles/scripts/things-db.sh
 $S check && $S today && $S inbox
 ```
 
-Report the actual post-state numbers. If Today isn't 3 substantive + rituals, or Inbox still has
+Report the actual post-state numbers. If Today isn't 4 substantive + rituals, or Inbox still has
 items you were supposed to file, say so plainly and fix it. Never claim a shape succeeded without
 re-reading both lists.
 
@@ -348,7 +348,7 @@ _Aging: [title] (11d), [title] (10d)._
 | [title] | Someday |
 
 ---
-Applied: Today now has 3 + N rituals (was M). Inbox now empty (was K).
+Applied: Today now has 4 + N rituals (was M). Inbox now empty (was K).
 ```
 
 **Bucket mode** replaces the three title blocks with three bucket blocks, and reports both counts:
@@ -356,7 +356,7 @@ Applied: Today now has 3 + N rituals (was M). Inbox now empty (was K).
 ```markdown
 ## Today — [Day, Mon D]
 
-Three project-level commitments. [M] loose items → 3 units.
+Four project-level commitments. [M] loose items → 4 units.
 
 **🌟 [Project name]** — [N] tasks
 [one-line reason the bucket earned the slot]
@@ -372,14 +372,14 @@ Order: [...]. Droppable tail: [task].
 _Rituals: uncapped._
 
 ---
-Applied and verified: Today is 3 units ([K] line items) + N rituals, was M loose items.
+Applied and verified: Today is 4 units ([K] line items) + N rituals, was M loose items.
 ```
 
 Keep reasons to one line. He is deciding, not reading.
 
 ## Step 6 — Offer `unbury` (do not skip)
 
-Today is now correct, but it is deliberately only 3 items. Everything else in the system is invisible
+Today is now correct, but it is deliberately only 4 items. Everything else in the system is invisible
 to Sean, because he does not open lists other than Today. Close every run with a one-line offer:
 
 > Want me to check what's buried? (`unbury` — quick replies, anything owed or rotting.)
@@ -389,13 +389,13 @@ found, since that is the run without the structure.
 
 **This offer is mandatory, and it is the offer that must be automatic, not the run.** Sean will not
 remember to invoke `unbury` himself; requiring him to is the same second-location failure that killed
-the `Scan Soon` ritual. The `unbury` skill enforces its own 5-item cap and will not touch the 3 you
+the `Scan Soon` ritual. The `unbury` skill enforces its own 5-item cap and will not touch the 4 you
 just set without an explicit displacement.
 
 ## Common mistakes
 
 - **Shaping without applying.** The most common and most damaging. Step 5 is the point of the skill.
-- **Leaving Inbox dirty.** Today at 3 with 12 items still in Inbox is a failed shape.
+- **Leaving Inbox dirty.** Today at 4 with 12 items still in Inbox is a failed shape.
 - **Dumping Inbox onto Today.** Inbox is not extra Today slots. File it. Only promote what earned a cap slot.
 - **Pushing everything to tomorrow.** Spread across the week, or use 🟠 On Me if there is no real
   date.
@@ -406,14 +406,14 @@ just set without an explicit displacement.
 - **Dispositioning rituals.** Leave them alone.
 - **Ending without offering `unbury`.** Sean will not invoke it from memory. Step 6 is not optional.
 - **Burying the decision.** Rotters go in their own section, not a footnote.
-- **Re-deriving capacity.** The cap is 3. Don't recompute it from today's vibes.
+- **Re-deriving capacity.** The cap is 4. Don't recompute it from today's vibes.
 - **Counting from the MCP.** `get_today` omits items and counts dead-project tasks and headings as
   live. Every count comes from `things-db.sh`; report `substantive_today` from `$S today`.
-- **Resetting start dates on the 3 picks.** Leave them alone. They're already on Today, and
+- **Resetting start dates on the 4 picks.** Leave them alone. They're already on Today, and
   refreshing the date to today resets the age clock — an item picked-but-not-done every day would
   never accumulate age and never trip rotter detection. Only write the `🌟 MIT` tag.
 - **Letting a bucket smuggle in a freebie.** Observed 2026-08-11: a token refresh stayed on Today as
-  "only 2 minutes, and it unblocks the incident." It was a fourth unit. It belonged *inside* the
+  "only 2 minutes, and it unblocks the incident." It was a fifth unit. It belonged *inside* the
   incident project, moved there in Things.
 - **Bucketing by vibes.** Three tasks that merely share a topic are three tasks. Run the four-part
   admission test and say which part each bucket passed on.
@@ -424,9 +424,9 @@ just set without an explicit displacement.
 
 - **Capturing new tasks.** That's `add-todo`. If Sean mentions something new mid-shape, capture it
   with `when: "anytime"` and tag `🟠 On Me` if it's live work he wants to see — never add it to
-  today's 3.
+  today's 4.
 - **Surfacing buried work.** Quick replies, owed follow-ups, and rotting On Me items are `unbury`.
-  Offer it in Step 6; don't do its job inline, and don't let it expand today's 3.
+  Offer it in Step 6; don't do its job inline, and don't let it expand today's 4.
 - **Backlog review.** Aging reports, stalled projects, Someday resurfacing, tag hygiene — all
   `/things-review`. This skill touches **Today and Inbox** (and Upcoming only to cap named days).
   It does not walk Anytime, Someday, or project lists.

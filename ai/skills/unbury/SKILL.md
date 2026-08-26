@@ -46,7 +46,7 @@ now, and it never touches a list again.
 3. **Lead with the quickest item.** The run should start with a completion, not a decision.
 4. **"Do it now, with me" is the default disposition for anything under ~2 minutes.** Offer to draft
    the reply, not to schedule it.
-5. **Promoting to Today displaces one of the 3.** Name the item being pushed off and get his
+5. **Promoting to Today displaces one of the 4.** Name the item being pushed off and get his
    confirmation. `shape-today`'s cap is not suspended here.
 6. **Apply every disposition to Things before moving to the next item.** A run whose conclusions
    live only in chat has achieved nothing.
@@ -181,7 +181,7 @@ For anything that will be written under Sean's name, follow `writing-as-sean`.
 | He says | Do |
 |---|---|
 | **do it / send it** | Complete the work in-conversation, then `completed: true` |
-| **Today** | Ask which of the 3 it displaces, move the displaced one to a named day or `🟠 On Me`, then set this one `when: "today"` |
+| **Today** | Ask which of the 4 it displaces, move the displaced one to a named day or `🟠 On Me`, then set this one `when: "today"` |
 | **Someday** | `when: "someday"` |
 | **delete** | Trash it (`osascript ... delete`); tell him it's recoverable from Things' Trash |
 | **keep** (rotting items only) | `when: "anytime"`, keep the tag, and record the reason in notes |
