@@ -204,9 +204,9 @@ EVIDENCE
 SAY FIRST
 "..."
 
-WHAT I WILL NOT DO
-- get drawn into [X]
-- commit to [Y] on the spot
+NOT ON THE TABLE
+- [X] — don't get drawn into it
+- [Y] — don't commit on the spot
 
 ---
 
@@ -225,7 +225,7 @@ IF IT ESCALATES
 → "Let's take this offline / follow up in writing"
 ```
 
-`WHAT I WILL NOT DO` up front is the highest-value block in this format — it's the pre-commitment that survives when the conversation gets warm.
+`NOT ON THE TABLE` up front is the highest-value block in this format — it's the pre-commitment that survives when the conversation gets warm. Put the specific concession he's most likely to make under social pressure at the top of it.
 
 ---
 

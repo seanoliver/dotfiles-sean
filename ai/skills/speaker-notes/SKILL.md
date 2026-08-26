@@ -96,11 +96,13 @@ Strict. These are the product.
 
 Use these as bare labels on their own line (no bold, no colon-heavy prose). Consistency is what makes them findable.
 
-`CORE POINT` · `WHY` · `EVIDENCE` · `DECISION` · `RISK` · `TRADEOFF` · `NEXT` · `ASK` · `MY POSITION` · `ANSWER` · `KEY POINTS` · `IF PUSHED` · `SOURCE` · `?` · `→` · `[PAUSE]`
+`CORE POINT` · `WHY` · `EVIDENCE` · `DECISION` · `RISK` · `TRADEOFF` · `NEXT` · `ASK` · `MY POSITION` · `NOT ON THE TABLE` · `ANSWER` · `KEY POINTS` · `IF PUSHED` · `SOURCE` · `?` · `→` · `[PAUSE]`
 
 Uncertainty anchors: `UNCLEAR` · `VERIFY` · `UNVERIFIED` · `OPEN QUESTION` · `WHAT WE DO KNOW`
 
 Do not invent a parallel vocabulary per document. Add a new anchor only when none of these fit.
+
+**Use anchors bare.** `TRADEOFF`, not `TRADEOFF I'm accepting`. `WHY`, not `WHY firmness matters here`. A qualified anchor is a bespoke label wearing an anchor's clothes — it breaks the scan, because his eye is looking for a shape it already knows. Put the qualification in the line underneath.
 
 ## Numbers and factual claims
 
