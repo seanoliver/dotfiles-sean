@@ -23,6 +23,10 @@ Accept either or both, in any form:
 
 Missing detail is normal. Do not interrogate. Ask a question **only** when the ambiguity would change the meeting objective itself or make the output actively misleading (e.g. you cannot tell whether he is presenting a decision or asking for one). Otherwise infer, produce the document, and mark uncertainty inline with `UNCLEAR` / `VERIFY` / `UNVERIFIED`.
 
+**Thin input is not a blocker, and it is not a licence to hand back a form.** Never emit a fill-in-the-blank template. A document that is half `[your definition here]` is homework, not speaker notes — he cannot use it at the podium, and it moves the work back onto him at the exact moment he had least time. With little context, commit to the most probable concrete version, write it as real content, and mark the specific claims he must check with `VERIFY`. Two or three bracketed slots for facts only he holds is acceptable. Fifteen is a failure.
+
+**Nothing in the document except the document.** No preamble, no framing note, no "here's what I couldn't access," no apology for thin sources, no notes-to-self about your own tool limits. If a gap matters, it appears as a `VERIFY` or `UNVERIFIED` anchor in the place he'd need it. Everything else goes in your message to him, outside the artifact — he is going to paste this into Bear and read it in a room.
+
 ## Process
 
 Run these in order. Do not emit any part of the document until step 8 is done.
@@ -122,6 +126,16 @@ EVIDENCE
 - Exact magnitude: VERIFY BEFORE USING
 ```
 
+**A number Sean half-remembers is an unsourced number.** This is the most common version of the failure, and a tilde is not a fix. When he says "I think it was something like 1,200 credits for 8 runs," the notes do not get to say "~1,200 credits for 8 runs" and move on — especially not as the load-bearing evidence for his recommendation. Either link it, or put the marker on the page where he will see it:
+
+```markdown
+EVIDENCE
+- Vendor run economics break down at regression volume
+- Specific credit figures: VERIFY BEFORE USING — from memory, not checked
+```
+
+Reasoning about his uncertainty in your head does not count. It has to be visible at the moment he is about to say the number out loud.
+
 Never invent numbers, dates, commitments, quotes, or conclusions. Not even plausible placeholder ones — he will read them under pressure and say them out loud.
 
 Put a source link directly under any claim he may have to defend. Do not cite every bullet; citation noise defeats scanning.
@@ -189,6 +203,32 @@ See `example-output.md` for a complete rendered example.
 | Asking clarifying questions before delivering anything | Infer, deliver, mark uncertainty inline |
 | Artificially confident answers to open questions | `ANSWER / I don't think we know yet` + `OPEN QUESTION` |
 | Slides invented for a presentation | Only use `## SLIDE N` when an actual deck exists; otherwise use `## TOPIC` |
+
+## Rationalizations
+
+Observed in baseline testing. Each of these produced a document Sean could not have used in the room.
+
+| Rationalization | Reality |
+|---|---|
+| "I don't have his real data, so a scaffold with placeholders is the honest deliverable" | Honest and useless. Infer the concrete version, mark it `VERIFY`. Brackets are work handed back. |
+| "I should explain up front what I couldn't access" | Not in the document. That's a sentence to him, outside the artifact. |
+| "He said the number himself, so I can state it" | His memory is not a source. Marker on the page or it doesn't ship. |
+| "A tilde signals the number is approximate" | Nobody reads a tilde mid-sentence under pressure. `VERIFY BEFORE USING`. |
+| "Bold labels are clearer than repeating the same anchors" | Bespoke labels per block mean nothing is findable twice. Consistency IS the retrieval mechanism. |
+| "A verbatim opener helps if he freezes" | One short quoted line, yes. Four sentences to read aloud is a script. |
+| "This meeting is too emotional for terse fragments" | Especially then. He will be least able to parse prose in the room he's dreading. |
+| "The ask is obvious from the content" | Then it costs one line at the top. `ASK` buried in section five is not retrievable. |
+| "Ordering by time-in-room is more useful for a talk" | Only inside a section. The document still leads with what matters most. |
+
+## Red flags — the document isn't done
+
+- No `## AT A GLANCE` block, or no `ASK` line in it
+- No `## LIKELY QUESTIONS` section for any meeting with other humans in it
+- Any block label that appears exactly once in the document
+- Any bullet with two clauses joined by "and" or an em-dash
+- Any bracketed placeholder count above three
+- Any sentence addressed to you rather than to the room
+- A number without either a link or a verify marker within one line of it
 
 ## Out of Scope
 
