@@ -1,6 +1,6 @@
 ---
 name: speaker-notes
-description: Use when Sean needs notes to speak from live — a meeting, presentation, demo, design review, 1:1, standup, interview, board or exec update, conference talk, or a hard conversation. Trigger on "speaker notes", "talking points", "prep me for", "help me prep for this meeting", "notes for my presentation", "I'm presenting X tomorrow", "what should I say in", "give me a cheat sheet for", "I need to defend X", or when he pastes a list of points he wants to make plus a meeting name. Also trigger when he asks what questions he'll get asked. Do NOT use for writing the message/email itself (message-crafter) or for a written status update (weekly-update-formatter).
+description: Use when Sean needs something to glance at while speaking live — a hard or awkward conversation he's dreading, a 1:1, a meeting, presentation, demo, review, standup, interview, exec or board update, or a conference talk. One-on-one conversations count as much as rooms. Trigger on "notes for the conversation", "something I can glance at", "notes to speak from", "speaker notes", "talking points", "prep me for", "help me prep for this", "what should I say to", "how do I tell him/her", "I need to defend X", "what questions will I get", "cheat sheet for", "I'm presenting X tomorrow", or when he describes a conversation he has to have and what he wants out of it. Not for writing the message or email itself (message-crafter), nor an async written update (weekly-update-formatter).
 argument-hint: [meeting/topic + any points you already know you want to make]
 ---
 
@@ -185,7 +185,14 @@ One Markdown document, in this order:
 3. `## CORE MESSAGE` — the one thing they must leave understanding, with `WHY` / `EVIDENCE`, ending in a `→` transition
 4. Body sections in the shape from `formats.md`, `---` separated, most important first
 5. `## LIKELY QUESTIONS` — `### ? <question in his words>`, then `ANSWER` / `KEY POINTS` / `IF PUSHED` / `SOURCE`
-6. `## SOURCES` — only sources actually used, as `- [Description](link)`
+6. `## SOURCES` — only sources actually used, as `- [Description](link)`. **Omit the section entirely if there are no links.** An empty `SOURCES` explaining that you had no research access is meta-commentary in the artifact.
+
+**When the spine itself is unsourced, say so at the top, not just per-number.** If the whole narrative rests on a one-line memory note or a summary rather than a primary source, marking the individual figures `VERIFY` is not enough — he will defend the *framing* long before anyone asks for a number. Put it in `AT A GLANCE`:
+
+```markdown
+DO NOT FORGET
+- This whole framing comes from a summary, not the analysis — VERIFY the spine before asserting it
+```
 
 See `example-output.md` for a complete rendered example.
 
