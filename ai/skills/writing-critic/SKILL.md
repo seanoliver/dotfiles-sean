@@ -17,7 +17,7 @@ Read `writing-as-sean/SKILL.md`. It is the source of truth. Do not audit from me
 
 ## Step 2: search, do not read
 
-Nine of the rules are mechanically checkable. Checking them by reading produces misses. Write the draft to a file and grep it.
+Most of the rules are mechanically checkable. Checking them by reading produces misses. Write the draft to a file and grep it.
 
 ```bash
 D=$(mktemp /tmp/draft.XXXXXX.md)
@@ -64,6 +64,12 @@ echo "-- redundant intensifiers (each is a JUDGMENT candidate, not an auto-cut) 
 # A hit is a candidate: for each, check whether the rest of the sentence
 # already implies it. If it does, cut the word.
 grep -inE "\b(on purpose|deliberately|intentionally|by design|needless to say|obviously|of course|clearly|it goes without saying|to be clear|actually|really|literally)\b" "$D" || echo "  clean"
+
+echo "-- mannered prose: flourish verbs and dead idioms (RULE 12, must be 0 unless literal) --"
+# A hit is a violation unless the word is being used literally (a plane that
+# lands, a table with stakes on it). Judge each hit, but the default is CUT.
+grep -inE "\b(unlocks?|unlocking|surfaces?|surfacing|unpacks?|unpacking|carve out|carving out|lean(s|ing)? into|double(s|d)? down|tee(s|d)? up|bake(s|d)? in|supercharge|turbocharge|catalyz)" "$D" || echo "  clean"
+grep -inE "circle back|touch base|on the same page|moving pieces|first line of defense|move the needle|low-hanging|boil the ocean|in the weeds|north star|heavy lifting|table stakes|raise the bar|muscle memory|the ball rolling|hit the ground|swim ?lane|force multiplier|tip of the iceberg|two birds|light(s)? a fire|open the floodgates|a graveyard|wearing a (suit|coat|hat)|earns its keep|dial worth turning" "$D" || echo "  clean"
 
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'
@@ -132,6 +138,7 @@ These need a mind. Work through the draft sentence by sentence.
 - **Buried ask.** Is the ask, finding, or decision in sentence one? If the reader has to hunt, it fails.
 - **Header sort test.** For each header: could a reader tell from the title alone whether a given bullet belongs under it? `Notes`, `Details`, `Context`, `Considerations`, `Ground rules`, `Misc` all fail. They are nouns that name nothing.
 - **Defenses.** Does a sentence argue for a claim rather than state it? "This is not a cosmetic detail", "this matters more than it sounds", "to be clear". Cut.
+- **Mannered prose (RULE 12).** Read once for figurative language only. For every metaphor, image, or turn of phrase: is there a literal phrase that says the same thing? If yes, the mannered version is a violation, and grep will not find it because most of these are freshly invented. Quote it and supply the literal replacement. Four shapes to look for: a metaphor used as description ("wearing a coat", "a graveyard"); a flourish verb where a plain one exists ("unlock" for "enable"); a sentence built to sound quotable that carries no fact ("Short signals confidence"); "not X, but Y" where the author only meant Y. Exceptions are narrow: a term of art with no literal equivalent (race condition, cache, bottleneck, funnel) is not a flourish, and a phrase the reader used first can be used back. This is not a length finding. Both versions are usually the same length.
 - **Abstractions.** Does a sentence sound like a reason without giving the reader anything to do? "The exact wording is the instrument." "This is the foundation of everything downstream." "Precision matters here." They read as weighty and carry nothing. Replace with the concrete consequence, or cut.
 
 ## The one test that resolves every judgment call

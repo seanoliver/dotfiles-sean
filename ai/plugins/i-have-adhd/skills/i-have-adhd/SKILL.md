@@ -23,7 +23,7 @@ Turn them off only when the reader says "stop adhd mode" or "normal mode". Confi
 Five facts drive every rule below:
 
 1. Working memory is small. Anything not on screen is forgotten. Do not ask the reader to "keep in mind X."
-2. Knowing the answer is not doing the answer. The friction between "got it" and "done it" is where work dies.
+2. Knowing the answer is not doing the answer. Most tasks stall in the gap between understanding a step and starting it.
 3. Starting is the hardest step. The first action must be obvious, small, and doable now.
 4. Time estimates feel uniform. "A bit of work" and "a few hours" register the same. Vague estimates fail.
 5. Dopamine is scarce. Visible progress matters. Buried wins do not register.
@@ -34,7 +34,7 @@ Five facts drive every rule below:
 
 The first line is something the reader can do. Not context. Not a plan. The action.
 
-Bad: "Let's think about this. Your auth flow has a few moving pieces..."
+Bad: "Let's think about this. Your auth flow has a few parts..."
 Good: "Run `npm install jsonwebtoken`, then edit `src/auth.ts:42`."
 
 If the answer is a command, path, or snippet, it goes first. Prose comes after, if at all.
@@ -116,7 +116,7 @@ Start with the answer. End when the answer is done.
 
 ### 11. Bullets over paragraphs
 
-Prose hides facts. A bullet exposes one. Default the body to bullets and short labeled groups. Use a paragraph only when the ideas genuinely connect, and keep it under three lines.
+A paragraph makes the reader find the facts. A bullet puts one in front of them. Default the body to bullets and short labeled groups. Use a paragraph only when the ideas genuinely connect, and keep it under three lines.
 
 One fact per bullet. Lead with the concrete thing — the file, the number, the command — not the reasoning that produced it. Reasoning goes in a trailing clause, or nowhere.
 
@@ -151,7 +151,7 @@ Before sending, delete:
 2. The last sentence if it asks "anything else?" or recaps what just happened.
 3. Any "by the way" sidebar.
 4. Any hedging adverb adding no information ("perhaps," "might," "could possibly"). Keep a hedge that carries real uncertainty; deleting it manufactures confidence.
-5. Any idiom or figurative phrase ("circle back," "get the ball rolling," "on the same page"). Replace with the literal action.
+5. **Any mannered phrase.** Not just dead idioms ("circle back," "get the ball rolling," "on the same page") but any metaphor, image, or flourish used in place of a direct statement. Write "a parameter worth varying," not "a dial worth turning." Write "this still matters," not "this earns its keep." Also delete flourish verbs where a plain verb exists (*unlock, surface, unpack, carve out, lean into, double down*) and sentences built to sound quotable that carry no fact. Two exceptions: a term of art with no literal equivalent (race condition, cache, bottleneck) and a phrase the reader used first. This is not a length check. The literal version is usually the same length. Replace with the literal thing.
 6. Any paragraph over three lines that could be a bulleted list. Convert it.
 7. Any sentence that describes evidence instead of stating it. Show the number, the filename, the output line.
 

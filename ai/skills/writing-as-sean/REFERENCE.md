@@ -86,6 +86,27 @@ Everything else goes in a comment, a linked doc, or nowhere.
 | "Worth noting that the sandbox has no credentials." | "The sandbox has no credentials." |
 | "Not blocking, just flagging, but worth noting, though probably fine..." | Pick one stance and say it. |
 
+## Rule 12: no mannered prose
+
+The mannered version is almost always the one that felt good to write. Use that as the signal to check.
+
+| Mannered | Literal |
+|---|---|
+| "A dial worth turning." | "A parameter worth varying." |
+| "This point earns its keep." | "This point still matters." |
+| "Automatic imports give your budget a clearer runway, while manual entry remains a path you can continue to walk." | "Automatic imports save you time. You can still enter every expense by hand." |
+| "Padding wearing a suit." | "Padding." |
+| "Someday has become a graveyard." | "Nothing in Someday has moved in six months." |
+| "This unlocks the next wave." | "The next wave can start once this ships." |
+| "Let's not boil the ocean here." | "Scope this to the one endpoint." |
+| "The eval is our north star for agent behavior." | "We decide agent behavior questions from the eval." |
+| "Prose hides facts. A bullet exposes one." | "Put one fact in each bullet." |
+| "Not a Gauge problem, but a methodology problem." | "This is a methodology problem." |
+
+**The exceptions are narrow.** "Race condition", "cache", "bottleneck", "funnel" are the standard names for those things, not decoration. Keep them.
+
+**It is not about length.** Both columns above are roughly the same size. Mannered prose is not verbose, it is indirect. Trimming words does not fix it. Naming the thing does.
+
 ## Compression
 
 Trust the reader to know their own domain. Compress a list to its concept.

@@ -32,12 +32,23 @@ Ask the question about the artifact, not about your intent. The case that gets m
 6. **Every sentence carries its own weight.** Each one delivers a fact, an ask, or an instruction. If a sentence only prepares the ground for the next one, write the next one instead.
 7. **A header must name its contents precisely enough to sort by.** Given the header alone, a reader should be able to say whether any given bullet belongs under it. `Ground rules`, `Notes`, `Details`, `Considerations`, `Context`, and `Misc` all fail this: they are nouns, but they name nothing, so wrong items hide under them. Ask what the list is actually for, then title it that: `Vendor requirements`, `Success criteria`, `Open questions`.
 8. **Prose is complete sentences. Bullets and labels can be fragments.** Every sentence in a paragraph needs a subject and a verb. Terse means few sentences, not broken ones. If a fragment is carrying meaning, fold it into the sentence before it or write it out.
-9. **Give the concrete consequence, not the abstraction.** A sentence that sounds like a reason but gives the reader nothing to do is padding wearing a suit. "The exact wording is the instrument." "Precision matters here." "This is foundational." Each reads as weighty and carries nothing. Say what actually happens, or cut the sentence and let the instruction stand alone.
+9. **Give the concrete consequence, not the abstraction.** A sentence that sounds like a reason but gives the reader nothing to do is padding. "The exact wording is the instrument." "Precision matters here." "This is foundational." Each reads as weighty and carries nothing. Say what actually happens, or cut the sentence and let the instruction stand alone.
 10. **Ask the question, then stop. Show the material, then stop.** Do not supply candidate answers to your own question. Do not describe the contents of a list, a quote, or a block that follows immediately. The reader can see it. Anything added is you predicting their reaction, and it reads as padding.
     - Ask: "What do you need from us?" Not: "What do you need from us? I'm assuming prompt format and repo specification, but tell me if there's more."
     - Introduce: "Here are the six prompts we'd like to run in the next wave." Not: "Here are the six prompts. Four leave the choice to the agent, two name Supabase as controls."
     - Facts stand on their own. Questions stand on their own. Material speaks for itself.
 11. **Never claim an action you did not take.** Search the draft for: *ran, tested, verified, confirmed, checked, spot-checked, reproduced, measured, deployed, reviewed, validated, all green, passing*. For every hit, name the evidence: the command, the output you read, the page you loaded. No evidence means you did not do it, and writing what a person would normally have done in that situation is the violation. Two options only, and reaching for a third is the failure: delete the claim, or write `unverified` beside it and name who closes it. `Testing: unverified. Needs a manual pass on the modal before merge.` A template demanding a Testing or Validation section does not license filling it. A section naming what is still unchecked is correct and costs nothing. A section describing work nobody did is the one a reviewer merges on. Scope note: inside a Testing or Validation section these statements are the required content, so the evidence-deletion search in Self-check does not apply there. Everywhere else it still does.
+
+12. **No mannered prose. Say the literal thing.** Never substitute a metaphor, image, or turn of phrase for a direct statement. "A parameter worth varying", not "a dial worth turning". "This still matters", not "this earns its keep". Mannered phrasing exists to display the writer, and readers can tell. It is also imprecise: a metaphor drags in connotations you did not choose and cannot control. This is not rule 9 in different words. Rule 9 catches sentences that sound weighty and say nothing. This catches phrases that state the right thing indirectly. Both get cut, for different reasons. Five forms to delete on sight:
+    - **Fresh metaphor used as description.** "Wearing a coat." "Padding wearing a suit." "The friction is where work dies." "Someday has become a graveyard."
+    - **Dead idiom.** "Circle back." "Get the ball rolling." "On the same page." "Moving pieces." "First line of defense." "Move the needle."
+    - **Verb flourish where a plain verb exists.** *Unlock, surface, land, unpack, carve out, lean into, double down, tee up, bake in.* Say *show, add, finish, explain, reserve, commit*.
+    - **Aphorism-shaped sentence.** A line built to sound like wisdom, carrying no fact: "Short signals confidence." "Prose hides facts." Delete it or replace it with the fact.
+    - **Rhythm for its own sake.** Rule-of-three cadence, and "not X, but Y" when you only meant Y. Write Y.
+
+    Two exceptions, both narrow. A **term of art** with no literal equivalent is not a flourish: race condition, cache, branch, bottleneck, funnel, rollout. And a phrase **Sean or the reader used first** can be used back.
+
+    This is not a length rule. A three-word phrase can be mannered. The test is per phrase: does it add information? If it only adds style, cut it. When a literal phrase is available, use it.
 
 ## Self-check
 
@@ -57,6 +68,8 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Find every list, quote, or block. If the sentence before it describes what is in it, delete that description.
 - [ ] Find any list of options you considered and rejected. Delete it. State the choice.
 - [ ] **Search for: *ran, tested, verified, confirmed, checked, spot-checked, reproduced, measured, deployed, reviewed, validated, all green, passing*.** For every hit, name the evidence out loud. Any hit you cannot attach evidence to is deleted or marked `unverified`. Count of unevidenced claims must be zero.
+- [ ] **Read the draft once for figurative language only.** Every metaphor, image, idiom, and flourish verb gets one question: is there a literal phrase that says this? If yes, use it. Search for: *unlock, surface, land, unpack, carve out, lean into, double down, tee up, bake in, circle back, on the same page, moving pieces, first line of defense, move the needle, in the weeds, north star, heavy lifting, table stakes, the bar, muscle memory*. Count must be zero unless the word is literal in context.
+- [ ] Find every sentence that sounds quotable. If it delivers no fact, ask, or instruction, delete it.
 - [ ] For every sentence that survived a cut: would the reader act differently without it? If not, cut it now.
 
 The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
@@ -67,7 +80,7 @@ Trust the reader. They are senior and know the project. State the conclusion, do
 
 **State the claim, do not soften it.** "I think we use this period to run both" is the same recommendation as "We run both", minus the confidence. Cut *I think, my initial read is, it seems, kind of, sort of, we should probably*. Certainty tracks evidence, so "probably fine, but..." is right when you actually mean probably. A hedge you did not mean is just a smaller claim.
 
-**Ask plainly.** "Would love to know if the team has made progress" is "Has the team made progress?" wearing a coat. A direct question is not rude; a softened one is just longer.
+**Ask plainly.** "Would love to know if the team has made progress" is "Has the team made progress?" with a softener attached. A direct question is not rude. A softened one is just longer.
 
 **No corporate vocabulary.** *Actionable, leverage, circle back, align on, deep dive, move the needle, low-hanging fruit.* They read as someone else's voice.
 
@@ -96,7 +109,7 @@ Your self-check catches the obvious. It does not catch what you cannot see, beca
 3. It returns `CLEAN`, or numbered findings with the offending text quoted.
 4. If findings: apply them. Do not argue with a grep hit. For a judgment finding, apply it unless you can say what the reader would do differently without the sentence.
 5. Dispatch the critic again on the revised draft. **Carry forward every finding you overruled, with your reason.** A fresh critic has no memory of round one and will re-raise them. Tell it not to, unless it can name what the reader would do differently.
-6. Repeat until `CLEAN`, or three rounds. Three is the cap. A draft that survives three rounds is either clean or the critic is relitigating taste.
+6. Repeat until `CLEAN`, or three rounds. Three is the cap. A draft that survives three rounds is either clean or the critic is re-raising taste disagreements.
 
 Report to Sean what the critic caught. He is calibrating these rules, and a finding you fixed silently is a finding he never sees.
 
