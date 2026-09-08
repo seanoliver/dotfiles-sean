@@ -182,7 +182,8 @@ Pick **one** bucket and go through its tasks one at a time. Selection is determi
 resumes where this one stopped:
 
 1. Order buckets by **oldest task `created`**, oldest first.
-2. Skip any bucket walked in the last 4 weeks (check the `Aged YYYY-MM-DD` stamp — see below).
+2. Skip any bucket walked in the last 4 weeks (`cat ~/.claude/things-review-aged.tsv`, one
+   `bucket<TAB>YYYY-MM-DD` line per fully-walked bucket).
 3. Take the first remaining bucket.
 
 Query:
@@ -200,9 +201,9 @@ Per task, one line and one forced choice: **keep (Anytime) / name a day / Someda
 10 max. If the bucket has more, stop at 10 and say how many remain; the bucket stays eligible next week
 (do not stamp it) until it's fully walked.
 
-When a bucket's last task is decided, stamp the **project's** notes with one line `Aged YYYY-MM-DD` so
-the 4-week skip works. For area buckets (Personal, Supabase) with no project to stamp, record the date
-in the session log entry instead.
+When a bucket's last task is decided, append `printf '%s\t%s\n' '<bucket>' "$(date +%F)" >>
+~/.claude/things-review-aged.tsv`. Same file for projects and areas; it's the only place the walk
+state lives, so don't also stamp Things notes.
 
 Recommend a default for each task, but the decision is his. Decisions apply in Step 6 like everything
 else.
