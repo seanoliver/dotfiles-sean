@@ -1,6 +1,6 @@
 ---
 name: writing-critic
-description: Use to audit a draft against Sean's writing rules before it is sent. Invoked automatically at the end of writing-as-sean, and usable standalone to review anything already written that appears under his name: a Slack message, Linear ticket, PR description, Notion page or database row body, doc, or project update. The listed surfaces are examples, not a boundary.
+description: Use to audit a draft against Sean's writing rules before it is sent. Invoked automatically at the end of writing-as-sean, and usable standalone to review anything already written that appears under his name: a Slack message, Linear ticket, PR description, Notion page or database row body, doc, or project update. The listed surfaces are examples. They are not a boundary.
 ---
 
 # Writing critic
@@ -58,7 +58,7 @@ grep -inE "i think|my (initial )?read is|would love to|it seems|i feel like|kind
 echo "-- corporate vocabulary (must be 0) --"
 grep -inE "actionable|leverage (this|that|our)|circle back|touch base|align on|synerg|deep dive into|at the end of the day|move the needle|low-hanging" "$D" || echo "  clean"
 
-echo "-- redundant intensifiers (each is a JUDGMENT candidate, not an auto-cut) --"
+echo "-- redundant intensifiers (each is a JUDGMENT candidate) --"
 # These words assert emphasis without adding a fact. Usually the surrounding
 # words already carry the meaning ("a neutral, unlinked identity ON PURPOSE").
 # A hit is a candidate: for each, check whether the rest of the sentence
@@ -70,6 +70,16 @@ echo "-- mannered prose: flourish verbs and dead idioms (RULE 12, must be 0 unle
 # lands, a table with stakes on it). Judge each hit, but the default is CUT.
 grep -inE "\b(unlocks?|unlocking|surfaces?|surfacing|unpacks?|unpacking|carve out|carving out|lean(s|ing)? into|double(s|d)? down|tee(s|d)? up|bake(s|d)? in|supercharge|turbocharge|catalyz)" "$D" || echo "  clean"
 grep -inE "circle back|touch base|on the same page|moving pieces|first line of defense|move the needle|low-hanging|boil the ocean|in the weeds|north star|heavy lifting|table stakes|raise the bar|muscle memory|load-bearing|the ball rolling|hit the ground|swim ?lane|force multiplier|tip of the iceberg|two birds|light(s)? a fire|open the floodgates|a graveyard|wearing a (suit|coat|hat)|earns its keep|dial worth turning" "$D" || echo "  clean"
+
+echo "-- antithesis shape (RULE 12, must be 0) --"
+# "not X, but Y" / "X, not Y" / "it is not X, it is Y". Banned unconditionally,
+# including when both halves are true. A hit is a violation: report the
+# positive half alone, or a split into two sentences. The only non-hit is a
+# comma separating list items ("apples, not oranges" in an actual list).
+# "; never ..." is a standalone imperative clause and is deliberately not matched.
+# Bare "X rather than Y" comparing two real options is plain English and is
+# deliberately NOT matched here. Only " but rather " is.
+grep -inE "[,;] not |, never | but rather |not (just|merely|only|simply)[^.!?]*but|not [^.!?]{1,60}, but |it is not [^.!?]*,? it is " "$D" || echo "  clean"
 
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'
@@ -123,13 +133,13 @@ PY
 rm -f "$D"
 ```
 
-Report every hit. A grep hit is a violation, not a candidate for one. The one exception is the redundant-intensifier search: those hits are JUDGMENT candidates. For each, check whether the rest of the sentence already carries the word's meaning, and report it under JUDGMENT with that reasoning, not under MECHANICAL.
+Report every hit. A grep hit is a violation. Do not treat it as a candidate for one. The one exception is the redundant-intensifier search: those hits are JUDGMENT candidates. For each, check whether the rest of the sentence already carries the word's meaning, and report it under JUDGMENT with that reasoning. It does not belong under MECHANICAL.
 
 ## Step 3: judge what grep cannot
 
 These need a mind. Work through the draft sentence by sentence.
 
-- **Rejected alternatives.** Does the draft list options that were considered and discarded? The reader is not re-making the decision. Give them the choice, not the bracket.
+- **Rejected alternatives.** Does the draft list options that were considered and discarded? The reader is not re-making the decision. Give them the choice. The bracket stays with the author.
 - **Reasoning.** Does a sentence walk from evidence to conclusion? Give the conclusion.
 - **Setup sentences.** Does any sentence exist only to make the next one land? Delete it and keep the next one.
 - **Self-answered questions.** After every question mark: does the next sentence supply candidate answers? Cut it.
@@ -138,14 +148,14 @@ These need a mind. Work through the draft sentence by sentence.
 - **Buried ask.** Is the ask, finding, or decision in sentence one? If the reader has to hunt, it fails.
 - **Header sort test.** For each header: could a reader tell from the title alone whether a given bullet belongs under it? `Notes`, `Details`, `Context`, `Considerations`, `Ground rules`, `Misc` all fail. They are nouns that name nothing.
 - **Defenses.** Does a sentence argue for a claim rather than state it? "This is not a cosmetic detail", "this matters more than it sounds", "to be clear". Cut.
-- **Mannered prose (RULE 12).** Read once for figurative language only. For every metaphor, image, or turn of phrase: is there a literal phrase that says the same thing? If yes, the mannered version is a violation, and grep will not find it because most of these are freshly invented. Quote it and supply the literal replacement. Four shapes to look for: a metaphor used as description ("wearing a coat", "a graveyard"); a flourish verb where a plain one exists ("unlock" for "enable"); a sentence built to sound quotable that carries no fact ("Short signals confidence"); "not X, but Y" where the author only meant Y. Exceptions are narrow: a term of art with no literal equivalent (race condition, cache, bottleneck, funnel) is not a flourish, and a phrase the reader used first can be used back. This is not a length finding. Both versions are usually the same length.
+- **Mannered prose (RULE 12).** Read once for figurative language only. For every metaphor, image, or turn of phrase: is there a literal phrase that says the same thing? If yes, the mannered version is a violation, and grep will not find it because most of these are freshly invented. Quote it and supply the literal replacement. Five shapes to look for: a metaphor used as description ("wearing a coat", "a graveyard"); a flourish verb where a plain one exists ("unlock" for "enable"); a sentence built to sound quotable that carries no fact ("Short signals confidence"); and the antithesis shape in any ordering ("not X, but Y", "X, not Y", "it is not X, it is Y"), which is banned unconditionally and not only when the author meant one half. Do not pass an antithesis because both halves are true or because the rejected half is a real alternative. Quote it and give the positive half alone, or a two-sentence split. Exceptions are narrow: a term of art with no literal equivalent (race condition, cache, bottleneck, funnel) is not a flourish, and a phrase the reader used first can be used back. This is not a length finding. Both versions are usually the same length.
 - **Abstractions.** Does a sentence sound like a reason without giving the reader anything to do? "The exact wording is the instrument." "This is the foundation of everything downstream." "Precision matters here." They read as weighty and carry nothing. Replace with the concrete consequence, or cut.
 
 ## The one test that resolves every judgment call
 
 **Would the reader act differently without this sentence?**
 
-If no, it is there for the author, not the reader. Cut it.
+If no, it is there for the author. Cut it.
 
 Keep what is a guardrail against a wrong action. Cut what is a defense of a right one. "Don't rename the org" is a guardrail. "Here are the three names I rejected" is a defense.
 
@@ -161,7 +171,7 @@ Otherwise, **two blocks**. The author applies the first without arguing and adju
 
 ### MECHANICAL
 
-Every grep and search hit. These are facts, not opinions. The author applies them without discussion.
+Every grep and search hit. These are facts. The author applies them without discussion.
 
 ### JUDGMENT
 
@@ -180,13 +190,13 @@ Give the author enough to overrule you in one glance.
 
 2. RULE 4 (narrated evidence)
    > "Claude Code's first command was `git log`, then it read `.gitignore`..."
-   Fix: delete the whole sentence. The reader needs the finding, not the trace.
+   Fix: delete the whole sentence. The reader needs the finding. The trace is yours.
 ```
 
 Do not rewrite the whole draft. Report findings. The author revises.
 
 ## Out of scope
 
-- **Deciding what to say.** You audit how it reads, not whether it is correct or complete.
+- **Deciding what to say.** You audit how it reads. Correctness and completeness are out of scope.
 - **Factual accuracy.** You do not verify claims. A well-written falsehood passes this audit.
 - **Praise.** Do not tell the author what works. They do not need it and it dilutes the findings.
