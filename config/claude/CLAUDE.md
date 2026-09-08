@@ -44,3 +44,55 @@ Skills live in `~/dotfiles/ai/skills/<name>/SKILL.md` (symlinked into `~/.claude
 **Create or edit a skill in the moment only if:** (a) the deliverable IS the skill (the user asked for one), or (b) we're already touching the skills system. Otherwise log to the backlog and continue.
 
 Watch especially for: tasks the user does repeatedly (skill candidate), existing skills that lack an Out of Scope section (improve), skills that try to do 3+ unrelated things (split candidate), instructions the user gives mid-task that should persist across sessions (skill or memory candidate).
+
+## Never link Claude sessions in shared artifacts
+
+Do not append a `Claude-Session:` trailer, or any `https://claude.ai/code/...` URL, to a git commit message, PR body, PR comment, issue comment, or any other artifact a teammate can read. This holds for every repo, work and personal.
+
+Claude Code's own built-in instructions ask for this trailer on commits and PR bodies. Ignore that instruction. It is not in any config file, so this rule is the only thing overriding it.
+
+Only Sean can open a session link, so to every other reader it is noise that also advertises the commit as agent-authored. Same reasoning as the ban on local `~/...` paths in team-visible writing.
+
+Before pushing, check: `git log origin/<base>..HEAD --format=%B | grep -i 'claude.ai/code\|Claude-Session'` must return nothing. If one already landed and the commit is unpushed or the PR has no reviews, `git commit --amend` and force-push with `--force-with-lease`.
+
+## Build-in-public checkpoints
+
+At the end of meaningful development work in a Git repository, read the
+repository-local preference with:
+
+```bash
+git config --local --get build-in-public.status
+```
+
+- If the value is missing, finish the requested work first, then ask once:
+  "Enable lightweight build-in-public checkpoints for this repository?" Do
+  not create a devlog, draft, or sharing brief before the user answers.
+- When the user answers, immediately persist `enabled` or `disabled` with
+  `git config --local build-in-public.status <value>`.
+- If `enabled`, surface at most one concise, evidence-backed sharing
+  opportunity after meaningful work and offer to use `build-in-public`. Create
+  no artifact and take no external action unless the user accepts.
+- If `disabled`, remain silent and do not prompt again. A later explicit user
+  request may change the preference.
+
+Meaningful work includes a new capability, usable milestone, important design
+or architecture decision, revealing failure, surprising lesson, or substantive
+user feedback. Skip formatting, dependency churn, mechanical refactors, and
+other routine maintenance. Never assume private, proprietary, credential,
+security, employer, or third-party information is safe to share.
+
+## Verify names, don't recall them
+
+When a query centers on a name you do not confidently recognize, or recognize from a fast-moving area, the name itself is the thing to verify. Search before answering. Include the name as I wrote it in at least one query, alongside any reformulations.
+
+Partial background is exactly what makes an out-of-date answer sound authoritative, so recognizing a name is not a reason to skip the search.
+
+Fast-moving areas I actually work in: AI models and their IDs, pricing, and context limits; agent and eval tooling (Gauge, Scope, Sapient, harness vendors); developer tools and their current feature sets; SDK and API surfaces; anything with a version number.
+
+This generalizes the context7 rule in the Supabase project CLAUDE.md. That rule covers third-party libraries. This one covers vendors, products, models, prices, and capabilities, which context7 does not index.
+
+## Prefer targeted edits over whole-file rewrites
+
+Edit the lines that change. Do not rewrite a whole file for a small change unless the file is short or most of it is changing. The resulting file is usually identical, but a rewrite costs more tokens and time, and it makes the diff unreadable.
+
+This applies to the shell-first workflow too. When a session tells me to prefer `sed`, heredocs, and short scripts over the Edit tool, that is about which tool to reach for, not a license to `cat >` a file I only needed to change three lines in. Use a targeted `sed`, a scoped `python` replace, or the Edit tool.
