@@ -10,7 +10,7 @@ Race conditions are hard to explain clearly because three things get conflated:
 2. **The timeline** — what fires first in wall-clock time vs what depends on what
 3. **The post-hoc view** — what the data looks like *after* the race resolved, vs what the system saw at the moment of the bug
 
-Most "race condition" explanations fail by skipping step 1 ("it's a timing thing") or by stepping through the sequence without ever naming the two racers. This skill produces an explanation a reader can follow cold, in the same shape the user already validated as helpful: numbered steps, load-bearing step marked, post-hoc view distinguished from the in-flight view, mechanism-of-fix explained, validation path named.
+Most "race condition" explanations fail by skipping step 1 ("it's a timing thing") or by stepping through the sequence without ever naming the two racers. This skill produces an explanation a reader can follow cold, in the same shape the user already validated as helpful: numbered steps, race step marked, post-hoc view distinguished from the in-flight view, mechanism-of-fix explained, validation path named.
 
 ## The 8-part template
 
@@ -38,7 +38,7 @@ Number every operation. Use mechanism verbs ("fires", "triggers", "writes", "rea
 
 For each step, be explicit about which actor does it (the SDK, the server, the user, the database). When there's a server/client split, say which side every step is on.
 
-**Mark the load-bearing step in bold** with a one-line annotation. The load-bearing step is the one where the race actually happens — the moment where the timing relationship turns into a bug. If you can't find the load-bearing step, you're describing a sequence, not a race.
+**Mark the race step in bold** with a one-line annotation. The race step is the one where the race actually happens — the moment where the timing relationship turns into a bug. If you can't find the race step, you're describing a sequence, not a race.
 
 ### 4. State when this triggers, and how often
 
@@ -56,9 +56,9 @@ This step is often what unlocks the user's understanding. They've been looking a
 
 ### 6. Explain the fix as a new numbered sequence
 
-Same numbered-step format as the buggy sequence. Show what changes. Identify the new load-bearing step (the one that breaks the race).
+Same numbered-step format as the buggy sequence. Show what changes. Identify the step that breaks the race.
 
-Make the mechanism explicit: "The fix doesn't depend on [old timing assumption] at all because [new arrangement]." If the fix relies on a specific platform behavior (e.g. "PostHog's /decide accepts person_properties in the request body"), name that behavior — that's the load-bearing claim the fix depends on.
+Make the mechanism explicit: "The fix doesn't depend on [old timing assumption] at all because [new arrangement]." If the fix relies on a specific platform behavior (e.g. "PostHog's /decide accepts person_properties in the request body"), name that behavior — that's the claim the fix depends on.
 
 ### 7. Distinguish theoretical from empirical validation
 

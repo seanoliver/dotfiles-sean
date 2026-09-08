@@ -175,7 +175,7 @@ mcp__things__add_todo(
 )
 ```
 
-**Fallback: `things://` URL scheme.** Use this Python helper exactly — the `quote(safe='')` and tempfile-via-variable pattern are both load-bearing:
+**Fallback: `things://` URL scheme.** Use this Python helper exactly — the `quote(safe='')` and tempfile-via-variable pattern are both required:
 
 ```bash
 python3 <<'PY' > /tmp/things_url.txt

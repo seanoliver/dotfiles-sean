@@ -69,7 +69,7 @@ echo "-- mannered prose: flourish verbs and dead idioms (RULE 12, must be 0 unle
 # A hit is a violation unless the word is being used literally (a plane that
 # lands, a table with stakes on it). Judge each hit, but the default is CUT.
 grep -inE "\b(unlocks?|unlocking|surfaces?|surfacing|unpacks?|unpacking|carve out|carving out|lean(s|ing)? into|double(s|d)? down|tee(s|d)? up|bake(s|d)? in|supercharge|turbocharge|catalyz)" "$D" || echo "  clean"
-grep -inE "circle back|touch base|on the same page|moving pieces|first line of defense|move the needle|low-hanging|boil the ocean|in the weeds|north star|heavy lifting|table stakes|raise the bar|muscle memory|the ball rolling|hit the ground|swim ?lane|force multiplier|tip of the iceberg|two birds|light(s)? a fire|open the floodgates|a graveyard|wearing a (suit|coat|hat)|earns its keep|dial worth turning" "$D" || echo "  clean"
+grep -inE "circle back|touch base|on the same page|moving pieces|first line of defense|move the needle|low-hanging|boil the ocean|in the weeds|north star|heavy lifting|table stakes|raise the bar|muscle memory|load-bearing|the ball rolling|hit the ground|swim ?lane|force multiplier|tip of the iceberg|two birds|light(s)? a fire|open the floodgates|a graveyard|wearing a (suit|coat|hat)|earns its keep|dial worth turning" "$D" || echo "  clean"
 
 echo "-- headers: any that is a sentence rather than a noun label --"
 python3 - "$D" <<'PY'

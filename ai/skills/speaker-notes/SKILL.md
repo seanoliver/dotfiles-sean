@@ -128,7 +128,7 @@ EVIDENCE
 - Exact magnitude: VERIFY BEFORE USING
 ```
 
-**A number Sean half-remembers is an unsourced number.** This is the most common version of the failure, and a tilde is not a fix. When he says "I think it was something like 1,200 credits for 8 runs," the notes do not get to say "~1,200 credits for 8 runs" and move on — especially not as the load-bearing evidence for his recommendation. Either link it, or put the marker on the page where he will see it:
+**A number Sean half-remembers is an unsourced number.** This is the most common version of the failure, and a tilde is not a fix. When he says "I think it was something like 1,200 credits for 8 runs," the notes do not get to say "~1,200 credits for 8 runs" and move on — especially not as the main evidence for his recommendation. Either link it, or put the marker on the page where he will see it:
 
 ```markdown
 EVIDENCE

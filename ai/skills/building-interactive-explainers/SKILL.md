@@ -14,7 +14,7 @@ Sean learns a system by watching one concrete thing travel through it. The deliv
 ## Read First
 
 1. `ls ~/supabase/docs/learning/` — read the most recent explainer there. Match its structure, palette, and control layout. Do not invent a new format.
-2. Copy the playback engine from `engine.md` in this skill directory. It is load-bearing; do not reimplement it from scratch.
+2. Copy the playback engine from `engine.md` in this skill directory. Do not reimplement it from scratch.
 
 ## Build Sequence
 

@@ -41,7 +41,7 @@ Nothing outside these four sections. No tables, no nested bullets, no headers be
 4. **No jargon.** Replace technical terms with plain words. If a term is unavoidable (a table name, a ticket ID), gloss it in parentheses once.
 5. **Never add facts.** Simplify wording, not meaning. Do not upgrade "sent a sample" to "accidentally sent," or hedges into certainties. When simplifying would change the claim, stay vague instead.
 6. **Exactly one next action.** Not a menu, not a list. If the original had several, pick the blocking one.
-7. **Keep only load-bearing links/IDs** — the ones the next action needs. Drop the rest.
+7. **Keep only the links and IDs the next action needs.** Drop the rest.
 
 ## Common Mistakes
 

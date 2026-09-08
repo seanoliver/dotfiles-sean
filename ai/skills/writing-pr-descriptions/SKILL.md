@@ -38,7 +38,7 @@ Re-read this template before writing; it may have evolved. If you find a section
 
 **Voice is owned by the `writing-as-sean` skill. Read it and apply it.** It is the single source of truth for tone, phrasing, the em-dash ban, bullets-over-prose, and section-title style. Do not restate its rules here.
 
-Its **Rule 11, never claim an action you did not take**, is load-bearing for this skill in particular. A PR description is the artifact a reviewer merges on, and the Testing section is where an invented claim does the damage.
+Its **Rule 11, never claim an action you did not take**, is the most important rule for this skill in particular. A PR description is the artifact a reviewer merges on, and the Testing section is where an invented claim does the damage.
 
 PR-specific additions only:
 
@@ -72,9 +72,9 @@ Don't pad a PR with optional sections just to look thorough. A routine bug fix o
 
 ### Problem
 
-What's wrong, root cause, user impact. One short paragraph or 2-3 bullets. **Lead with the cause, not the symptom timeline.** If there's load-bearing evidence (a metric, a query result, a screenshot), surface it here. Don't make the reviewer hunt for it.
+What's wrong, root cause, user impact. One short paragraph or 2-3 bullets. **Lead with the cause, not the symptom timeline.** If evidence decides the review (a metric, a query result, a screenshot), put it here. Don't make the reviewer hunt for it.
 
-For complex bugs, the diagnosis is the load-bearing part. Show the reviewer how you know. But prefer **directional summaries over exhaustive evidence**:
+For complex bugs, the diagnosis is the part that matters most. Show the reviewer how you know. But prefer **directional summaries over exhaustive evidence**:
 
 | Don't | Do |
 |---|---|

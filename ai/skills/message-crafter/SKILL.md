@@ -47,7 +47,7 @@ This is the most important step. Reflect back to the user the ONE thing they're 
 
 Example: "So the core ask is: you want to see their planning docs so you can figure out together where PostHog fits in. That's it?"
 
-Why this matters: when someone has 10 things they want to say, they often can't see which one is the load-bearing point. Naming it explicitly gives them permission to let the other 9 go (for now).
+Why this matters: when someone has 10 things they want to say, they often can't see which one is the point that matters. Naming it explicitly gives them permission to let the other 9 go (for now).
 
 ## Phase 4: Draft
 

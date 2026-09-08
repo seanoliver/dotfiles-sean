@@ -309,7 +309,7 @@ Format it like this so the user can copy/paste directly:
 ────────────────────────────────────────────────
 Recommended verdict: <Approve | Comment | Request Changes>
 
-Reasoning: <1-2 sentences citing the load-bearing finding(s)>
+Reasoning: <1-2 sentences citing the finding(s) that decided it>
 
 Draft overall review comment (copy/paste into GitHub):
 <<<

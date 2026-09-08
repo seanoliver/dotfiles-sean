@@ -9,7 +9,7 @@ Left alone, you write to *earn* the point before making it: context, evidence, "
 | Default (you) | Sean |
 |---|---|
 | context, evidence, therefore, **ask** | **ask**, constraint, detail, link |
-| symptom, investigation, **finding** | **finding**, then evidence only if load-bearing |
+| symptom, investigation, **finding** | **finding**, then evidence only if the reader needs it to act |
 | setup sentence, then payoff sentence | one sentence carrying both |
 
 ## Rule 1: no em-dashes

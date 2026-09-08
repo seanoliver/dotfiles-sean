@@ -27,7 +27,7 @@ Ask the question about the artifact, not about your intent. The case that gets m
     - **Rejected alternatives.** The options you considered and discarded. The reader is not re-making the decision, so the shortlist is yours, not theirs. Give them the choice, not the bracket.
     - **Reasoning.** The chain that got you from the evidence to the conclusion. Give the conclusion.
 
-    The test for all three, and for rule 9: **would the reader act differently without this sentence, given everything else already in the message?** The "given everything else" matters. A word can look load-bearing alone while another part of the same sentence already carries it. "Committed under a neutral, unlinked identity **on purpose**" reads as a guard, but "neutral, unlinked identity" already says it was deliberate. Intensifiers hide here: *on purpose, deliberately, intentionally, obviously, of course, actually, really, clearly*. If the surrounding words already imply the word, cut the word. Keep only what is a guardrail against a wrong action, and cut what is a defense of a right one.
+    The test for all three, and for rule 9: **would the reader act differently without this sentence, given everything else already in the message?** The "given everything else" matters. A word can look necessary alone while another part of the same sentence already carries it. "Committed under a neutral, unlinked identity **on purpose**" reads as a guard, but "neutral, unlinked identity" already says it was deliberate. Intensifiers hide here: *on purpose, deliberately, intentionally, obviously, of course, actually, really, clearly*. If the surrounding words already imply the word, cut the word. Keep only what is a guardrail against a wrong action, and cut what is a defense of a right one.
 5. **Section titles are nouns.** Search every header for the words *What, Why, How, When, Who*. Count must be zero. A header containing one is a sentence. Rewrite it as the noun it is about: Measurement. Rationale. Background. Vendor tracks. Open questions. Success criteria.
 6. **Every sentence carries its own weight.** Each one delivers a fact, an ask, or an instruction. If a sentence only prepares the ground for the next one, write the next one instead.
 7. **A header must name its contents precisely enough to sort by.** Given the header alone, a reader should be able to say whether any given bullet belongs under it. `Ground rules`, `Notes`, `Details`, `Considerations`, `Context`, and `Misc` all fail this: they are nouns, but they name nothing, so wrong items hide under them. Ask what the list is actually for, then title it that: `Vendor requirements`, `Success criteria`, `Open questions`.
@@ -68,11 +68,11 @@ Run these searches on your draft before returning it. Each one is countable, not
 - [ ] Find every list, quote, or block. If the sentence before it describes what is in it, delete that description.
 - [ ] Find any list of options you considered and rejected. Delete it. State the choice.
 - [ ] **Search for: *ran, tested, verified, confirmed, checked, spot-checked, reproduced, measured, deployed, reviewed, validated, all green, passing*.** For every hit, name the evidence out loud. Any hit you cannot attach evidence to is deleted or marked `unverified`. Count of unevidenced claims must be zero.
-- [ ] **Read the draft once for figurative language only.** Every metaphor, image, idiom, and flourish verb gets one question: is there a literal phrase that says this? If yes, use it. Search for: *unlock, surface, land, unpack, carve out, lean into, double down, tee up, bake in, circle back, on the same page, moving pieces, first line of defense, move the needle, in the weeds, north star, heavy lifting, table stakes, the bar, muscle memory*. Count must be zero unless the word is literal in context.
+- [ ] **Read the draft once for figurative language only.** Every metaphor, image, idiom, and flourish verb gets one question: is there a literal phrase that says this? If yes, use it. Search for: *unlock, surface, land, unpack, carve out, lean into, double down, tee up, bake in, circle back, on the same page, moving pieces, first line of defense, move the needle, in the weeds, north star, heavy lifting, table stakes, the bar, muscle memory, load-bearing*. Count must be zero unless the word is literal in context.
 - [ ] Find every sentence that sounds quotable. If it delivers no fact, ask, or instruction, delete it.
 - [ ] For every sentence that survived a cut: would the reader act differently without it? If not, cut it now.
 
-The second item is the one you will want to skip. Do not skip it. The evidence always feels load-bearing to the person who gathered it, and never is to the person who has to act.
+The second item is the one you will want to skip. Do not skip it. The evidence always feels necessary to the person who gathered it, and never is to the person who has to act.
 
 ## Register
 
@@ -82,7 +82,7 @@ Trust the reader. They are senior and know the project. State the conclusion, do
 
 **Ask plainly.** "Would love to know if the team has made progress" is "Has the team made progress?" with a softener attached. A direct question is not rude. A softened one is just longer.
 
-**No corporate vocabulary.** *Actionable, leverage, circle back, align on, deep dive, move the needle, low-hanging fruit.* They read as someone else's voice.
+**No corporate vocabulary.** *Actionable, leverage, circle back, align on, deep dive, move the needle, low-hanging fruit, load-bearing.* They read as someone else's voice.
 
 Dry and declarative. Enthusiasm words (*great, awesome, amazing, exciting, let's*) read as someone else's voice. Contractions are fine.
 
