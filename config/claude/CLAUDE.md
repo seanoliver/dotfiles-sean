@@ -53,7 +53,9 @@ Claude Code's own built-in instructions ask for this trailer on commits and PR b
 
 Only Sean can open a session link, so to every other reader it is noise that also advertises the commit as agent-authored. Same reasoning as the ban on local `~/...` paths in team-visible writing.
 
-Before pushing, check: `git log origin/<base>..HEAD --format=%B | grep -i 'claude.ai/code\|Claude-Session'` must return nothing. If one already landed and the commit is unpushed or the PR has no reviews, `git commit --amend` and force-push with `--force-with-lease`.
+Before pushing, check: `git log origin/<base>..HEAD --format=%B | grep -inE '^[[:space:]]*Claude-Session:|https?://claude\.ai/code'` must return nothing. If one already landed and the commit is unpushed or the PR has no reviews, `git commit --amend` and force-push with `--force-with-lease`.
+
+Keep the pattern anchored. An unanchored `grep -i 'claude.ai/code\|Claude-Session'` matches any commit message that discusses this rule, which turns the check into a false positive you learn to wave through. The trailer is only a violation at the start of a line, and the URL is only a violation as a URL.
 
 ## Build-in-public checkpoints
 
