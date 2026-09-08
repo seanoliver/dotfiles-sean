@@ -159,15 +159,53 @@ that's the failure mode that made the Gauge conversation invisible.
 
 ## Step 2 — Aging backlog
 
-Anytime items whose last-modified is 30+ days old, grouped by project. These are candidates, not
-condemned — present them and let him triage in bulk ("kill the whole 41 Westwood block").
+Anytime items **created** 30+ days ago, grouped by project. Two parts: a one-line-per-bucket summary
+so he can see the shape, then a walk through **one bucket** task by task.
 
 **Exclude any project already flagged stalled in Step 1.** Its tasks are old *because* the project
 is stalled — listing them again is the same signal twice, and it's the main thing that makes this
 review feel long.
 
+### 2a — Summary
+
 **One line per project bucket, ~10 buckets max**, not one line per task. "🏡 41 Westwood — 19 tasks,
 2–9 months" is one line. State how many buckets you're not showing.
+
+**Do not ask for bulk actions on the summary.** Tested 2026-09-08: offered "kill the whole 41 Westwood
+block", Sean declined every bucket — *"I'm not sure I'm ready to take a bulk action against something I
+haven't looked at in a while."* A bucket he hasn't read is not a decision he can make. The summary is
+for orientation only.
+
+### 2b — Rotating walk, one bucket per review
+
+Pick **one** bucket and go through its tasks one at a time. Selection is deterministic so next week
+resumes where this one stopped:
+
+1. Order buckets by **oldest task `created`**, oldest first.
+2. Skip any bucket walked in the last 4 weeks (check the `Aged YYYY-MM-DD` stamp — see below).
+3. Take the first remaining bucket.
+
+Query:
+
+```bash
+~/dotfiles/scripts/things-db.sh sql "
+  SELECT uuid, created, title, substr(notes,1,120) note
+  FROM lt WHERE rep IS NULL AND start=1 AND start_d IS NULL
+    AND created<=date('now','-30 day')
+    AND COALESCE(project,area,'(loose)')='<bucket>'
+  ORDER BY created LIMIT 10"
+```
+
+Per task, one line and one forced choice: **keep (Anytime) / name a day / Someday / delete**. Present
+10 max. If the bucket has more, stop at 10 and say how many remain; the bucket stays eligible next week
+(do not stamp it) until it's fully walked.
+
+When a bucket's last task is decided, stamp the **project's** notes with one line `Aged YYYY-MM-DD` so
+the 4-week skip works. For area buckets (Personal, Supabase) with no project to stamp, record the date
+in the session log entry instead.
+
+Recommend a default for each task, but the decision is his. Decisions apply in Step 6 like everything
+else.
 
 ## Step 2b — 🟠 On Me (the daily parking lot)
 
@@ -212,6 +250,22 @@ The tag string is exactly `🟠 On Me`, emoji included.
 Pull the **5 oldest** Someday items. Each gets a forced choice: **do it (schedule a day) / keep in
 Someday / delete.**
 
+**Exclude repeating templates explicitly.** The `lt` view's `rep` column is `rt1_repeatingTemplate`,
+which is NULL on the template itself (it's set on the *instances*). Templates sit at `start=2`, so a
+plain Someday query returns every ritual's master record as if it were a forgotten task. Observed
+2026-09-08: the "5 oldest Someday items" were Daily Meal Plan, Take out trash, Review Monarch
+Transactions — all live rituals. Deleting one deletes the ritual. Sean has lost rituals this way before.
+
+```bash
+~/dotfiles/scripts/things-db.sh sql "
+  SELECT l.uuid, l.created, COALESCE(l.project,l.area,'(loose)') b, l.title
+  FROM lt l JOIN TMTask t ON t.uuid=l.uuid
+  WHERE l.start=2 AND t.rt1_recurrenceRule IS NULL AND t.rt1_repeatingTemplate IS NULL
+  ORDER BY l.created LIMIT 5"
+```
+
+Before deleting anything from Someday, confirm `rt1_recurrenceRule IS NULL` on that uuid.
+
 Five per week is the quota. It is deliberately small — Someday only stops being a graveyard if it's
 sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 
@@ -247,10 +301,11 @@ sampled regularly, and a 70-item purge is a thing he'll abandon halfway.
 
 Count substantive (non-ritual) completions. Compare to 28 (4/day × 7).
 
-Report one line: *"Last week: 14 substantive completions, ~2/day. Cap of 3 is about right."*
+Report one line: *"Last week: 14 substantive completions, ~2/day. Cap of 4 holds."*
 
-If the actual rate has been under 1/day for two consecutive reviews, say so plainly and ask whether
-the cap should drop to 2. Don't adjust it yourself.
+The cap is **4**, matching `shape-today`'s measured median. If the actual rate has been under 2/day
+for two consecutive reviews, say so plainly and ask whether the cap should drop to 3. Don't adjust it
+yourself.
 
 ## Step 6 — Apply and verify
 
@@ -263,11 +318,16 @@ touched:
 ```bash
 osascript <<'AS'
 tell application "Things3"
-	set t to first to do whose id is "<uuid>"
+	set t to to do id "<uuid>"
 	return (name of t) & " | " & ((activation date of t) as string) & " | " & (tag names of t)
 end tell
 AS
 ```
+
+Use `to do id "<uuid>"`, not `first to do whose id is` — the latter only searches open to-dos and
+errors with "Invalid index" on anything you just completed. Verify completions and project status via
+`things-db.sh sql "SELECT title, status, trashed FROM TMTask WHERE uuid IN (...)"` (status 3 =
+completed, 2 = cancelled).
 
 **Any list-membership count you report must come from AppleScript**, not the MCP — `get_today` and
 `get_upcoming` have both been observed silently omitting items. Ages and Logbook stats can come from
@@ -293,11 +353,14 @@ recoverable from Things' Trash.
 **Decisions needed**
 - 🧠 TheraGPT — activate / park / kill?
 
-### Aging (30+ days untouched)
-[grouped list, ~15 max]
+### Aging (created 30+ days ago)
+[one line per bucket, ~10 max, "N more buckets not shown"]
+
+**This week's walk: 🏡 41 Westwood** (oldest first, 10 of 19)
+1. **[Title]** (8 months) — [note excerpt] → keep / day / Someday / delete? (suggest: Someday)
 
 ### 🟠 On Me
-N items. Stale: [titles]. Over ~20? triage keep / day / drop tag / Someday / delete.
+N items, target under ~10. Demote: [titles → why]. Promote: [titles → why].
 
 ### Someday — this week's 5
 1. **[Title]** (9 months) → do / keep / delete?
@@ -325,6 +388,10 @@ Applied: [what changed]
 - **Leading with list hygiene.** Project health first. That's what he came for.
 - **Reporting stalled projects without forcing a decision.** Same list next week.
 - **Dumping all 70 Someday items.** Five. Every week.
+- **Asking for bulk actions on aging buckets.** He won't act on tasks he hasn't read. One bucket,
+  task by task, 10 max.
+- **Listing ritual templates as Someday tasks.** `start=2` includes every recurring master record.
+  Filter `rt1_recurrenceRule IS NULL` or you will offer to delete his rituals.
 - **Trusting MCP list reads for counts.** AppleScript only.
 - **Running long.** Twenty minutes. Capture the overflow as a task.
 - **Treating "quiet" as a problem.** A project with no movement but a scheduled next action is fine.
